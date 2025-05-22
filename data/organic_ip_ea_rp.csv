@@ -1,0 +1,877 @@
+,Name,InChI,CAS Link,smiles,IE / eV,EA / eV,pubchem_smiles,E12,Reaction,Solvent
+0,Propanal,"InChI=1S/C3H6O/c1-2-3-4/h3H,2H2,1H3",Copy,CCC=O,9.96,,CCC=O,,,
+1,Isoxazole,InChI=1S/C3H3NO/c1-2-4-5-3-1/h1-3H,Copy,c1cnoc1,10.0,,C1=CON=C1,,,
+2,Isopropyl acetate,"InChI=1S/C5H10O2/c1-4(2)7-5(3)6/h4H,1-3H3",Copy,CC(=O)OC(C)C,9.99,,CC(C)OC(=O)C,,,
+3,1-Butanol,"InChI=1S/C4H10O/c1-2-3-4-5/h5H,2-4H2,1H3",Copy,CCCCO,9.99,,CCCCO,,,
+4,"Ethene, chloro-","InChI=1S/C2H3Cl/c1-2-3/h2H,1H2",Copy,C=CCl,9.99,,C=CCl,,,
+5,p-Benzoquinone,InChI=1S/C6H4O2/c7-5-1-2-6(8)4-3-5/h1-4H,Copy,O=C1C=CC(=O)C=C1,10.0,,C1=CC(=O)C=CC1=O,,,
+6,Ethyl Acetate,"InChI=1S/C4H8O2/c1-3-6-4(2)5/h3H2,1-2H3",Copy,CCOC(C)=O,10.01,,CCOC(=O)C,,,
+7,"Butane, 2-bromo-","InChI=1S/C4H9Br/c1-3-4(2)5/h4H,3H2,1-2H3",Copy,CCC(C)Br,10.01,,CCC(C)Br,,,
+8,"1-Propanol, 2-methyl-","InChI=1S/C4H10O/c1-4(2)3-5/h4-5H,3H2,1-2H3",Copy,CC(C)CO,10.02,,CC(C)CO,,,
+9,Dimethyl ether,InChI=1S/C2H6O/c1-3-2/h1-2H3,Copy,COC,10.025,,COC,,,
+10,1-Hexyne,"InChI=1S/C6H10/c1-3-5-6-4-2/h1H,4-6H2,2H3",Copy,C#CCCCC,10.03,,CCCCC#C,,,
+11,Allyl chloride,"InChI=1S/C3H5Cl/c1-2-3-4/h2H,1,3H2",Copy,C=CCCl,10.05,,C=CCCl,,,
+12,Fluoromethylene,InChI=1S/CHF/c1-2/h1H,Copy,[CH-]=[F+],10.06,,,,,
+13,Carbon disulfide,InChI=1S/CS2/c2-1-3,Copy,S=C=S,10.073,,C(=S)=S,,,
+14,"Propane, 1-bromo-2-methyl-","InChI=1S/C4H9Br/c1-4(2)3-5/h4H,3H2,1-2H3",Copy,CC(C)CBr,10.09,,CC(C)CBr,,,
+15,"Pentane, 1-bromo-","InChI=1S/C5H11Br/c1-2-3-4-5-6/h2-5H2,1H3",Copy,CCCCCBr,10.1,,CCCCCBr,,,
+16,1-Pentyne,"InChI=1S/C5H8/c1-3-5-4-2/h1H,4-5H2,2H3",Copy,C#CCCC,10.1,,CCCC#C,,,
+17,"Propane, 2-bromo-","InChI=1S/C3H7Br/c1-3(2)4/h3H,1-2H3",Copy,CC(C)Br,10.1,,CC(C)Br,,,
+18,2-Propenal,"InChI=1S/C3H4O/c1-2-3-4/h2-3H,1H2",Copy,C=CC=O,10.11,,C=CC=O,,,
+19,"Butane, 1-bromo-","InChI=1S/C4H9Br/c1-2-3-4-5/h2-4H2,1H3",Copy,CCCCBr,10.13,,CCCCBr,,,
+20,n-Hexane,"InChI=1S/C6H14/c1-3-5-6-4-2/h3-6H2,1-2H3",Copy,CCCCCC,10.13,,CCCCCC,,,
+21,"Ethene, tetrafluoro-",InChI=1S/C2F4/c3-1(4)2(5)6,Copy,FC(F)=C(F)F,10.14,,C(=C(F)F)(F)F,,,
+22,Methyl propionate,"InChI=1S/C4H8O2/c1-3-4(5)6-2/h3H2,1-2H3",Copy,CCC(=O)OC,10.15,,CCC(=O)OC,,,
+23,Formamide,"InChI=1S/CH3NO/c2-1-3/h1H,(H2,2,3)",Copy,N=CO,10.16,,C(=O)N,,,
+24,Butanoic acid,"InChI=1S/C4H8O2/c1-2-3-4(5)6/h2-3H2,1H3,(H,5,6)",Copy,CCCC(=O)O,10.17,,CCCC(=O)O,,,
+25,Isopropyl Alcohol,"InChI=1S/C3H8O/c1-3(2)4/h3-4H,1-2H3",Copy,CC(C)O,10.17,,CC(C)O,,,
+26,"Propane, 1-bromo-","InChI=1S/C3H7Br/c1-2-3-4/h2-3H2,1H3",Copy,CCCBr,10.18,,CCCBr,,,
+27,1-Butyne,"InChI=1S/C4H6/c1-3-4-2/h1H,4H2,2H3",Copy,C#CCC,10.18,,CCC#C,,,
+28,3-Butenenitrile,"InChI=1S/C4H5N/c1-2-3-4-5/h2H,1,3H2",Copy,C=CCC#N,10.2,,C=CCC#N,,,
+29,1-Propanol,"InChI=1S/C3H8O/c1-2-3-4/h4H,2-3H2,1H3",Copy,CCCO,10.22,,CCCO,,,
+30,Propylene oxide,"InChI=1S/C3H6O/c1-3-2-4-3/h3H,2H2,1H3",Copy,CC1CO1,10.22,,CC1CO1,,,
+31,Acetaldehyde,"InChI=1S/C2H4O/c1-2-3/h2H,1H3",Copy,CC=O,10.229,,CC=O,,,
+32,"Propanoic acid, 2-methyl-","InChI=1S/C4H8O2/c1-3(2)4(5)6/h3H,1-2H3,(H,5,6)",Copy,CC(C)C(=O)O,10.24,,CC(C)C(=O)O,,,
+33,"Acetic acid, methyl ester",InChI=1S/C3H6O2/c1-3(4)5-2/h1-2H3,Copy,COC(C)=O,10.25,,CC(=O)OC,,,
+34,Pentane,"InChI=1S/C5H12/c1-3-5-4-2/h3-5H2,1-2H3",Copy,CCCCC,10.28,,CCCCC,,,
+35,"Methane, trifluoroiodo-","InChI=1S/CF3I/c2-1(3,4)5",Copy,FC(F)(F)I,10.28,,C(F)(F)(F)I,,,
+36,Ethyl bromide,"InChI=1S/C2H5Br/c1-2-3/h2H2,1H3",Copy,CCBr,10.29,,CCBr,,,
+37,"Ethene, 1,1-difluoro-",InChI=1S/C2H2F2/c1-2(3)4/h1H2,Copy,C=C(F)F,10.29,,C=C(F)F,,,
+38,Carbon tetrabromide,"InChI=1S/CBr4/c2-1(3,4)5",Copy,BrC(Br)(Br)Br,10.31,,C(Br)(Br)(Br)Br,,,
+39,"Acetylene, bromo-",InChI=1S/C2HBr/c1-2-3/h1H,Copy,C#CBr,10.31,,C#CBr,,,
+40,"Butane, 2-methyl-","InChI=1S/C5H12/c1-4-5(2)3/h5H,4H2,1-3H3",Copy,CCC(C)C,10.32,,CCC(C)C,,,
+41,Cyclopentane,InChI=1S/C5H10/c1-2-4-5-3-1/h1-5H2,Copy,C1CCCC1,10.33,,C1CCCC1,,,
+42,"Ethane, 1,2-dibromo-",InChI=1S/C2H4Br2/c3-1-2-4/h1-2H2,Copy,BrCCBr,10.35,,C(CBr)Br,,,
+43,Propyne,"InChI=1S/C3H4/c1-3-2/h1H,2H3",Copy,C#CC,10.36,,CC#C,,,
+44,"Ethene, fluoro-","InChI=1S/C2H3F/c1-2-3/h2H,1H2",Copy,C=CF,10.36,,C=CF,,,
+45,Methylene,InChI=1S/CH2/h1H2,Copy,[CH2],10.396,,[CH2],,,
+46,"Methane, dibromo-",InChI=1S/CH2Br2/c2-1-3/h1H2,Copy,BrCBr,10.41,,C(Br)Br,,,
+47,Propanoic acid,"InChI=1S/C3H6O2/c1-2-3(4)5/h2H2,1H3,(H,4,5)",Copy,CCC(=O)O,10.44,,CCC(=O)O,,,
+48,Ethanol,"InChI=1S/C2H6O/c1-2-3/h3H,2H2,1H3",Copy,CCO,10.48,,CCO,,,
+49,"Methane, tribromo-",InChI=1S/CHBr3/c2-1(3)4/h1H,Copy,BrC(Br)Br,10.5,,C(Br)(Br)Br,,,
+50,Ethylene,InChI=1S/C2H4/c1-2/h1-2H2,Copy,C=C,10.5138,,C=C,,,
+51,"Formic acid, butyl ester","InChI=1S/C5H10O2/c1-2-3-4-7-5-6/h5H,2-4H2,1H3",Copy,CCCCOC=O,10.52,,CCCCOC=O,,,
+52,Butane,"InChI=1S/C4H10/c1-3-4-2/h3-4H2,1-2H3",Copy,CCCC,10.53,,CCCC,,,
+53,"Formic acid, propyl ester","InChI=1S/C4H8O2/c1-2-3-6-4-5/h4H,2-3H2,1H3",Copy,CCCOC=O,10.54,,CCCOC=O,,,
+54,"Methane, bromo-",InChI=1S/CH3Br/c1-2/h1H3,Copy,CBr,10.541,,CBr,,,
+55,Ethylene oxide,InChI=1S/C2H4O/c1-2-3-1/h1-2H2,Copy,C1CO1,10.56,,C1CO1,,,
+56,"Ethane, 1-bromo-2-chloro-",InChI=1S/C2H4BrCl/c3-1-2-4/h1-2H2,Copy,ClCCBr,10.57,,C(CBr)Cl,,,
+57,"Butane, 2-chloro-","InChI=1S/C4H9Cl/c1-3-4(2)5/h4H,3H2,1-2H3",Copy,CCC(C)Cl,10.57,,CCC(C)Cl,,,
+58,"Methane, dibromochloro-",InChI=1S/CHBr2Cl/c2-1(3)4/h1H,Copy,ClC(Br)Br,10.59,,C(Cl)(Br)Br,,,
+59,"Propene, hexafluoro-","InChI=1S/C3F6/c4-1(2(5)6)3(7,8)9",Copy,FC(F)=C(F)C(F)(F)F,10.6,,C(=C(F)F)(C(F)(F)F)F,,,
+60,"Ethyne, chloro-",InChI=1S/C2HCl/c1-2-3/h1H,Copy,C#CCl,10.6,,C#CCl,,,
+61,Ethyl formate,"InChI=1S/C3H6O2/c1-2-5-3-4/h3H,2H2,1H3",Copy,CCOC=O,10.61,,CCOC=O,,,
+62,"Butane, 1-chloro-","InChI=1S/C4H9Cl/c1-2-3-4-5/h2-4H2,1H3",Copy,CCCCCl,10.64,,CCCCCl,,,
+63,Methylidyne,InChI=1S/CH/h1H,Copy,[CH],10.64,,,,,
+64,Acetic acid,"InChI=1S/C2H4O2/c1-2(3)4/h1H3,(H,3,4)",Copy,CC(=O)O,10.65,,CC(=O)O,,,
+65,Isobutane,"InChI=1S/C4H10/c1-4(2)3/h4H,1-3H3",Copy,CC(C)C,10.68,,CC(C)C,,,
+66,"Propane, 1-chloro-2-methyl-","InChI=1S/C4H9Cl/c1-4(2)3-5/h4H,3H2,1-2H3",Copy,CC(C)CCl,10.73,,CC(C)CCl,,,
+67,"Propane, 2-nitro-","InChI=1S/C3H7NO2/c1-3(2)4(5)6/h3H,1-2H3",Copy,CC(C)[N+](=O)[O-],10.74,,CC(C)[N+](=O)[O-],,,
+68,"Methane, bromochloro-",InChI=1S/CH2BrCl/c2-1-3/h1H2,Copy,ClCBr,10.77,,C(Cl)Br,,,
+69,"Propane, 1-nitro-","InChI=1S/C3H7NO2/c1-2-3-4(5)6/h2-3H2,1H3",Copy,CCC[N+](=O)[O-],10.78,,CCC[N+](=O)[O-],,,
+70,"Propane, 2-chloro-","InChI=1S/C3H7Cl/c1-3(2)4/h3H,1-2H3",Copy,CC(C)Cl,10.78,,CC(C)Cl,,,
+71,"Propane, 1,2-dichloro-","InChI=1S/C3H6Cl2/c1-3(5)2-4/h3H,2H2,1H3",Copy,CC(Cl)CCl,10.8,,CC(CCl)Cl,,,
+72,n-Propyl chloride,"InChI=1S/C3H7Cl/c1-2-3-4/h2-3H2,1H3",Copy,CCCCl,10.8,,CCCCl,,,
+73,Acetyl chloride,InChI=1S/C2H3ClO/c1-2(3)4/h1H3,Copy,CC(=O)Cl,10.82,,CC(=O)Cl,,,
+74,"Silane, chlorotrimethyl-","InChI=1S/C3H9ClSi/c1-5(2,3)4/h1-3H3",Copy,C[Si](C)(C)Cl,10.83,,C[Si](C)(C)Cl,,,
+75,Methyl Alcohol,"InChI=1S/CH4O/c1-2/h2H,1H3",Copy,CO,10.84,,CO,,,
+76,Formaldehyde,InChI=1S/CH2O/c1-2/h1H2,Copy,C=O,10.88,,C=O,,,
+77,"Propane, 1,3-dichloro-",InChI=1S/C3H6Cl2/c4-2-1-3-5/h1-3H2,Copy,ClCCCCl,10.89,,C(CCl)CCl,,,
+78,Nitrosyl chloride,InChI=1S/ClNO/c1-2-3,Copy,O=NCl,10.9,,N(=O)Cl,,,
+79,"Ethane, nitro-","InChI=1S/C2H5NO2/c1-2-3(4)5/h2H2,1H3",Copy,CC[N+](=O)[O-],10.9,,CC[N+](=O)[O-],,,
+80,2-Propenenitrile,"InChI=1S/C3H3N/c1-2-3-4/h2H,1H2",Copy,C=CC#N,10.91,,C=CC#N,,,
+81,Dichlorine monoxide,InChI=1S/Cl2O/c1-3-2,Copy,ClOCl,10.91,,O(Cl)Cl,,,
+82,Propane,"InChI=1S/C3H8/c1-3-2/h3H2,1-2H3",Copy,CCC,10.94,,CCC,,,
+83,Ethyl Chloride,"InChI=1S/C2H5Cl/c1-2-3/h2H2,1H3",Copy,CCCl,10.98,,CCCl,,,
+84,"Methane, dibromodifluoro-","InChI=1S/CBr2F2/c2-1(3,4)5",Copy,FC(F)(Br)Br,11.03,,C(F)(F)(Br)Br,,,
+85,"Ethane, 1,1-dichloro-","InChI=1S/C2H4Cl2/c1-2(3)4/h2H,1H3",Copy,CC(Cl)Cl,11.04,,CC(Cl)Cl,,,
+86,"Ethane, 1,2-dichloro-",InChI=1S/C2H4Cl2/c3-1-2-4/h1-2H2,Copy,ClCCCl,11.07,,C(CCl)Cl,,,
+87,"Methane, nitro-",InChI=1S/CH3NO2/c1-2(3)4/h1H3,Copy,C[N+](=O)[O-],11.08,,C[N+](=O)[O-],,,
+88,Carbonyl sulfide,InChI=1S/COS/c2-1-3,Copy,O=C=S,11.18,,C(=O)=S,,,
+89,Chloromethane,InChI=1S/CH3Cl/c1-2/h1H3,Copy,CCl,11.26,,CCl,,,
+90,Carbon monosulfide,InChI=1S/CS/c1-2,Copy,[C-]#[S+],11.33,,[C-]#[S+],,,
+91,Formic acid,"InChI=1S/CH2O2/c2-1-3/h1H,(H,2,3)",Copy,O=CO,11.33,,C(=O)O,,,
+92,Methylene chloride,InChI=1S/CH2Cl2/c2-1-3/h1H2,Copy,ClCCl,11.33,,C(Cl)Cl,,,
+93,Trichloromethane,InChI=1S/CHCl3/c2-1(3)4/h1H,Copy,ClC(Cl)Cl,11.37,,C(Cl)(Cl)Cl,,,
+94,Dicarbon,InChI=1S/C2/c1-2,Copy,[C+]#[C-],11.4,,C#C,,,
+95,Acetylene,InChI=1S/C2H2/c1-2/h1-2H,Copy,C#C,11.4,,C#C,,,
+96,Bromotrifluoromethane,"InChI=1S/CBrF3/c2-1(3,4)5",Copy,FC(F)(F)Br,11.4,,C(F)(F)(F)Br,,,
+97,"Methylene, difluoro-",InChI=1S/CF2/c2-1-3,Copy,F[C-]=[F+],11.44,,,,,
+98,Carbon Tetrachloride,"InChI=1S/CCl4/c2-1(3,4)5",Copy,ClC(Cl)(Cl)Cl,11.47,,C(Cl)(Cl)(Cl)Cl,,,
+99,Thiazyl fluoride,InChI=1S/C3H2FNS/c4-3-5-1-2-6-3/h1-2H,Copy,Fc1nccs1,11.51,,N#SF,,,
+100,Ethane,InChI=1S/C2H6/c1-2/h1-2H3,Copy,CC,11.52,,CC,,,
+101,"2-Propanone, 1,1,1,3,3,3-hexafluoro-","InChI=1S/C3F6O/c4-2(5,6)1(10)3(7,8)9",Copy,O=C(C(F)(F)F)C(F)(F)F,11.57,,C(=O)(C(F)(F)F)C(F)(F)F,,,
+102,Isocyanic acid,InChI=1S/CHNO/c2-1-3/h2H,Copy,N=C=O,11.595,,C(=N)=O,,,
+103,Ethynyl radical,InChI=1S/C2H/c1-2/h1H,Copy,[C]#C,11.61,,C#[C],,,
+104,Propiolonitrile,InChI=1S/C3HN/c1-2-3-4/h1H,Copy,C#CC#N,11.62,,C#CC#N,,,
+105,Trichloromonofluoromethane,"InChI=1S/CCl3F/c2-1(3,4)5",Copy,FC(Cl)(Cl)Cl,11.68,,C(F)(Cl)(Cl)Cl,,,
+106,Isocyanato radical,InChI=1S/CNO/c2-1-3,Copy,N#C[O],11.76,,C(=[N])=O,,,
+107,Propanenitrile,"InChI=1S/C3H5N/c1-2-3-4/h2H2,1H3",Copy,CCC#N,11.85,,CCC#N,,,
+108,"Ethane, 1,1-difluoro-","InChI=1S/C2H4F2/c1-2(3)4/h2H,1H3",Copy,CC(F)F,11.865,,CC(F)F,,,
+109,Dichlorodifluoromethane,"InChI=1S/CCl2F2/c2-1(3,4)5",Copy,FC(F)(Cl)Cl,12.0,,C(F)(F)(Cl)Cl,,,
+110,Acetonitrile,InChI=1S/C2H3N/c1-2-3/h1H3,Copy,CC#N,12.2,,CC#N,,,
+111,Difluorochloromethane,InChI=1S/CHClF2/c2-1(3)4/h1H,Copy,FC(F)Cl,12.28,,C(F)(F)Cl,,,
+112,Cyanogen chloride,InChI=1S/CClN/c2-1-3,Copy,N#CCl,12.36,,C(#N)Cl,,,
+113,Methyl fluoride,InChI=1S/CH3F/c1-2/h1H3,Copy,CF,12.5,,CF,,,
+114,Chlorotrifluoromethane,"InChI=1S/CClF3/c2-1(3,4)5",Copy,FC(F)(F)Cl,12.6,,C(F)(F)(F)Cl,,,
+115,Methane,InChI=1S/CH4/h1H4,Copy,C,12.61,,C,,,
+116,Propanedinitrile,InChI=1S/C3H2N2/c4-2-1-3-5/h1H2,Copy,N#CCC#N,12.8,,C(C#N)C#N,,,
+117,Carbonic difluoride,InChI=1S/CF2O/c2-1(3)4,Copy,O=C(F)F,13.04,,C(=O)(F)F,,,
+118,Hydrogen cyanide,InChI=1S/CHN/c1-2/h1H,Copy,C#N,13.6,,C#N,,,
+119,Carbon dioxide,InChI=1S/CO2/c2-1-3,Copy,O=C=O,13.777,,C(=O)=O,,,
+120,"Acetonitrile, trifluoro-","InChI=1S/C2F3N/c3-2(4,5)1-6",Copy,N#CC(F)(F)F,13.93,,C(#N)C(F)(F)F,,,
+121,Carbon monoxide,InChI=1S/CO/c1-2,Copy,[C-]#[O+],14.014,,[C-]#[O+],,,
+122,Pentacene,InChI=1S/C22H14/c1-2-6-16-10-20-14-22-12-18-8-4-3-7-17(18)11-21(22)13-19(20)9-15(16)5-1/h1-14H,Copy,c1ccc2cc3cc4cc5ccccc5cc4cc3cc2c1,6.63,,C1=CC=C2C=C3C=C4C=C5C=CC=CC5=CC4=CC3=CC2=C1,,,
+123,"1,4-Benzenediamine","InChI=1S/C6H8N2/c7-5-1-2-6(8)4-3-5/h1-4H,7-8H2",Copy,Nc1ccc(N)cc1,6.87,,C1=CC(=CC=C1N)N,,,
+124,"Benzenamine, N,N,4-trimethyl-","InChI=1S/C9H13N/c1-8-4-6-9(7-5-8)10(2)3/h4-7H,1-3H3",Copy,Cc1ccc(N(C)C)cc1,6.93,,CC1=CC=C(C=C1)N(C)C,,,
+125,Benz[a]anthracene,InChI=1S/C18H12/c1-2-7-15-12-18-16(11-14(15)6-1)10-9-13-5-3-4-8-17(13)18/h1-12H,Copy,c1ccc2cc3c(ccc4ccccc43)cc2c1,"7.45,7.60",,C1=CC=C2C(=C1)C=CC3=CC4=CC=CC=C4C=C32,,,
+126,o-Toluidine,"InChI=1S/C7H9N/c1-6-4-2-3-5-7(6)8/h2-5H,8H2,1H3",Copy,Cc1ccccc1N,7.47,,CC1=CC=CC=C1N,,,
+127,Picene,InChI=1S/C22H14/c1-3-7-17-15(5-1)9-11-21-19(17)13-14-20-18-8-4-2-6-16(18)10-12-22(20)21/h1-14H,Copy,c1ccc2c(c1)ccc1c2ccc2c3ccccc3ccc21,7.51,,C1=CC=C2C(=C1)C=CC3=C2C=CC4=C3C=CC5=CC=CC=C54,,,
+128,"Indole, 3-methyl-","InChI=1S/C9H9N/c1-7-6-10-9-5-3-2-4-8(7)9/h2-6,10H,1H3",Copy,Cc1c[nH]c2ccccc12,7.514,,CC1=CNC2=CC=CC=C12,,,
+129,Triethylamine,"InChI=1S/C6H15N/c1-4-7(5-2)6-3/h4-6H2,1-3H3",Copy,CCN(CC)CC,7.53,,CCN(CC)CC,,,
+130,"Benzenamine, 3-methyl-","InChI=1S/C7H9N/c1-6-3-2-4-7(8)5-6/h2-5H,8H2,1H3",Copy,Cc1cccc(N)c1,7.54,,CC1=CC(=CC=C1)N,,,
+131,"Benzene, 1,4-dimethoxy-","InChI=1S/C8H10O2/c1-9-7-3-5-8(10-2)6-4-7/h3-6H,1-2H3",Copy,COc1ccc(OC)cc1,7.56,,COC1=CC=C(C=C1)OC,,,
+132,Biphenylene,InChI=1S/C12H8/c1-2-6-10-9(5-1)11-7-3-4-8-12(10)11/h1-8H,Copy,c1ccc2c(c1)-c1ccccc1-2,7.58,,C1=CC2=C3C=CC=CC3=C2C=C1,,,
+133,"1,2-Ethanediamine, N,N,N',N'-tetramethyl-","InChI=1S/C6H16N2/c1-7(2)5-6-8(3)4/h5-6H2,1-4H3",Copy,CN(C)CCN(C)C,7.59,,CN(C)CCN(C)C,,,
+134,Dibenzo-p-dioxin,InChI=1S/C12H8O2/c1-2-6-10-9(5-1)13-11-7-3-4-8-12(11)14-10/h1-8H,Copy,c1ccc2c(c1)Oc1ccccc1O2,7.598,,C1=CC=C2C(=C1)OC3=CC=CC=C3O2,,,
+135,Chrysene,InChI=1S/C18H12/c1-3-7-15-13(5-1)9-11-18-16-8-4-2-6-14(16)10-12-17(15)18/h1-12H,Copy,c1ccc2c(c1)ccc1c3ccccc3ccc21,"7.6,8.0",,C1=CC=C2C(=C1)C=CC3=C2C=CC4=CC=CC=C43,,,
+136,(E)-Stilbene,InChI=1S/C14H12/c1-3-7-13(8-4-1)11-12-14-9-5-2-6-10-14/h1-12H/b12-11+,Copy,C(=C/c1ccccc1)\c1ccccc1,7.656,,C1=CC=C(C=C1)/C=C/C2=CC=CC=C2,,,
+137,"1H-Indole, 2-methyl-","InChI=1S/C9H9N/c1-7-6-8-4-2-3-5-9(8)10-7/h2-6,10H,1H3",Copy,Cc1cc2ccccc2[nH]1,7.671,,CC1=CC2=CC=CC=C2N1,,,
+138,"Benzenemethanamine, N,N-dimethyl-","InChI=1S/C9H13N/c1-10(2)8-9-6-4-3-5-7-9/h3-7H,8H2,1-2H3",Copy,CN(C)Cc1ccccc1,7.69,,CN(C)CC1=CC=CC=C1,,,
+139,"Hydrazine, methyl-","InChI=1S/CH6N2/c1-3-2/h3H,2H2,1H3",Copy,CNN,7.7,,CNN,,,
+140,"1H-Indole, 7-methyl-","InChI=1S/C9H9N/c1-7-3-2-4-8-5-6-10-9(7)8/h2-6,10H,1H3",Copy,Cc1cccc2cc[nH]c12,7.714,,CC1=C2C(=CC=C1)C=CN2,,,
+141,Aniline,"InChI=1S/C6H7N/c7-6-4-2-1-3-5-6/h1-5H,7H2",Copy,Nc1ccccc1,7.72,,C1=CC=C(C=C1)N,,,
+142,"Methanediamine, N,N,N',N'-tetramethyl-","InChI=1S/C5H14N2/c1-6(2)5-7(3)4/h5H2,1-4H3",Copy,CN(C)CN(C)C,7.74,,CN(C)CN(C)C,,,
+143,Acenaphthene,"InChI=1S/C12H10/c1-3-9-4-2-6-11-8-7-10(5-1)12(9)11/h1-6H,7-8H2",Copy,c1cc2c3c(cccc3c1)CC2,7.75,,C1CC2=CC=CC3=C2C1=CC=C3,,,
+144,1-Naphthalenol,"InChI=1S/C10H8O/c11-10-7-3-5-8-4-1-2-6-9(8)10/h1-7,11H",Copy,Oc1cccc2ccccc12,7.76,,C1=CC=C2C(=C1)C=CC=C2O,,,
+145,Indole,"InChI=1S/C8H7N/c1-2-4-8-7(3-1)5-6-9-8/h1-6,9H",Copy,c1ccc2[nH]ccc2c1,7.7602,,C1=CC=C2C(=C1)C=CN2,,,
+146,p-Terphenyl,InChI=1S/C18H14/c1-3-7-15(8-4-1)17-11-13-18(14-12-17)16-9-5-2-6-10-16/h1-14H,Copy,c1ccc(-c2ccc(-c3ccccc3)cc2)cc1,7.8,,C1=CC=C(C=C1)C2=CC=C(C=C2)C3=CC=CC=C3,,,
+147,Diphenyl sulfide,InChI=1S/C12H10S/c1-3-7-11(8-4-1)13-12-9-5-2-6-10-12/h1-10H,Copy,c1ccc(Sc2ccccc2)cc1,7.85,,C1=CC=C(C=C1)SC2=CC=CC=C2,,,
+148,"Methylamine, N,N-dimethyl-",InChI=1S/C3H9N/c1-4(2)3/h1-3H3,Copy,CN(C)C,7.85,,CN(C)C,,,
+149,"Benzene, hexamethyl-",InChI=1S/C12H18/c1-7-8(2)10(4)12(6)11(5)9(7)3/h1-6H3,Copy,Cc1c(C)c(C)c(C)c(C)c1C,7.85,,CC1=C(C(=C(C(=C1C)C)C)C)C,,,
+150,2-Naphthalenol,"InChI=1S/C10H8O/c11-10-6-5-8-3-1-2-4-9(8)7-10/h1-7,11H",Copy,Oc1ccc2ccccc2c1,7.87,,C1=CC=C2C=C(C=CC2=C1)O,,,
+151,Triphenylene,InChI=1S/C18H12/c1-2-8-14-13(7-1)15-9-3-4-11-17(15)18-12-6-5-10-16(14)18/h1-12H,Copy,c1ccc2c(c1)c1ccccc1c1ccccc21,7.87,,C1=CC=C2C(=C1)C3=CC=CC=C3C4=CC=CC=C24,,,
+152,Phenanthrene,InChI=1S/C14H10/c1-3-7-13-11(5-1)9-10-12-6-2-4-8-14(12)13/h1-10H,Copy,c1ccc2c(c1)ccc1ccccc12,7.891,,C1=CC=C2C(=C1)C=CC3=CC=CC=C32,,,
+153,"Benzene, 1-methoxy-4-methyl-","InChI=1S/C8H10O/c1-7-3-5-8(9-2)6-4-7/h3-6H,1-2H3",Copy,COc1ccc(C)cc1,7.9,,CC1=CC=C(C=C1)OC,,,
+154,2-Methylpiperidine,"InChI=1S/C6H13N/c1-6-4-2-3-5-7-6/h6-7H,2-5H2,1H3",Copy,CC1CCCCN1,7.9,,CC1CCCCN1,,,
+155,Fluoranthene,InChI=1S/C16H10/c1-2-8-13-12(7-1)14-9-3-5-11-6-4-10-15(13)16(11)14/h1-10H,Copy,c1ccc2c(c1)-c1cccc3cccc-2c13,7.9,,C1=CC=C2C(=C1)C3=CC=CC4=C3C2=CC=C4,,,
+156,Fluorene,"InChI=1S/C13H10/c1-3-7-12-10(5-1)9-11-6-2-4-8-13(11)12/h1-8H,9H2",Copy,c1ccc2c(c1)Cc1ccccc1-2,7.91,,C1C2=CC=CC=C2C3=CC=CC=C31,,,
+157,"Naphthalene, 2-methyl-","InChI=1S/C11H10/c1-9-6-7-10-4-2-3-5-11(10)8-9/h2-8H,1H3",Copy,Cc1ccc2ccccc2c1,7.91,,CC1=CC2=CC=CC=C2C=C1,,,
+158,"Benzene, (methylthio)-","InChI=1S/C7H8S/c1-8-7-5-3-2-4-6-7/h2-6H,1H3",Copy,CSc1ccccc1,7.94,,CSC1=CC=CC=C1,,,
+159,Hydroquinone,"InChI=1S/C6H6O2/c7-5-1-2-6(8)4-3-5/h1-4,7-8H",Copy,Oc1ccc(O)cc1,7.94,,C1=CC(=CC=C1O)O,,,
+160,Diphenylacetylene,InChI=1S/C14H10/c1-3-7-13(8-4-1)11-12-14-9-5-2-6-10-14/h1-10H,Copy,C(#Cc1ccccc1)c1ccccc1,7.94,,C1=CC=C(C=C1)C#CC2=CC=CC=C2,,,
+161,Perylene,InChI=1S/C20H12/c1-5-13-6-2-11-17-18-12-4-8-14-7-3-10-16(20(14)18)15(9-1)19(13)17/h1-12H,Copy,c1cc2cccc3c4cccc5cccc(c(c1)c23)c54,6.96,,C1=CC2=C3C(=C1)C4=CC=CC5=C4C(=CC=C5)C3=CC=C2,,,
+162,Naphthacene,InChI=1S/C18H12/c1-2-6-14-10-18-12-16-8-4-3-7-15(16)11-17(18)9-13(14)5-1/h1-12H,Copy,c1ccc2cc3cc4ccccc4cc3cc2c1,6.97,,C1=CC=C2C=C3C=C4C=CC=CC4=CC3=CC2=C1,,,
+163,"N,N-Diethylaniline","InChI=1S/C10H15N/c1-3-11(4-2)10-8-6-5-7-9-10/h5-9H,3-4H2,1-2H3",Copy,CCN(CC)c1ccccc1,6.98,,CCN(CC)C1=CC=CC=C1,,,
+164,2-Naphthalenamine,"InChI=1S/C10H9N/c11-10-6-5-8-3-1-2-4-9(8)7-10/h1-7H,11H2",Copy,Nc1ccc2ccccc2c1,7.1,,C1=CC=C2C=C(C=CC2=C1)N,,,
+165,"Benzenamine, N,N-dimethyl-","InChI=1S/C8H11N/c1-9(2)8-6-4-3-5-7-8/h3-7H,1-2H3",Copy,CN(C)c1ccccc1,7.12,,CN(C)C1=CC=CC=C1,,,
+166,Benzo[a]pyrene,InChI=1S/C20H12/c1-2-7-17-15(4-1)12-16-9-8-13-5-3-6-14-10-11-18(17)20(16)19(13)14/h1-12H,Copy,c1ccc2c(c1)cc1ccc3cccc4ccc2c1c34,7.12,,C1=CC=C2C3=C4C(=CC2=C1)C=CC5=C4C(=CC=C5)C=C3,,,
+167,Benzo[ghi]perylene,InChI=1S/C22H12/c1-3-13-7-9-15-11-12-16-10-8-14-4-2-6-18-17(5-1)19(13)21(15)22(16)20(14)18/h1-12H,Copy,c1cc2ccc3ccc4ccc5cccc6c(c1)c2c3c4c56,7.17,,C1=CC2=C3C(=C1)C4=CC=CC5=C4C6=C(C=C5)C=CC(=C36)C=C2,,,
+168,Diphenylamine,"InChI=1S/C12H11N/c1-3-7-11(8-4-1)13-12-9-5-2-6-10-12/h1-10,13H",Copy,c1ccc(Nc2ccccc2)cc1,7.19,,C1=CC=C(C=C1)NC2=CC=CC=C2,,,
+169,Benzyl radical,"InChI=1S/C7H7/c1-7-5-3-2-4-6-7/h2-6H,1H2",Copy,C=C1[CH]C=CC=C1,7.242,,[CH2]C1=CC=CC=C1,,,
+170,Coronene,InChI=1S/C24H12/c1-2-14-5-6-16-9-11-18-12-10-17-8-7-15-4-3-13(1)19-20(14)22(16)24(18)23(17)21(15)19/h1-12H,Copy,c1cc2ccc3ccc4ccc5ccc6ccc1c1c2c3c4c5c61,7.29,,C1=CC2=C3C4=C1C=CC5=C4C6=C(C=C5)C=CC7=C6C3=C(C=C2)C=C7,,,
+171,"Hydrazine, 1,1-dimethyl-","InChI=1S/C2H8N2/c1-4(2)3/h3H2,1-2H3",Copy,CN(C)N,7.29,,CN(C)N,,,
+172,"Benzaldehyde, 4-(dimethylamino)-","InChI=1S/C9H11NO/c1-10(2)9-5-3-8(7-11)4-6-9/h3-7H,1-2H3",Copy,CN(C)c1ccc(C=O)cc1,7.3,,CN(C)C1=CC=C(C=C1)C=O,,,
+173,"Aniline, N-methyl-","InChI=1S/C7H9N/c1-8-7-5-3-2-4-6-7/h2-6,8H,1H3",Copy,CNc1ccccc1,7.32,,CNC1=CC=CC=C1,,,
+174,Triethylenediamine,InChI=1S/C6H12N2/c1-2-8-5-3-7(1)4-6-8/h1-6H2,Copy,C1CN2CCN1CC2,7.321,,C1CN2CCN1CC2,,,
+175,"2,6-Xylidine","InChI=1S/C8H11N/c1-6-4-3-5-7(2)8(6)9/h3-5H,9H2,1-2H3",Copy,Cc1cccc(C)c1N,7.33,,CC1=C(C(=CC=C1)C)N,,,
+176,"Dibenz[a,h]anthracene",InChI=1S/C22H14/c1-3-7-19-15(5-1)9-11-17-14-22-18(13-21(17)19)12-10-16-6-2-4-8-20(16)22/h1-14H,Copy,c1ccc2c(c1)ccc1cc3c(ccc4ccccc43)cc12,7.39,,C1=CC=C2C(=C1)C=CC3=CC4=C(C=CC5=CC=CC=C54)C=C32,,,
+177,"Disulfide, dimethyl",InChI=1S/C2H6S2/c1-3-4-2/h1-2H3,Copy,CSSC,7.4,,CSSC,,,
+178,Azulene,InChI=1S/C10H8/c1-2-5-9-7-4-8-10(9)6-3-1/h1-8H,Copy,c1ccc2cccc-2cc1,7.42,,C1=CC=C2C=CC=C2C=C1,,,
+179,"Benzenamine, N,N,2-trimethyl-","InChI=1S/C9H13N/c1-8-6-4-5-7-9(8)10(2)3/h4-7H,1-3H3",Copy,Cc1ccccc1N(C)C,7.42,,CC1=CC=CC=C1N(C)C,,,
+180,Pyrene,InChI=1S/C16H10/c1-3-11-7-9-13-5-2-6-14-10-8-12(4-1)15(11)16(13)14/h1-10H,Copy,c1cc2ccc3cccc4ccc(c1)c2c34,7.426,,C1=CC2=C3C(=C1)C=CC4=CC=CC(=C43)C=C2,,,
+181,Anthracene,InChI=1S/C14H10/c1-2-6-12-10-14-8-4-3-7-13(14)9-11(12)5-1/h1-10H,Copy,c1ccc2cc3ccccc3cc2c1,7.439,,C1=CC=C2C=C3C=CC=CC3=CC2=C1,,,
+182,"Naphthalene, 1-methyl-","InChI=1S/C11H10/c1-9-5-4-7-10-6-2-3-8-11(9)10/h2-8H,1H3",Copy,Cc1cccc2ccccc12,7.96,,CC1=CC=CC2=CC=CC=C12,,,
+183,o-Terphenyl,InChI=1S/C18H14/c1-3-9-15(10-4-1)17-13-7-8-14-18(17)16-11-5-2-6-12-16/h1-14H,Copy,c1ccc(-c2ccccc2-c2ccccc2)cc1,7.99,,C1=CC=C(C=C1)C2=CC=CC=C2C3=CC=CC=C3,,,
+184,m-Terphenyl,InChI=1S/C18H14/c1-3-8-15(9-4-1)17-12-7-13-18(14-17)16-10-5-2-6-11-16/h1-14H,Copy,c1ccc(-c2cccc(-c3ccccc3)c2)cc1,8.02,,C1=CC=C(C=C1)C2=CC(=CC=C2)C3=CC=CC=C3,,,
+185,Piperidine,"InChI=1S/C5H11N/c1-2-4-6-5-3-1/h6H,1-5H2",Copy,C1CCNCC1,8.03,,C1CCNCC1,,,
+186,"Benzene, 1,2,4,5-tetramethyl-","InChI=1S/C10H14/c1-7-5-9(3)10(4)6-8(7)2/h5-6H,1-4H3",Copy,Cc1cc(C)c(C)cc1C,8.06,,CC1=CC(=C(C=C1C)C)C,,,
+187,"Naphthalene, 1-bromo-",InChI=1S/C10H7Br/c11-10-7-3-5-8-4-1-2-6-9(8)10/h1-7H,Copy,Brc1cccc2ccccc12,8.08,,C1=CC=C2C(=C1)C=CC=C2Br,,,
+188,Trichloromethyl radical,InChI=1S/CCl3/c2-1(3)4,Copy,Cl[C](Cl)Cl,8.109,,[C](Cl)(Cl)Cl,,,
+189,Acenaphthylene,InChI=1S/C12H8/c1-3-9-4-2-6-11-8-7-10(5-1)12(9)11/h1-8H,Copy,C1=Cc2cccc3cccc1c23,8.12,,C1=CC2=C3C(=C1)C=CC3=CC=C2,,,
+190,Formyl radical,InChI=1S/CHO/c1-2/h1H,Copy,[CH]=O,8.12,,[CH]=O,,,
+191,"Benzene, 1-bromo-4-methoxy-","InChI=1S/C7H7BrO/c1-9-7-4-2-6(8)3-5-7/h2-5H,1H3",Copy,COc1ccc(Br)cc1,8.13,,COC1=CC=C(C=C1)Br,,,
+192,Indene,"InChI=1S/C9H8/c1-2-5-9-7-3-6-8(9)4-1/h1-6H,7H2",Copy,C1=Cc2ccccc2C1,8.14,,C1C=CC2=CC=CC=C21,,,
+193,Naphthalene,InChI=1S/C10H8/c1-2-6-10-8-4-3-7-9(10)5-1/h1-8H,Copy,c1ccc2ccccc2c1,8.144,,C1=CC=C2C=CC=CC2=C1,,,
+194,Biphenyl,InChI=1S/C12H10/c1-3-7-11(8-4-1)12-9-5-2-6-10-12/h1-10H,Copy,c1ccc(-c2ccccc2)cc1,8.16,,C1=CC=C(C=C1)C2=CC=CC=C2,,,
+195,Benzo[b]thiophene,InChI=1S/C8H6S/c1-2-4-8-7(3-1)5-6-9-8/h1-6H,Copy,c1ccc2sccc2c1,8.17,,C1=CC=C2C(=C1)C=CS2,,,
+196,Anisole,"InChI=1S/C7H8O/c1-8-7-5-3-2-4-6-7/h2-6H,1H3",Copy,COc1ccccc1,8.2,,COC1=CC=CC=C1,,,
+197,Diisopropyl sulfide,"InChI=1S/C6H14S/c1-5(2)7-6(3)4/h5-6H,1-4H3",Copy,CC(C)SC(C)C,8.2,,CC(C)SC(C)C,,,
+198,Pyrrole,InChI=1S/C4H5N/c1-2-4-5-3-1/h1-5H,Copy,c1cc[nH]c1,8.207,,C1=CNC=C1,,,
+199,Dimethylamine,"InChI=1S/C2H7N/c1-3-2/h3H,1-2H3",Copy,CNC,8.24,,CNC,,,
+200,"2-Butene, 2,3-dimethyl-",InChI=1S/C6H12/c1-5(2)6(3)4/h1-4H3,Copy,CC(C)=C(C)C,8.27,,CC(=C(C)C)C,,,
+201,"Benzene, 1,2,4-trimethyl-","InChI=1S/C9H12/c1-7-4-5-8(2)9(3)6-7/h4-6H,1-3H3",Copy,Cc1ccc(C)c(C)c1,8.27,,CC1=CC(=C(C=C1)C)C,,,
+202,"Phenol, 3-methyl-","InChI=1S/C7H8O/c1-6-3-2-4-7(8)5-6/h2-5,8H,1H3",Copy,Cc1cccc(O)c1,8.29,,CC1=CC(=CC=C1)O,,,
+203,Benzenethiol,"InChI=1S/C6H6S/c7-6-4-2-1-3-5-6/h1-5,7H",Copy,Sc1ccccc1,8.3,,C1=CC=C(C=C1)S,,,
+204,p-Cresol,"InChI=1S/C7H8O/c1-6-2-4-7(8)5-3-6/h2-5,8H,1H3",Copy,Cc1ccc(O)cc1,8.34,,CC1=CC=C(C=C1)O,,,
+205,"2H-Pyran, 3,4-dihydro-","InChI=1S/C5H8O/c1-2-4-6-5-3-1/h2,4H,1,3,5H2",Copy,C1=COCCC1,8.35,,C1CC=COC1,,,
+206,Ethanethioamide,"InChI=1S/C2H5NS/c1-2(3)4/h1H3,(H2,3,4)",Copy,CC(=N)S,8.35,,CC(=S)N,,,
+207,Benzofuran,InChI=1S/C8H6O/c1-2-4-8-7(3-1)5-6-9-8/h1-6H,Copy,c1ccc2occc2c1,8.36,,C1=CC=C2C(=C1)C=CO2,,,
+208,"2,5-Norbornadiene","InChI=1S/C7H8/c1-2-7-4-3-6(1)5-7/h1-4,6-7H,5H2",Copy,C1=CC2C=CC1C2,8.38,,C1C2C=CC1C=C2,,,
+209,"Furan, 2-methyl-","InChI=1S/C5H6O/c1-5-3-2-4-6-5/h2-4H,1H3",Copy,Cc1ccco1,8.38,,CC1=CC=CO1,,,
+210,Mesitylene,"InChI=1S/C9H12/c1-7-4-8(2)6-9(3)5-7/h4-6H,1-3H3",Copy,Cc1cc(C)cc(C)c1,8.4,,CC1=CC(=CC(=C1)C)C,,,
+211,"1,3-Cyclopentadiene, 1-methyl-","InChI=1S/C6H8/c1-6-4-2-3-5-6/h2-4H,5H2,1H3",Copy,CC1=CC=CC1,8.4,,CC1=CC=CC1,,,
+212,Diethyl sulfide,"InChI=1S/C4H10S/c1-3-5-4-2/h3-4H2,1-2H3",Copy,CCSCC,8.42,,CCSCC,,,
+213,"Benzene, 1,2,3-trimethyl-","InChI=1S/C9H12/c1-7-5-4-6-8(2)9(7)3/h4-6H,1-3H3",Copy,Cc1cccc(C)c1C,8.42,,CC1=C(C(=CC=C1)C)C,,,
+214,p-Xylene,"InChI=1S/C8H10/c1-7-3-5-8(2)6-4-7/h3-6H,1-2H3",Copy,Cc1ccc(C)cc1,8.44,,CC1=CC=C(C=C1)C,,,
+215,2(1H)-Pyridinone,"InChI=1S/C5H5NO/c7-5-3-1-2-4-6-5/h1-4H,(H,6,7)",Copy,Oc1ccccn1,8.448,,C1=CC(=O)NC=C1,,,
+216,"Naphthalene, 1,2,3,4-tetrahydro-","InChI=1S/C10H12/c1-2-6-10-8-4-3-7-9(10)5-1/h1-2,5-6H,3-4,7-8H2",Copy,c1ccc2c(c1)CCCC2,8.46,,C1CCC2=CC=CC=C2C1,,,
+217,Styrene,"InChI=1S/C8H8/c1-2-8-6-4-3-5-7-8/h2-7H,1H2",Copy,C=Cc1ccccc1,8.464,,C=CC1=CC=CC=C1,,,
+218,Phenol,"InChI=1S/C6H6O/c7-6-4-2-1-3-5-6/h1-5,7H",Copy,Oc1ccccc1,8.49,,C1=CC=C(C=C1)O,,,
+219,Isoquinoline,InChI=1S/C9H7N/c1-2-4-9-7-10-6-5-8(9)3-1/h1-7H,Copy,c1ccc2cnccc2c1,8.53,,C1=CC=C2C=NC=CC2=C1,,,
+220,"Benzene, 1,3-dimethyl-","InChI=1S/C8H10/c1-7-4-3-5-8(2)6-7/h3-6H,1-2H3",Copy,Cc1cccc(C)c1,8.55,,CC1=CC(=CC=C1)C,,,
+221,"Ethane, (methylthio)-","InChI=1S/C3H8S/c1-3-4-2/h3H2,1-2H3",Copy,CCSC,8.55,,CCSC,,,
+222,Cubane,InChI=1S/C8H8/c1-2-5-3(1)7-4(1)6(2)8(5)7/h1-8H,Copy,C12C3C4C1C1C2C3C41,8.6,,C12C3C4C1C5C2C3C45,,,
+223,"Benzene, 1-bromo-2-methyl-","InChI=1S/C7H7Br/c1-6-4-2-3-5-7(6)8/h2-5H,1H3",Copy,Cc1ccccc1Br,8.56,,CC1=CC=CC=C1Br,,,
+224,o-Xylene,"InChI=1S/C8H10/c1-7-5-3-4-6-8(7)2/h3-6H,1-2H3",Copy,Cc1ccccc1C,8.56,,CC1=CC=CC=C1C,,,
+225,"1,3-Cyclopentadiene","InChI=1S/C5H6/c1-2-4-5-3-1/h1-4H,5H2",Copy,C1=CCC=C1,8.57,,C1C=CC=C1,,,
+226,"1,3-Pentadiene, (E)-","InChI=1S/C5H8/c1-3-5-4-2/h3-5H,1H2,2H3/b5-4+",Copy,C=C/C=C/C,8.59,,C/C=C/C=C,,,
+227,"1,3-Pentadiene, (Z)-","InChI=1S/C5H8/c1-3-5-4-2/h3-5H,1H2,2H3/b5-4-",Copy,C=C/C=C\C,8.62,,C/C=C\C=C,,,
+228,Quinoline,InChI=1S/C9H7N/c1-2-6-9-8(4-1)5-3-7-10-9/h1-7H,Copy,c1ccc2ncccc2c1,8.63,,C1=CC=C2C(=C1)C=CC=N2,,,
+229,"Phenol, 3-chloro-","InChI=1S/C6H5ClO/c7-5-2-1-3-6(8)4-5/h1-4,8H",Copy,Oc1cccc(Cl)c1,8.655,,C1=CC(=CC(=C1)Cl)O,,,
+230,"Benzene, 1-bromo-4-methyl-","InChI=1S/C7H7Br/c1-6-2-4-7(8)5-3-6/h2-5H,1H3",Copy,Cc1ccc(Br)cc1,8.68,,CC1=CC=C(C=C1)Br,,,
+231,"Benzene, (1-methylpropyl)-","InChI=1S/C10H14/c1-3-9(2)10-7-5-4-6-8-10/h4-9H,3H2,1-2H3",Copy,CCC(C)c1ccccc1,8.68,,CCC(C)C1=CC=CC=C1,,,
+232,"Benzene, tert-butyl-","InChI=1S/C10H14/c1-10(2,3)9-7-5-4-6-8-9/h4-8H,1-3H3",Copy,CC(C)(C)c1ccccc1,8.68,,CC(C)(C)C1=CC=CC=C1,,,
+233,"Benzene, n-butyl-","InChI=1S/C10H14/c1-2-3-7-10-8-5-4-6-9-10/h4-6,8-9H,2-3,7H2,1H3",Copy,CCCCc1ccccc1,8.69,,CCCCC1=CC=CC=C1,,,
+234,"Benzene, 1-chloro-4-methyl-","InChI=1S/C7H7Cl/c1-6-2-4-7(8)5-3-6/h2-5H,1H3",Copy,Cc1ccc(Cl)cc1,8.69,,CC1=CC=C(C=C1)Cl,,,
+235,"2-Butene, 2-methyl-","InChI=1S/C5H10/c1-4-5(2)3/h4H,1-3H3",Copy,CC=C(C)C,8.69,,CC=C(C)C,,,
+236,Dimethyl sulfide,InChI=1S/C2H6S/c1-3-2/h1-2H3,Copy,CSC,8.69,,CSC,,,
+237,Bicyclo[1.1.0]butane,"InChI=1S/C4H6/c1-3-2-4(1)3/h3-4H,1-2H2",Copy,C1C2CC12,8.7,,C1C2C1C2,,,
+238,"Benzene, propyl-","InChI=1S/C9H12/c1-2-6-9-7-4-3-5-8-9/h3-5,7-8H,2,6H2,1H3",Copy,CCCc1ccccc1,8.713,,CCCC1=CC=CC=C1,,,
+239,"Benzene, iodo-",InChI=1S/C6H5I/c7-6-4-2-1-3-5-6/h1-5H,Copy,Ic1ccccc1,8.72,,C1=CC=C(C=C1)I,,,
+240,"Benzene, 1-chloro-2-methyl-","InChI=1S/C7H7Cl/c1-6-4-2-3-5-7(6)8/h2-5H,1H3",Copy,Cc1ccccc1Cl,8.72,,CC1=CC=CC=C1Cl,,,
+241,1-Butanamine,"InChI=1S/C4H11N/c1-2-3-4-5/h2-5H2,1H3",Copy,CCCCN,8.73,,CCCCN,,,
+242,"Benzene, (1-methylethyl)-","InChI=1S/C9H12/c1-8(2)9-6-4-3-5-7-9/h3-8H,1-2H3",Copy,CC(C)c1ccccc1,8.73,,CC(C)C1=CC=CC=C1,,,
+243,Pyridazine,InChI=1S/C4H4N2/c1-2-4-6-5-3-1/h1-4H,Copy,c1ccnnc1,8.74,,C1=CC=NN=C1,,,
+244,"Thiophene, 2-chloro-",InChI=1S/C4H3ClS/c5-4-2-1-3-6-4/h1-3H,Copy,Clc1cccs1,8.74,,C1=CSC(=C1)Cl,,,
+245,Ethylbenzene,"InChI=1S/C8H10/c1-2-8-6-4-3-5-7-8/h3-7H,2H2,1H3",Copy,CCc1ccccc1,8.77,,CCC1=CC=CC=C1,,,
+246,"Benzene, isocyanato-",InChI=1S/C7H5NO/c9-6-8-7-4-2-1-3-5-7/h1-5H,Copy,O=C=Nc1ccccc1,8.77,,C1=CC=C(C=C1)N=C=O,,,
+247,"Benzene, 1-fluoro-4-methyl-","InChI=1S/C7H7F/c1-6-2-4-7(8)5-3-6/h2-5H,1H3",Copy,Cc1ccc(F)cc1,8.79,,CC1=CC=C(C=C1)F,,,
+248,"Benzoic acid, phenyl ester",InChI=1S/C13H10O2/c14-13(11-7-3-1-4-8-11)15-12-9-5-2-6-10-12/h1-10H,Copy,O=C(Oc1ccccc1)c1ccccc1,8.8,,C1=CC=C(C=C1)C(=O)OC2=CC=CC=C2,,,
+249,1H-Imidazole,"InChI=1S/C3H4N2/c1-2-5-3-4-1/h1-3H,(H,4,5)",Copy,c1c[nH]cn1,8.81,,C1=CN=CN1,,,
+250,"Benzene, 1,4-dibromo-",InChI=1S/C6H4Br2/c7-5-1-2-6(8)4-3-5/h1-4H,Copy,Brc1ccc(Br)cc1,8.82,,C1=CC(=CC=C1Br)Br,,,
+251,Anthrone,"InChI=1S/C14H10O/c15-14-12-7-3-1-5-10(12)9-11-6-2-4-8-13(11)14/h1-8H,9H2",Copy,O=C1c2ccccc2Cc2ccccc21,8.82,,C1C2=CC=CC=C2C(=O)C3=CC=CC=C31,,,
+252,Toluene,"InChI=1S/C7H8/c1-7-5-3-2-4-6-7/h2-6H,1H3",Copy,Cc1ccccc1,8.828,,CC1=CC=CC=C1,,,
+253,Acetylacetone,"InChI=1S/C5H8O2/c1-4(6)3-5(2)7/h3H2,1-2H3",Copy,CC(=O)CC(C)=O,8.85,,CC(=O)CC(=O)C,,,
+254,"2,6-Lutidine","InChI=1S/C7H9N/c1-6-4-3-5-7(2)8-6/h3-5H,1-2H3",Copy,Cc1cccc(C)n1,8.86,,CC1=NC(=CC=C1)C,,,
+255,Thiophene,InChI=1S/C4H4S/c1-2-4-5-3-1/h1-4H,Copy,c1ccsc1,8.86,,C1=CSC=C1,,,
+256,Isoprene,"InChI=1S/C5H8/c1-4-5(2)3/h4H,1-2H2,3H3",Copy,C=CC(=C)C,8.86,,CC(=C)C=C,,,
+257,Perfluoronaphthalene,InChI=1S/C10F8/c11-3-1-2(5(13)9(17)7(3)15)6(14)10(18)8(16)4(1)12,Copy,Fc1c(F)c(F)c2c(F)c(F)c(F)c(F)c2c1F,8.87,,C12=C(C(=C(C(=C1F)F)F)F)C(=C(C(=C2F)F)F)F,,,
+258,Furan,InChI=1S/C4H4O/c1-2-4-5-3-1/h1-4H,Copy,c1ccoc1,8.88,,C1=COC=C1,,,
+259,Di-tert-Butyl ether,"InChI=1S/C8H18O/c1-7(2,3)9-8(4,5)6/h1-6H3",Copy,CC(C)(C)OC(C)(C)C,8.88,,CC(C)(C)OC(C)(C)C,,,
+260,"Stannane, tetramethyl-",InChI=1S/4CH3.Sn/h4*1H3;,Copy,[CH3].[CH3].[CH3].[CH3].[Sn],8.89,,C[Sn](C)(C)C,,,
+261,Methylamine,"InChI=1S/CH5N/c1-2/h2H2,1H3",Copy,CN,8.9,,CN,,,
+262,"Benzene, 1-fluoro-3-methyl-","InChI=1S/C7H7F/c1-6-3-2-4-7(8)5-6/h2-5H,1H3",Copy,Cc1cccc(F)c1,8.91,,CC1=CC(=CC=C1)F,,,
+263,"Benzene, 1-fluoro-2-methyl-","InChI=1S/C7H7F/c1-6-4-2-3-5-7(6)8/h2-5H,1H3",Copy,Cc1ccccc1F,8.91,,CC1=CC=CC=C1F,,,
+264,"Benzene, 1,4-dichloro-",InChI=1S/C6H4Cl2/c7-5-1-2-6(8)4-3-5/h1-4H,Copy,Clc1ccc(Cl)cc1,8.92,,C1=CC(=CC=C1Cl)Cl,,,
+265,Cyclohexene,"InChI=1S/C6H10/c1-2-4-6-5-3-1/h1-2H,3-6H2",Copy,C1=CCCCC1,8.95,,C1CCC=CC1,,,
+266,"Ethene, methoxy-","InChI=1S/C3H6O/c1-3-4-2/h3H,1H2,2H3",Copy,C=COC,8.95,,COC=C,,,
+267,"3-Pentanone, 2,4-dimethyl-","InChI=1S/C7H14O/c1-5(2)7(8)6(3)4/h5-6H,1-4H3",Copy,CC(C)C(=O)C(C)C,8.96,,CC(C)C(=O)C(C)C,,,
+268,"2-Hexene, (E)-","InChI=1S/C6H12/c1-3-5-6-4-2/h3,5H,4,6H2,1-2H3/b5-3+",Copy,C/C=C/CCC,8.97,,CCC/C=C/C,,,
+269,"2-Pentene, 4-methyl-, (E)-","InChI=1S/C6H12/c1-4-5-6(2)3/h4-6H,1-3H3/b5-4+",Copy,C/C=C/C(C)C,8.97,,C/C=C/C(C)C,,,
+270,"2-Hexene, (Z)-","InChI=1S/C6H12/c1-3-5-6-4-2/h3,5H,4,6H2,1-2H3/b5-3-",Copy,C/C=C\CCC,8.97,,CCC/C=C\C,,,
+271,tert-Butyl iodide,"InChI=1S/C4H9I/c1-4(2,3)5/h1-3H3",Copy,CC(C)(C)I,8.98,,CC(C)(C)I,,,
+272,"2-Pentene, 4-methyl-, (Z)-","InChI=1S/C6H12/c1-4-5-6(2)3/h4-6H,1-3H3/b5-4-",Copy,C/C=C\C(C)C,8.98,,C/C=C\C(C)C,,,
+273,"Benzene, (bromomethyl)-","InChI=1S/C7H7Br/c8-6-7-4-2-1-3-5-7/h1-5H,6H2",Copy,BrCc1ccccc1,8.99,,C1=CC=C(C=C1)CBr,,,
+274,"Methane, diazo-",InChI=1S/CH2N2/c1-3-2/h1H2,Copy,C=[N+]=[N-],8.999,,C=[N+]=[N-],,,
+275,"Benzene, bromo-",InChI=1S/C6H5Br/c7-6-4-2-1-3-5-6/h1-5H,Copy,Brc1ccccc1,9.0,,C1=CC=C(C=C1)Br,,,
+276,"Benzene, hexachloro-",InChI=1S/C6Cl6/c7-1-2(8)4(10)6(12)5(11)3(1)9,Copy,Clc1c(Cl)c(Cl)c(Cl)c(Cl)c1Cl,9.0,,C1(=C(C(=C(C(=C1Cl)Cl)Cl)Cl)Cl)Cl,,,
+277,1-Penten-3-yne,"InChI=1S/C5H6/c1-3-5-4-2/h3H,1H2,2H3",Copy,C=CC#CC,9.0,,CC#CC=C,,,
+278,"Benzene, 1,3-dibromo-",InChI=1S/C6H4Br2/c7-5-2-1-3-6(8)4-5/h1-4H,Copy,Brc1cccc(Br)c1,9.01,,C1=CC(=CC(=C1)Br)Br,,,
+279,"4-Heptanone, 2,6-dimethyl-","InChI=1S/C9H18O/c1-7(2)5-9(10)6-8(3)4/h7-8H,5-6H2,1-4H3",Copy,CC(C)CC(=O)CC(C)C,9.01,,CC(C)CC(=O)CC(C)C,,,
+280,Cyclopentene,"InChI=1S/C5H8/c1-2-4-5-3-1/h1-2H,3-5H2",Copy,C1=CCCC1,9.01,,C1CC=CC1,,,
+281,"2-Pentene, (Z)-","InChI=1S/C5H10/c1-3-5-4-2/h3,5H,4H2,1-2H3/b5-3-",Copy,C/C=C\CC,9.01,,CC/C=C\C,,,
+282,Quinoxaline,InChI=1S/C8H6N2/c1-2-4-8-7(3-1)9-5-6-10-8/h1-6H,Copy,c1ccc2nccnc2c1,9.01,,C1=CC=C2C(=C1)N=CC=N2,,,
+283,Quinazoline,InChI=1S/C8H6N2/c1-2-4-8-7(3-1)5-9-6-10-8/h1-6H,Copy,c1ccc2ncncc2c1,9.03,,C1=CC=C2C(=C1)C=NC=N2,,,
+284,"2-Pentene, (E)-","InChI=1S/C5H10/c1-3-5-4-2/h3,5H,4H2,1-2H3/b5-3+",Copy,C/C=C/CC,9.04,,CC/C=C/C,,,
+285,"Pentane, 3-methylene-","InChI=1S/C6H12/c1-4-6(3)5-2/h3-5H2,1-2H3",Copy,C=C(CC)CC,9.06,,CCC(=C)CC,,,
+286,"Benzene, 1,2-dichloro-",InChI=1S/C6H4Cl2/c7-5-3-1-2-4-6(5)8/h1-4H,Copy,Clc1ccccc1Cl,9.06,,C1=CC=C(C(=C1)Cl)Cl,,,
+287,"Benzene, chloro-",InChI=1S/C6H5Cl/c7-6-4-2-1-3-5-6/h1-5H,Copy,Clc1ccccc1,9.07,,C1=CC=C(C=C1)Cl,,,
+288,"1-Butene, 2,3-dimethyl-","InChI=1S/C6H12/c1-5(2)6(3)4/h6H,1H2,2-4H3",Copy,C=C(C)C(C)C,9.07,,CC(C)C(=C)C,,,
+289,"1,3-Butadiene","InChI=1S/C4H6/c1-3-4-2/h3-4H,1-2H2",Copy,C=CC=C,9.072,,C=CC=C,,,
+290,Benzophenone,InChI=1S/C13H10O/c14-13(11-7-3-1-4-8-11)12-9-5-2-6-10-12/h1-10H,Copy,O=C(c1ccccc1)c1ccccc1,9.08,,C1=CC=C(C=C1)C(=O)C2=CC=CC=C2,,,
+291,"1-Pentene, 2-methyl-","InChI=1S/C6H12/c1-4-5-6(2)3/h2,4-5H2,1,3H3",Copy,C=C(C)CCC,9.08,,CCCC(=C)C,,,
+292,4-Heptanone,"InChI=1S/C7H14O/c1-3-5-7(8)6-4-2/h3-6H2,1-2H3",Copy,CCCC(=O)CCC,9.1,,CCCC(=O)CCC,,,
+293,"3-Penten-2-one, 4-methyl-","InChI=1S/C6H10O/c1-5(2)4-6(3)7/h4H,1-3H3",Copy,CC(=O)C=C(C)C,9.1,,CC(=CC(=O)C)C,,,
+294,"Butane, 2-iodo-","InChI=1S/C4H9I/c1-3-4(2)5/h4H,3H2,1-2H3",Copy,CCC(C)I,9.1,,CCC(C)I,,,
+295,"Benzene, 1,3-dichloro-",InChI=1S/C6H4Cl2/c7-5-2-1-3-6(8)4-5/h1-4H,Copy,Clc1cccc(Cl)c1,9.1,,C1=CC(=CC(=C1)Cl)Cl,,,
+296,"3-Pentanone, 2-methyl-","InChI=1S/C6H12O/c1-4-6(7)5(2)3/h5H,4H2,1-3H3",Copy,CCC(=O)C(C)C,9.1,,CCC(=O)C(C)C,,,
+297,"2-Butene, (E)-","InChI=1S/C4H8/c1-3-4-2/h3-4H,1-2H3/b4-3+",Copy,C/C=C/C,9.1,,C/C=C/C,,,
+298,Fluoromethylidyne,InChI=1S/CF/c1-2,Copy,[C-]=[F+],9.11,,CF,,,
+299,"2-Butene, (Z)-","InChI=1S/C4H8/c1-3-4-2/h3-4H,1-2H3/b4-3-",Copy,C/C=C\C,9.11,,C/C=C\C,,,
+300,2-Methyl-1-butene,"InChI=1S/C5H10/c1-4-5(2)3/h2,4H2,1,3H3",Copy,C=C(C)CC,9.12,,CCC(=C)C,,,
+301,1-Butanethiol,"InChI=1S/C4H10S/c1-2-3-4-5/h5H,2-4H2,1H3",Copy,CCCCS,9.14,,CCCCS,,,
+302,"2-Butanone, 3,3-dimethyl-","InChI=1S/C6H12O/c1-5(7)6(2,3)4/h1-4H3",Copy,CC(=O)C(C)(C)C,9.14,,CC(=O)C(C)(C)C,,,
+303,3-Heptanone,"InChI=1S/C7H14O/c1-3-5-6-7(8)4-2/h3-6H2,1-2H3",Copy,CCCCC(=O)CC,9.15,,CCCCC(=O)CC,,,
+304,"Benzene, 1,4-difluoro-",InChI=1S/C6H4F2/c7-5-1-2-6(8)4-3-5/h1-4H,Copy,Fc1ccc(F)cc1,9.1589,,C1=CC(=CC=C1F)F,,,
+305,Cyclohexanone,InChI=1S/C6H10O/c7-6-4-2-1-3-5-6/h1-5H2,Copy,O=C1CCCCC1,9.16,,C1CCC(=O)CC1,,,
+306,"Propane, 1-iodo-2-methyl-","InChI=1S/C4H9I/c1-4(2)3-5/h4H,3H2,1-2H3",Copy,CC(C)CI,9.18,,CC(C)CI,,,
+307,"1,4-Dioxane",InChI=1S/C4H8O2/c1-2-6-4-3-5-1/h1-4H2,Copy,C1COCCO1,9.19,,C1COCCO1,,,
+308,"Propane, 2-iodo-","InChI=1S/C3H7I/c1-3(2)4/h3H,1-2H3",Copy,CC(C)I,9.19,,CC(C)I,,,
+309,Propyl mercaptan,"InChI=1S/C3H8S/c1-2-3-4/h4H,2-3H2,1H3",Copy,CCCS,9.2,,CCCS,,,
+310,Diisopropyl ether,"InChI=1S/C6H14O/c1-5(2)7-6(3)4/h5-6H,1-4H3",Copy,CC(C)OC(C)C,9.2,,CC(C)OC(C)C,,,
+311,4-Octyne,"InChI=1S/C8H14/c1-3-5-7-8-6-4-2/h3-6H2,1-2H3",Copy,CCCC#CCCC,9.2,,CCCC#CCCC,,,
+312,"Benzene, fluoro-",InChI=1S/C6H5F/c7-6-4-2-1-3-5-6/h1-5H,Copy,Fc1ccccc1,9.2,,C1=CC=C(C=C1)F,,,
+313,"Pentane, 1-iodo-","InChI=1S/C5H11I/c1-2-3-4-5-6/h2-5H2,1H3",Copy,CCCCCI,9.2,,CCCCCI,,,
+314,"2-Pentanone, 3-methyl-","InChI=1S/C6H12O/c1-4-5(2)6(3)7/h5H,4H2,1-3H3",Copy,CCC(C)C(C)=O,9.21,,CCC(C)C(=O)C,,,
+315,"1-Propene, 2-methyl-","InChI=1S/C4H8/c1-4(2)3/h1H2,2-3H3",Copy,C=C(C)C,9.22,,CC(=C)C,,,
+316,3-Octyne,"InChI=1S/C8H14/c1-3-5-7-8-6-4-2/h3-5,7H2,1-2H3",Copy,CCC#CCCCC,9.22,,CCCCC#CCC,,,
+317,Furfural,InChI=1S/C5H4O2/c6-4-5-2-1-3-7-5/h1-4H,Copy,O=Cc1ccco1,9.22,,C1=COC(=C1)C=O,,,
+318,"Butane, 1-iodo-","InChI=1S/C4H9I/c1-2-3-4-5/h2-4H2,1H3",Copy,CCCCI,9.23,,CCCCI,,,
+319,"Methane, triiodo-",InChI=1S/CHI3/c2-1(3)4/h1H,Copy,IC(I)I,9.23,,C(I)(I)I,,,
+320,Benzene,InChI=1S/C6H6/c1-2-4-6-5-3-1/h1-6H,Copy,c1ccccc1,9.24378,,C1=CC=CC=C1,,,
+321,Tetrahydropyran,InChI=1S/C5H10O/c1-2-4-6-5-3-1/h1-5H2,Copy,C1CCOCC1,9.25,,C1CCOCC1,,,
+322,Adamantane,"InChI=1S/C10H16/c1-7-2-9-4-8(1)5-10(3-7)6-9/h7-10H,1-6H2",Copy,C1C2CC3CC1CC(C2)C3,9.25,,C1C2CC3CC1CC(C2)C3,,,
+323,"1-Buten-3-yne, 2-methyl-","InChI=1S/C5H6/c1-4-5(2)3/h1H,2H2,3H3",Copy,C#CC(=C)C,9.25,,CC(=C)C#C,,,
+324,"9,10-Anthracenedione",InChI=1S/C14H8O2/c15-13-9-5-1-2-6-10(9)14(16)12-8-4-3-7-11(12)13/h1-8H,Copy,O=C1c2ccccc2C(=O)c2ccccc21,9.25,,C1=CC=C2C(=C1)C(=O)C3=CC=CC=C3C2=O,,,
+325,"Propane, 1-iodo-","InChI=1S/C3H7I/c1-2-3-4/h2-3H2,1H3",Copy,CCCI,9.26,,CCCI,,,
+326,Pyridine,InChI=1S/C5H5N/c1-2-4-6-5-3-1/h1-5H,Copy,c1ccncc1,9.26,,C1=CC=NC=C1,,,
+327,Cyclopentanone,InChI=1S/C5H8O/c6-5-3-1-2-4-5/h1-4H2,Copy,O=C1CCCC1,9.26,,C1CCC(=O)C1,,,
+328,2-Heptanone,"InChI=1S/C7H14O/c1-3-4-5-6-7(2)8/h3-6H2,1-2H3",Copy,CCCCCC(C)=O,9.27,,CCCCCC(=O)C,,,
+329,"1,5-Hexadiene","InChI=1S/C6H10/c1-3-5-6-4-2/h3-4H,1-2,5-6H2",Copy,C=CCCC=C,9.27,,C=CCCC=C,,,
+330,Acetophenone,"InChI=1S/C8H8O/c1-7(9)8-5-3-2-4-6-8/h2-6H,1H3",Copy,CC(=O)c1ccccc1,9.28,,CC(=O)C1=CC=CC=C1,,,
+331,"Benzene, 1,2-difluoro-",InChI=1S/C6H4F2/c7-5-3-1-2-4-6(5)8/h1-4H,Copy,Fc1ccccc1F,9.29,,C1=CC=C(C(=C1)F)F,,,
+332,Methyl Isobutyl Ketone,"InChI=1S/C6H12O/c1-5(2)4-6(3)7/h5H,4H2,1-3H3",Copy,CC(=O)CC(C)C,9.3,,CC(C)CC(=O)C,,,
+333,"Benzene, 1,3,5-trichloro-",InChI=1S/C6H3Cl3/c7-4-1-5(8)3-6(9)2-4/h1-3H,Copy,Clc1cc(Cl)cc(Cl)c1,9.3,,C1=C(C=C(C=C1Cl)Cl)Cl,,,
+334,Di-n-propyl ether,"InChI=1S/C6H14O/c1-3-5-7-6-4-2/h3-6H2,1-2H3",Copy,CCCOCCC,9.3,,CCCOCCC,,,
+335,2-Octyne,"InChI=1S/C8H14/c1-3-5-7-8-6-4-2/h3,5,7-8H2,1-2H3",Copy,CC#CCCCCC,9.31,,CCCCCC#CC,,,
+336,"2-Butanone, 3-methyl-","InChI=1S/C5H10O/c1-4(2)5(3)6/h4H,1-3H3",Copy,CC(=O)C(C)C,9.31,,CC(C)C(=O)C,,,
+337,Ethanethiol,"InChI=1S/C2H6S/c1-2-3/h3H,2H2,1H3",Copy,CCS,9.31,,CCS,,,
+338,3-Pentanone,"InChI=1S/C5H10O/c1-3-5(6)4-2/h3-4H2,1-2H3",Copy,CCC(=O)CC,9.31,,CCC(=O)CC,,,
+339,"Naphthalene, decahydro-, cis-","InChI=1S/C10H18/c1-2-6-10-8-4-3-7-9(10)5-1/h9-10H,1-8H2/t9-,10+",Copy,C1CC[C@H]2CCCC[C@H]2C1,9.32,,C1CCC2CCCCC2C1,,,
+340,"Naphthalene, decahydro-, trans-","InChI=1S/C10H18/c1-2-6-10-8-4-3-7-9(10)5-1/h9-10H,1-8H2/t9-,10-",Copy,C1CC[C@H]2CCCC[C@@H]2C1,9.32,,C1CCC2CCCCC2C1,,,
+341,"Benzoic acid, methyl ester","InChI=1S/C8H8O2/c1-10-8(9)7-5-3-2-4-6-7/h2-6H,1H3",Copy,COC(=O)c1ccccc1,9.32,,COC(=O)C1=CC=CC=C1,,,
+342,Tetrachloroethylene,InChI=1S/C2Cl4/c3-1(4)2(5)6,Copy,ClC(Cl)=C(Cl)Cl,9.326,,C(=C(Cl)Cl)(Cl)Cl,,,
+343,"1,3-Diazine",InChI=1S/C4H4N2/c1-2-5-4-6-3-1/h1-4H,Copy,c1cncnc1,9.33,,C1=CN=CN=C1,,,
+344,"Benzene, 1,2,4,5-tetrafluoro-",InChI=1S/C6H2F4/c7-3-1-4(8)6(10)2-5(3)9/h1-2H,Copy,Fc1cc(F)c(F)cc1F,9.33,,C1=C(C(=CC(=C1F)F)F)F,,,
+345,"Benzene, 1,3-difluoro-",InChI=1S/C6H4F2/c7-5-2-1-3-6(8)4-5/h1-4H,Copy,Fc1cccc(F)c1,9.33,,C1=CC(=CC(=C1)F)F,,,
+346,1-Heptene,"InChI=1S/C7H14/c1-3-5-7-6-4-2/h3H,1,4-7H2,2H3",Copy,C=CCCCCC,9.34,,CCCCCC=C,,,
+347,"Ethane, iodo-","InChI=1S/C2H5I/c1-2-3/h2H2,1H3",Copy,CCI,9.349,,CCI,,,
+348,2-Hexanone,"InChI=1S/C6H12O/c1-3-4-5-6(2)7/h3-5H2,1-2H3",Copy,CCCCC(C)=O,9.35,,CCCCC(=O)C,,,
+349,2-Hexyne,"InChI=1S/C6H10/c1-3-5-6-4-2/h3,5H2,1-2H3",Copy,CC#CCCC,9.37,,CCCC#CC,,,
+350,2-Pentanone,"InChI=1S/C5H10O/c1-3-4-5(2)6/h3-4H2,1-2H3",Copy,CCCC(C)=O,9.38,,CCCC(=O)C,,,
+351,Benzyl nitrile,"InChI=1S/C8H7N/c9-7-6-8-4-2-1-3-5-8/h1-5H,6H2",Copy,N#CCc1ccccc1,9.39,,C1=CC=C(C=C1)CC#N,,,
+352,Tetrahydrofuran,InChI=1S/C4H8O/c1-2-4-5-3-1/h1-4H2,Copy,C1CCOC1,9.4,,C1CCOC1,,,
+353,1-Decene,"InChI=1S/C10H20/c1-3-5-7-9-10-8-6-4-2/h3H,1,4-10H2,2H3",Copy,C=CCCCCCCCC,9.42,,CCCCCCCCC=C,,,
+354,1-Octene,"InChI=1S/C8H16/c1-3-5-7-8-6-4-2/h3H,1,4-8H2,2H3",Copy,C=CCCCCCC,9.43,,CCCCCCC=C,,,
+355,Cyclobutene,"InChI=1S/C4H6/c1-2-4-3-1/h1-2H,3-4H2",Copy,C1=CCC1,9.43,,C1CC=C1,,,
+356,Methanethiol,"InChI=1S/CH4S/c1-2/h2H,1H3",Copy,CS,9.439,,CS,,,
+357,1-Hexene,"InChI=1S/C6H12/c1-3-5-6-4-2/h3H,1,4-6H2,2H3",Copy,C=CCCCC,9.44,,CCCCC=C,,,
+358,"Propane, 2-methoxy-","InChI=1S/C4H10O/c1-4(2)5-3/h4H,1-3H3",Copy,COC(C)C,9.45,,CC(C)OC,,,
+359,"1-Pentene, 4-methyl-","InChI=1S/C6H12/c1-4-5-6(2)3/h4,6H,1,5H2,2-3H3",Copy,C=CCC(C)C,9.45,,CC(C)CC=C,,,
+360,"Benzene, 1-methyl-3-nitro-","InChI=1S/C7H7NO2/c1-6-3-2-4-7(5-6)8(9)10/h2-5H,1H3",Copy,Cc1cccc([N+](=O)[O-])c1,9.5,,CC1=CC(=CC=C1)[N+](=O)[O-],,,
+361,"Methane, diiodo-",InChI=1S/CH2I2/c2-1-3/h1H2,Copy,ICI,9.46,,C(I)I,,,
+362,Trichloroethylene,InChI=1S/C2HCl3/c3-1-2(4)5/h1H,Copy,ClC=C(Cl)Cl,9.46,,C(=C(Cl)Cl)Cl,,,
+363,"Benzene, 1-methyl-4-nitro-","InChI=1S/C7H7NO2/c1-6-2-4-7(5-3-6)8(9)10/h2-5H,1H3",Copy,Cc1ccc([N+](=O)[O-])cc1,9.46,,CC1=CC=C(C=C1)[N+](=O)[O-],,,
+364,Bicyclo[2.2.2]octane,"InChI=1S/C8H14/c1-2-8-5-3-7(1)4-6-8/h7-8H,1-6H2",Copy,C1CC2CCC1CC2,9.47,,C1CC2CCC1CC2,,,
+365,1-Pentene,"InChI=1S/C5H10/c1-3-5-4-2/h3H,1,4-5H2,2H3",Copy,C=CCCC,9.49,,CCCC=C,,,
+366,Benzaldehyde,InChI=1S/C7H6O/c8-6-7-4-2-1-3-5-7/h1-6H,Copy,O=Cc1ccccc1,9.5,,C1=CC=C(C=C1)C=O,,,
+367,"1,4-Naphthalenedione",InChI=1S/C10H6O2/c11-9-5-6-10(12)8-4-2-1-3-7(8)9/h1-6H,Copy,O=C1C=CC(=O)c2ccccc21,9.5,,C1=CC=C2C(=O)C=CC(=O)C2=C1,,,
+368,Ethyl ether,"InChI=1S/C4H10O/c1-3-5-4-2/h3-4H2,1-2H3",Copy,CCOCC,9.51,,CCOCC,,,
+369,"Propanal, 2,2-dimethyl-","InChI=1S/C5H10O/c1-5(2,3)4-6/h4H,1-3H3",Copy,CC(C)(C)C=O,9.51,,CC(C)(C)C=O,,,
+370,"1-Butene, 3-methyl-","InChI=1S/C5H10/c1-4-5(2)3/h4-5H,1H2,2-3H3",Copy,C=CC(C)C,9.52,,CC(C)C=C,,,
+371,2-Butanone,"InChI=1S/C4H8O/c1-3-4(2)5/h3H2,1-2H3",Copy,CCC(C)=O,9.52,,CCC(=O)C,,,
+372,"Methane, iodo-",InChI=1S/CH3I/c1-2/h1H3,Copy,CI,9.54,,CI,,,
+373,1-Butene,"InChI=1S/C4H8/c1-3-4-2/h3H,1,4H2,2H3",Copy,C=CCC,9.55,,CCC=C,,,
+374,"Benzene, 1,2,3,5-tetrafluoro-",InChI=1S/C6H2F4/c7-3-1-4(8)6(10)5(9)2-3/h1-2H,Copy,Fc1cc(F)c(F)c(F)c1,9.55,,C1=C(C=C(C(=C1F)F)F)F,,,
+375,"Benzene, 1,2,3,4-tetrafluoro-",InChI=1S/C6H2F4/c7-3-1-2-4(8)6(10)5(3)9/h1-2H,Copy,Fc1ccc(F)c(F)c1F,9.57,,C1=CC(=C(C(=C1F)F)F)F,,,
+376,2-Butyne,InChI=1S/C4H6/c1-3-4-2/h1-2H3,Copy,CC#CC,9.58,,CC#CC,,,
+377,1-Buten-3-yne,"InChI=1S/C4H4/c1-3-4-2/h1,4H,2H2",Copy,C#CC=C,9.58,,C=CC#C,,,
+378,Ketene,InChI=1S/C2H2O/c1-2-3/h1H2,Copy,C=C=O,9.617,,C=C=O,,,
+379,"Benzene, bromopentafluoro-",InChI=1S/C6BrF5/c7-1-2(8)4(10)6(12)5(11)3(1)9,Copy,Fc1c(F)c(F)c(Br)c(F)c1F,9.62,,C1(=C(C(=C(C(=C1F)F)Br)F)F)F,,,
+380,"Cyclohexane, methyl-","InChI=1S/C7H14/c1-7-5-3-2-4-6-7/h7H,2-6H2,1H3",Copy,CC1CCCCC1,9.64,,CC1CCCCC1,,,
+381,"Ethylene, 1,2-dichloro-, (E)-",InChI=1S/C2H2Cl2/c3-1-2-4/h1-2H/b2-1+,Copy,Cl/C=C/Cl,9.64,,C(=C/Cl)\Cl,,,
+382,Trimethylene oxide,InChI=1S/C3H6O/c1-2-4-3-1/h1-3H2,Copy,C1COC1,9.65,,C1COC1,,,
+383,Methyl vinyl ketone,"InChI=1S/C4H6O/c1-3-4(2)5/h3H,1H2,2H3",Copy,C=CC(C)=O,9.65,,CC(=O)C=C,,,
+384,"Ethene, 1,1-dichloro-2,2-difluoro-",InChI=1S/C2Cl2F2/c3-1(4)2(5)6,Copy,FC(F)=C(Cl)Cl,9.65,,C(=C(Cl)Cl)(F)F,,,
+385,"Ethylene, 1,2-dichloro-, (Z)-",InChI=1S/C2H2Cl2/c3-1-2-4/h1-2H/b2-1-,Copy,Cl/C=C\Cl,9.66,,C(=C\Cl)\Cl,,,
+386,2-Propen-1-ol,"InChI=1S/C3H6O/c1-2-3-4/h2,4H,1,3H2",Copy,C=CCO,9.67,,C=CCO,,,
+387,Cyclopropene,"InChI=1S/C3H4/c1-2-3-1/h1-2H,3H2",Copy,C1=CC1,9.67,,C1C=C1,,,
+388,"Benzene, (trifluoromethyl)-","InChI=1S/C7H5F3/c8-7(9,10)6-4-2-1-3-5-6/h1-5H",Copy,FC(F)(F)c1ccccc1,9.685,,C1=CC=C(C=C1)C(F)(F)F,,,
+389,Acetamide,"InChI=1S/C2H5NO/c1-2(3)4/h1H3,(H2,3,4)",Copy,CC(=N)O,9.69,,CC(=O)N,,,
+390,Allene,InChI=1S/C3H4/c1-3-2/h1-2H2,Copy,C=C=C,9.692,,C=C=C,,,
+391,"Cyclopentane, methyl-","InChI=1S/C6H12/c1-6-4-2-3-5-6/h6H,2-5H2,1H3",Copy,CC1CCCC1,9.7,,CC1CCCC1,,,
+392,Acetone,InChI=1S/C3H6O/c1-3(2)4/h1-2H3,Copy,CC(C)=O,9.703,,CC(=O)C,,,
+393,Nonane,"InChI=1S/C9H20/c1-3-5-7-9-8-6-4-2/h3-9H2,1-2H3",Copy,CCCCCCCCC,9.71,,CCCCCCCCC,,,
+394,"Propanal, 2-methyl-","InChI=1S/C4H8O/c1-4(2)3-5/h3-4H,1-2H3",Copy,CC(C)C=O,9.71,,CC(C)C=O,,,
+395,"Benzene, chloropentafluoro-",InChI=1S/C6ClF5/c7-1-2(8)4(10)6(12)5(11)3(1)9,Copy,Fc1c(F)c(F)c(Cl)c(F)c1F,9.72,,C1(=C(C(=C(C(=C1F)F)Cl)F)F)F,,,
+396,"Ethane, methoxy-","InChI=1S/C3H8O/c1-3-4-2/h3H2,1-2H3",Copy,CCOC,9.72,,CCOC,,,
+397,Hexanal,"InChI=1S/C6H12O/c1-2-3-4-5-6-7/h6H,2-5H2,1H3",Copy,CCCCCC=O,9.72,,CCCCCC=O,,,
+398,Benzonitrile,InChI=1S/C7H5N/c8-6-7-4-2-1-3-5-7/h1-5H,Copy,N#Cc1ccccc1,9.73,,C1=CC=C(C=C1)C#N,,,
+399,Propene,"InChI=1S/C3H6/c1-3-2/h3H,1H2,2H3",Copy,C=CC,9.73,,CC=C,,,
+400,Pentanal,"InChI=1S/C5H10O/c1-2-3-4-5-6/h5H,2-4H2,1H3",Copy,CCCCC=O,9.74,,CCCCC=O,,,
+401,Cyclooctane,InChI=1S/C8H16/c1-2-4-6-8-7-5-3-1/h1-8H2,Copy,C1CCCCCCC1,9.75,,C1CCCCCCC1,,,
+402,3-Pentanol,"InChI=1S/C5H12O/c1-3-5(6)4-2/h5-6H,3-4H2,1-2H3",Copy,CCC(O)CC,9.76,,CCC(CC)O,,,
+403,Norbornane,"InChI=1S/C7H12/c1-2-7-4-3-6(1)5-7/h6-7H,1-5H2",Copy,C1CC2CCC1C2,9.77,,C1CC2CCC1C2,,,
+404,2-Pentanol,"InChI=1S/C5H12O/c1-3-4-5(2)6/h5-6H,3-4H2,1-2H3",Copy,CCCC(C)O,9.78,,CCCC(C)O,,,
+405,Octane,"InChI=1S/C8H18/c1-3-5-7-8-6-4-2/h3-8H2,1-2H3",Copy,CCCCCCCC,9.8,,CCCCCCCC,,,
+406,Cyclobutane,InChI=1S/C4H8/c1-2-4-3-1/h1-4H2,Copy,C1CCC1,9.8,,C1CCC1,,,
+407,"Ethene, 2-chloro-1,1-difluoro-",InChI=1S/C2HClF2/c3-1-2(4)5/h1H,Copy,FC(F)=CCl,9.8,,C(=C(F)F)Cl,,,
+408,"Silane, tetramethyl-","InChI=1S/C4H12Si/c1-5(2,3)4/h1-4H3",Copy,C[Si](C)(C)C,9.8,,C[Si](C)(C)C,,,
+409,Methyl azide,InChI=1S/CH3N3/c1-3-4-2/h1H3,Copy,CN=[N+]=[N-],9.81,,CN=[N+]=[N-],,,
+410,"Ethene, 1,1-dichloro-",InChI=1S/C2H2Cl2/c1-2(3)4/h1H2,Copy,C=C(Cl)Cl,9.81,,C=C(Cl)Cl,,,
+411,"Ethene, chlorotrifluoro-",InChI=1S/C2ClF3/c3-1(4)2(5)6,Copy,FC(F)=C(F)Cl,9.81,,C(=C(F)Cl)(F)F,,,
+412,Butanal,"InChI=1S/C4H8O/c1-2-3-4-5/h4H,2-3H2,1H3",Copy,CCCC=O,9.82,,CCCC=O,,,
+413,Vinyl bromide,"InChI=1S/C2H3Br/c1-2-3/h2H,1H2",Copy,C=CBr,9.82,,C=CBr,,,
+414,"Formamide, N-methyl-","InChI=1S/C2H5NO/c1-3-2-4/h2H,1H3,(H,3,4)",Copy,CN=CO,9.83,,CNC=O,,,
+415,Methyl radical,InChI=1S/CH3/h1H3,Copy,[CH3],9.84,,[CH3],,,
+416,"Heptane, 2-methyl-","InChI=1S/C8H18/c1-4-5-6-7-8(2)3/h8H,4-7H2,1-3H3",Copy,CCCCCC(C)C,9.84,,CCCCCC(C)C,,,
+417,Cyclopropane,InChI=1S/C3H6/c1-2-3-1/h1-3H2,Copy,C1CC1,9.86,,C1CC1,,,
+418,"Cyclohexane, bromo-","InChI=1S/C6H11Br/c7-6-4-2-1-3-5-6/h6H,1-5H2",Copy,BrC1CCCCC1,9.87,,C1CCC(CC1)Br,,,
+419,Cyclohexane,InChI=1S/C6H12/c1-2-4-6-5-3-1/h1-6H2,Copy,C1CCCCC1,9.88,,C1CCCCC1,,,
+420,2-Butanol,"InChI=1S/C4H10O/c1-3-4(2)5/h4-5H,3H2,1-2H3",Copy,CCC(C)O,9.88,,CCC(C)O,,,
+421,"Pentane, 2,2,4-trimethyl-","InChI=1S/C8H18/c1-7(2)6-8(3,4)5/h7H,6H2,1-5H3",Copy,CC(C)CC(C)(C)C,9.89,,CC(C)CC(C)(C)C,,,
+422,"2-Butenoic acid, (E)-","InChI=1S/C4H6O2/c1-2-3-4(5)6/h2-3H,1H3,(H,5,6)/b3-2+",Copy,C/C=C/C(=O)O,9.9,,C/C=C/C(=O)O,,,
+423,Cycloheptane,InChI=1S/C7H14/c1-2-4-6-7-5-3-1/h1-7H2,Copy,C1CCCCCC1,9.9,,C1CCCCCC1,,,
+424,"Benzene, hexafluoro-",InChI=1S/C6F6/c7-1-2(8)4(10)6(12)5(11)3(1)9,Copy,Fc1c(F)c(F)c(F)c(F)c1F,9.9,,C1(=C(C(=C(C(=C1F)F)F)F)F)F,,,
+425,"2-Propanol, 2-methyl-","InChI=1S/C4H10O/c1-4(2,3)5/h5H,1-3H3",Copy,CC(C)(C)O,9.9,,CC(C)(C)O,,,
+426,"Propane, 2-bromo-2-methyl-","InChI=1S/C4H9Br/c1-4(2,3)5/h1-3H3",Copy,CC(C)(C)Br,9.92,,CC(C)(C)Br,,,
+427,"2-Propanone, 1-chloro-","InChI=1S/C3H5ClO/c1-3(5)2-4/h2H2,1H3",Copy,CC(=O)CCl,9.92,,CC(=O)CCl,,,
+428,Heptane,"InChI=1S/C7H16/c1-3-5-7-6-4-2/h3-7H2,1-2H3",Copy,CCCCCCC,9.93,,CCCCCCC,,,
+429,"Benzene, nitro-",InChI=1S/C6H5NO2/c8-7(9)6-4-2-1-3-5-6/h1-5H,Copy,O=[N+]([O-])c1ccccc1,9.94,,C1=CC=C(C=C1)[N+](=O)[O-],,,
+430,Propanal,"InChI=1S/C3H6O/c1-2-3-4/h3H,2H2,1H3",Copy,CCC=O,,0.000999,,,,
+431,p-Benzoquinone,InChI=1S/C6H4O2/c7-5-1-2-6(8)4-3-5/h1-4H,Copy,O=C1C=CC(=O)C=C1,,1.85,,,,
+432,Fluoromethylene,InChI=1S/CHF/c1-2/h1H,Copy,[CH-]=[F+],,0.542,,,,
+433,Carbon disulfide,InChI=1S/CS2/c2-1-3,Copy,S=C=S,,0.5525,,,,
+434,"Methane, trifluoroiodo-","InChI=1S/CF3I/c2-1(3,4)5",Copy,FC(F)(F)I,,1.57,,,,
+435,Methylene,InChI=1S/CH2/h1H2,Copy,[CH2],,0.652,,,,
+436,Methylidyne,InChI=1S/CH/h1H,Copy,[CH],,1.26,,,,
+437,"Methane, nitro-",InChI=1S/CH3NO2/c1-2(3)4/h1H3,Copy,C[N+](=O)[O-],,0.172,,,,
+438,Carbonyl sulfide,InChI=1S/COS/c2-1-3,Copy,O=C=S,,0.46,,,,
+439,Carbon monosulfide,InChI=1S/CS/c1-2,Copy,[C-]#[S+],,0.205,,,,
+440,Trichloromethane,InChI=1S/CHCl3/c2-1(3)4/h1H,Copy,ClC(Cl)Cl,,0.62,,,,
+441,Dicarbon,InChI=1S/C2/c1-2,Copy,[C+]#[C-],,3.273,,,,
+442,Bromotrifluoromethane,"InChI=1S/CBrF3/c2-1(3,4)5",Copy,FC(F)(F)Br,,0.91,,,,
+443,"Methylene, difluoro-",InChI=1S/CF2/c2-1-3,Copy,F[C-]=[F+],,0.18,,,,
+444,Carbon Tetrachloride,"InChI=1S/CCl4/c2-1(3,4)5",Copy,ClC(Cl)(Cl)Cl,,0.8,,,,
+445,Ethynyl radical,InChI=1S/C2H/c1-2/h1H,Copy,[C]#C,,2.9689,,,,
+446,Propiolonitrile,InChI=1S/C3HN/c1-2-3-4/h1H,Copy,C#CC#N,,1.04,,,,
+447,Isocyanato radical,InChI=1S/CNO/c2-1-3,Copy,N#C[O],,3.609,,,,
+448,Propanenitrile,"InChI=1S/C3H5N/c1-2-3-4/h2H2,1H3",Copy,CCC#N,,0.015092,,,,
+449,Dichlorodifluoromethane,"InChI=1S/CCl2F2/c2-1(3,4)5",Copy,FC(F)(Cl)Cl,,0.4,,,,
+450,Pentacene,InChI=1S/C22H14/c1-2-6-16-10-20-14-22-12-18-8-4-3-7-17(18)11-21(22)13-19(20)9-15(16)5-1/h1-14H,Copy,c1ccc2cc3cc4cc5ccccc5cc4cc3cc2c1,,1.392,,,,
+451,Benz[a]anthracene,InChI=1S/C18H12/c1-2-7-15-12-18-16(11-14(15)6-1)10-9-13-5-3-4-8-17(13)18/h1-12H,Copy,c1ccc2cc3c(ccc4ccccc43)cc2c1,,0.39,,,,
+452,"Bicyclo[4.2.0]octa-1,3,5,7-tetraene",InChI=1S/C8H6/c1-2-4-8-6-5-7(8)3-1/h1-6H,Copy,C1=Cc2ccccc21,,0.321,,,,
+453,Picene,InChI=1S/C22H14/c1-3-7-17-15(5-1)9-11-21-19(17)13-14-20-18-8-4-2-6-16(18)10-12-22(20)21/h1-14H,Copy,c1ccc2c(c1)ccc1c2ccc2c3ccccc3ccc21,,0.542,,,,
+454,Biphenylene,InChI=1S/C12H8/c1-2-6-10-9(5-1)11-7-3-4-8-12(10)11/h1-8H,Copy,c1ccc2c(c1)-c1ccccc1-2,,0.89,,,,
+455,Chrysene,InChI=1S/C18H12/c1-3-7-15-13(5-1)9-11-18-16-8-4-2-6-14(16)10-12-17(15)18/h1-12H,Copy,c1ccc2c(c1)ccc1c3ccccc3ccc21,,0.32,,,,
+456,(E)-Stilbene,InChI=1S/C14H12/c1-3-7-13(8-4-1)11-12-14-9-5-2-6-10-14/h1-12H/b12-11+,Copy,C(=C/c1ccccc1)\c1ccccc1,,0.39,,,,
+457,Indole,"InChI=1S/C8H7N/c1-2-4-8-7(3-1)5-6-9-8/h1-6,9H",Copy,c1ccc2[nH]ccc2c1,,0.00351,,,,
+458,Triphenylene,InChI=1S/C18H12/c1-2-8-14-13(7-1)15-9-3-4-11-17(15)18-12-6-5-10-16(14)18/h1-12H,Copy,c1ccc2c(c1)c1ccccc1c1ccccc21,,0.285,,,,
+459,Phenanthrene,InChI=1S/C14H10/c1-3-7-13-11(5-1)9-10-12-6-2-4-8-14(12)13/h1-10H,Copy,c1ccc2c(c1)ccc1ccccc12,,-0.01,,,,
+460,Perylene,InChI=1S/C20H12/c1-5-13-6-2-11-17-18-12-4-8-14-7-3-10-16(20(14)18)15(9-1)19(13)17/h1-12H,Copy,c1cc2cccc3c4cccc5cccc(c(c1)c23)c54,,0.973,,,,
+461,Naphthacene,InChI=1S/C18H12/c1-2-6-14-10-18-12-16-8-4-3-7-15(16)11-17(18)9-13(14)5-1/h1-12H,Copy,c1ccc2cc3cc4ccccc4cc3cc2c1,,1.058,,,,
+462,Benzo[a]pyrene,InChI=1S/C20H12/c1-2-7-17-15(4-1)12-16-9-8-13-5-3-6-14-10-11-18(17)20(16)19(13)14/h1-12H,Copy,c1ccc2c(c1)cc1ccc3cccc4ccc2c1c34,,0.815,,,,
+463,Benzo[ghi]perylene,InChI=1S/C22H12/c1-3-13-7-9-15-11-12-16-10-8-14-4-2-6-18-17(5-1)19(13)21(15)22(16)20(14)18/h1-12H,Copy,c1cc2ccc3ccc4ccc5cccc6c(c1)c2c3c4c56,,0.42,,,,
+464,Benzyl radical,"InChI=1S/C7H7/c1-7-5-3-2-4-6-7/h2-6H,1H2",Copy,C=C1[CH]C=CC=C1,,0.912,,,,
+465,2-Butyl radical,"InChI=1S/C4H9/c1-3-4-2/h3H,4H2,1-2H3",Copy,C[CH]CC,,-0.129,,,,
+466,Coronene,InChI=1S/C24H12/c1-2-14-5-6-16-9-11-18-12-10-17-8-7-15-4-3-13(1)19-20(14)22(16)24(18)23(17)21(15)19/h1-12H,Copy,c1cc2ccc3ccc4ccc5ccc6ccc1c1c2c3c4c5c61,,0.47,,,,
+467,"Dibenz[a,h]anthracene",InChI=1S/C22H14/c1-3-7-19-15(5-1)9-11-17-14-22-18(13-21(17)19)12-10-16-6-2-4-8-20(16)22/h1-14H,Copy,c1ccc2c(c1)ccc1cc3c(ccc4ccccc43)cc12,,0.595,,,,
+468,Azulene,InChI=1S/C10H8/c1-2-5-9-7-4-8-10(9)6-3-1/h1-8H,Copy,c1ccc2cccc-2cc1,,0.79,,,,
+469,Pyrene,InChI=1S/C16H10/c1-3-11-7-9-13-5-2-6-14-10-8-12(4-1)15(11)16(13)14/h1-10H,Copy,c1cc2ccc3cccc4ccc(c1)c2c34,,0.406,,,,
+470,Anthracene,InChI=1S/C14H10/c1-2-6-12-10-14-8-4-3-7-13(14)9-11(12)5-1/h1-10H,Copy,c1ccc2cc3ccccc3cc2c1,,0.53,,,,
+471,"1,3,5,7-Cyclooctatetraene","InChI=1S/C8H8/c1-2-4-6-8-7-5-3-1/h1-8H/b2-1-,3-1-,4-2-,5-3-,6-4-,7-5-,8-6-,8-7-",Copy,C1=C/C=C\C=C/C=C1,,0.57,,,,
+472,Trichloromethyl radical,InChI=1S/CCl3/c2-1(3)4,Copy,Cl[C](Cl)Cl,,2.16,,,,
+473,Formyl radical,InChI=1S/CHO/c1-2/h1H,Copy,[CH]=O,,0.313,,,,
+474,p-Xylene,"InChI=1S/C8H10/c1-7-3-5-8(2)6-4-7/h3-6H,1-2H3",Copy,Cc1ccc(C)cc1,,0.001519,,,,
+475,"Benzene, pentachloro-",InChI=1S/C6HCl5/c7-2-1-3(8)5(10)6(11)4(2)9/h1H,Copy,Clc1cc(Cl)c(Cl)c(Cl)c1Cl,,0.729,,,,
+476,"Benzene, hexachloro-",InChI=1S/C6Cl6/c7-1-2(8)4(10)6(12)5(11)3(1)9,Copy,Clc1c(Cl)c(Cl)c(Cl)c(Cl)c1Cl,,0.92,,,,
+477,Quinoxaline,InChI=1S/C8H6N2/c1-2-4-8-7(3-1)9-5-6-10-8/h1-6H,Copy,c1ccc2nccnc2c1,,0.71,,,,
+478,Quinazoline,InChI=1S/C8H6N2/c1-2-4-8-7(3-1)5-9-6-10-8/h1-6H,Copy,c1ccc2ncncc2c1,,0.58,,,,
+479,Benzophenone,InChI=1S/C13H10O/c14-13(11-7-3-1-4-8-11)12-9-5-2-6-10-12/h1-10H,Copy,O=C(c1ccccc1)c1ccccc1,,0.62,,,,
+480,"9,10-Anthracenedione",InChI=1S/C14H8O2/c15-13-9-5-1-2-6-10(9)14(16)12-8-4-3-7-11(12)13/h1-8H,Copy,O=C1c2ccccc2C(=O)c2ccccc21,,1.591,,,,
+481,Acetophenone,"InChI=1S/C8H8O/c1-7(9)8-5-3-2-4-6-8/h2-6H,1H3",Copy,CC(=O)c1ccccc1,,0.3339,,,,
+482,Tetrachloroethylene,InChI=1S/C2Cl4/c3-1(4)2(5)6,Copy,ClC(Cl)=C(Cl)Cl,,0.64,,,,
+483,"Benzene, 1-methyl-3-nitro-","InChI=1S/C7H7NO2/c1-6-3-2-4-7(5-6)8(9)10/h2-5H,1H3",Copy,Cc1cccc([N+](=O)[O-])c1,,0.99,,,,
+484,Trichloroethylene,InChI=1S/C2HCl3/c3-1-2(4)5/h1H,Copy,ClC=C(Cl)Cl,,0.4,,,,
+485,"Benzene, 1-methyl-4-nitro-","InChI=1S/C7H7NO2/c1-6-2-4-7(5-3-6)8(9)10/h2-5H,1H3",Copy,Cc1ccc([N+](=O)[O-])cc1,,0.95,,,,
+486,Benzaldehyde,InChI=1S/C7H6O/c8-6-7-4-2-1-3-5-7/h1-6H,Copy,O=Cc1ccccc1,,0.4293,,,,
+487,"1,4-Naphthalenedione",InChI=1S/C10H6O2/c11-9-5-6-10(12)8-4-2-1-3-7(8)9/h1-6H,Copy,O=C1C=CC(=O)c2ccccc21,,1.81,,,,
+488,"Methane, iodo-",InChI=1S/CH3I/c1-2/h1H3,Copy,CI,,0.11,,,,
+489,"Benzene, bromopentafluoro-",InChI=1S/C6BrF5/c7-1-2(8)4(10)6(12)5(11)3(1)9,Copy,Fc1c(F)c(F)c(Br)c(F)c1F,,1.15,,,,
+490,"Benzene, chloropentafluoro-",InChI=1S/C6ClF5/c7-1-2(8)4(10)6(12)5(11)3(1)9,Copy,Fc1c(F)c(F)c(Cl)c(F)c1F,,0.75,,,,
+491,Benzonitrile,InChI=1S/C7H5N/c8-6-7-4-2-1-3-5-7/h1-5H,Copy,N#Cc1ccccc1,,0.26,,,,
+492,Methyl radical,InChI=1S/CH3/h1H3,Copy,[CH3],,0.08,,,,
+493,"Benzene, hexafluoro-",InChI=1S/C6F6/c7-1-2(8)4(10)6(12)5(11)3(1)9,Copy,Fc1c(F)c(F)c(F)c(F)c1F,,0.53,,,,
+494,"Benzene, nitro-",InChI=1S/C6H5NO2/c8-7(9)6-4-2-1-3-5-6/h1-5H,Copy,O=[N+]([O-])c1ccccc1,,1.0,,,,
+495,Toluene,,,CC1=CC=CC=C1,,,,1.98,oxidation,ACN
+496,m-Xylene,,,CC1=CC(=CC=C1)C,,,,1.8400000000000003,oxidation,ACN
+497,Mesitylene,,,CC1=CC(=CC(=C1)C)C,,,,1.69,oxidation,ACN
+498,Naphthalene,,,C1=CC=C2C=CC=CC2=C1,,,,1.2599999999999998,oxidation,ACN
+499,Phenylacetylene,,,C#CC1=CC=CC=C1,,,,1.89,oxidation,ACN
+500,Diphenylacetylene,,,C1=CC=C(C=C1)C#CC2=CC=CC=C2,,,,1.46,oxidation,ACN
+501,1-ethynyl-4-methoxybenzene,,,COC1=CC=C(C=C1)C#C,,,,1.27,oxidation,ACN
+502,2-Methyl-1-pentene,,,CCCC(=C)C,,,,2.12,oxidation,ACN
+503,Cyclohexene,,,C1CCC=CC1,,,,1.99,oxidation,ACN
+504,Cyclopentene,,,C1CC=CC1,,,,1.94,oxidation,ACN
+505,Norbornene,,,C1CC2CC1C=C2,,,,1.8400000000000003,oxidation,ACN
+506,3-Methyl-2-buten-1-ol,,,CC(=CCO)C,,,,1.7200000000000002,oxidation,ACN
+507,2-Methyl-2-butene,,,CC=C(C)C,,,,1.6,oxidation,ACN
+508,Styrene,,,C=CC1=CC=CC=C1,,,,1.59,oxidation,ACN
+509,2-Chloro-trans-β-methylstyrene,,,C=CC1=CC=CC=C1,,,,1.56,oxidation,ACN
+510,1-Methylcyclohexene,,,CC1=CCCCC1,,,,1.56,oxidation,ACN
+511,beta-Methylstyrene,,,C/C=C/C1=CC=CC=C1,,,,1.5299999999999998,oxidation,ACN
+512,(E)-Methyl 4-(prop-1-en-1-yl)benzoate,,,C/C=C/C1=CC=C(C=C1)C(=O)OC,,,,1.56,oxidation,ACN
+513,Indene,,,C1C=CC2=CC=CC=C21,,,,1.2799999999999998,oxidation,ACN
+514,1-Phenylcyclohexene,,,C1CCC(=CC1)C2=CC=CC=C2,,,,1.2599999999999998,oxidation,ACN
+515,trans-Anethole,,,C/C=C/C1=CC=C(C=C1)OC,,,,0.86,oxidation,ACN
+516,4-Cyanophenol,,,C1=CC(=CC=C1C#N)O,,,,1.7000000000000002,oxidation,ACN
+517,Isosafrole,,,C/C=C/C1=CC2=C(C=C1)OCO2,,,,0.7699999999999999,oxidation,ACN
+518,4-Bromophenol,,,C1=CC(=CC=C1O)Br,,,,1.31,oxidation,ACN
+519,Phenol,,,C1=CC=C(C=C1)O,,,,1.25,oxidation,ACN
+520,Guaiacol,,,COC1=CC=CC=C1O,,,,1.0299999999999998,oxidation,ACN
+521,2-Naphthol,,,C1=CC=C2C=C(C=CC2=C1)O,,,,1.02,oxidation,ACN
+522,4-Methoxyphenol,,,COC1=CC=C(C=C1)O,,,,0.7899999999999999,oxidation,ACN
+523,Hydroquinone,,,C1=CC(=CC=C1O)O,,,,0.7599999999999999,oxidation,ACN
+524,Diphenyl ether,,,C1=CC=C(C=C1)OC2=CC=CC=C2,,,,1.5,oxidation,ACN
+525,Anisole,,,COC1=CC=CC=C1,,,,1.4300000000000002,oxidation,ACN
+526,m-Dimethoxybenzene,,,COC1=CC(=CC=C1)OC,,,,1.12,oxidation,ACN
+527,o-Dimethoxybenzene,,,COC1=CC=CC=C1OC,,,,1.0499999999999998,oxidation,ACN
+528,2-Methoxynaphthalene,,,COC1=CC2=CC=CC=C2C=C1,,,,0.94,oxidation,ACN
+529,p-Dimethoxybenzene,,,COC1=CC=C(C=C1)OC,,,,0.92,oxidation,ACN
+530,Diisopropylamine,,,CC(C)NC(C)C,,,,0.7100000000000001,oxidation,ACN
+531,Aniline,,,C1=CC=C(C=C1)N,,,,0.57,oxidation,ACN
+532,Piperidine,,,C1CCNCC1,,,,0.5599999999999999,oxidation,ACN
+533,Diphenylamine,,,C1=CC=C(C=C1)NC2=CC=CC=C2,,,,0.54,oxidation,ACN
+534,Pyrrolidine,,,C1CCNC1,,,,0.51,oxidation,ACN
+535,N-Phenylmorpholine,,,C1COCCN1C2=CC=CC=C2,,,,0.5,oxidation,ACN
+536,m-Anisidine,,,COC1=CC=CC(=C1)N,,,,0.48,oxidation,ACN
+537,p-Toluidine,,,CC1=CC=C(C=C1)N,,,,0.43,oxidation,ACN
+538,Triethylamine,,,CCN(CC)CC,,,,0.4499999999999999,oxidation,ACN
+539,1-Morpholinocyclohexene,,,C1CCC(=CC1)N2CCOCC2,,,,0.16,oxidation,ACN
+540,o-Phenylenediamine,,,C1=CC=C(C(=C1)N)N,,,,0.0999999999999999,oxidation,ACN
+541,1-Cyclohex-1-enylpyrrolidine,,,C1CCC(=CC1)N2CCCC2,,,,-0.06,reduction,ACN
+542,p-Nitrophenyl disulfide,,,C1=CC(=CC=C1[N+](=O)[O-])SSC2=CC=C(C=C2)[N+](=O)[O-],,,,1.64,oxidation,ACN
+543,Phenyl disulfide,,,C1=CC=C(C=C1)SSC2=CC=CC=C2,,,,1.1800000000000002,oxidation,ACN
+544,Thiphenol,,,C1=CC=C(C=C1)S,,,,1.13,oxidation,ACN
+545,p-Tolyl disulfide,,,CC1=CC=C(C=C1)SSC2=CC=C(C=C2)C,,,,1.08,oxidation,ACN
+546,Thioanisole,,,CSC1=CC=CC=C1,,,,1.06,oxidation,ACN
+547,2-Naphthalenethiol,,,C1=CC=C2C=C(C=CC2=C1)S,,,,0.95,oxidation,ACN
+548,p-Methoxyphenyl disulfide,,,COC1=CC=C(C=C1)SSC2=CC=C(C=C2)OC,,,,0.9,oxidation,ACN
+549,4-Methoxythiophenol,,,COC1=CC=C(C=C1)S,,,,0.7699999999999999,oxidation,ACN
+550,Pyrazole,,,C1=CNN=C1,,,,1.83,oxidation,ACN
+551,Quinoline,,,C1=CC=C2C(=C1)C=CC=N2,,,,1.7600000000000002,oxidation,ACN
+552,Furan,,,C1=COC=C1,,,,1.56,oxidation,ACN
+553,Furfuryl alcohol,,,C1=COC(=C1)CO,,,,1.35,oxidation,ACN
+554,Thianaphthene,,,C1=CC=C2C(=C1)C=CS2,,,,1.2400000000000002,oxidation,ACN
+555,Indole,,,C1=CC=C2C(=C1)C=CN2,,,,0.7799999999999999,oxidation,ACN
+556,Imidazole,,,C1=CN=CN1,,,,0.7699999999999999,oxidation,ACN
+557,2-Mercaptobenzoxazole,,,C1=CC=C2C(=C1)NC(=S)O2,,,,0.6900000000000001,oxidation,ACN
+558,N-Methylpyrrole,,,CN1C=CC=C1,,,,0.66,oxidation,ACN
+559,5-Methoxyindole,,,COC1=CC2=C(C=C1)NC=C2,,,,0.66,oxidation,ACN
+560,2-Mercaptobenzothiazole,,,C1=CC=C2C(=C1)NC(=S)S2,,,,0.65,oxidation,ACN
+561,4-Methoxyindole,,,COC1=CC=CC2=C1C=CN2,,,,0.59,oxidation,ACN
+562,2-Aminothiazole,,,C1=CSC(=N1)N,,,,0.57,oxidation,ACN
+563,6-Methoxyindole,,,COC1=CC2=C(C=C1)C=CN2,,,,0.54,oxidation,ACN
+564,2-Mercaptobenzimidazole,,,C1=CC=C2C(=C1)NC(=S)N2,,,,0.43,oxidation,ACN
+565,Chlorobenzene,,,C1=CC=C(C=C1)Cl,,,,2.23,oxidation,ACN
+566,Bromobenzene,,,C1=CC=C(C=C1)Br,,,,2.12,oxidation,ACN
+567,Iodobenzene,,,C1=CC=C(C=C1)I,,,,1.79,oxidation,ACN
+568,1-Fluoro-4-nitrobenzene,,,C1=CC(=CC=C1[N+](=O)[O-])F,,,,-1.61,reduction,ACN
+569,Diiodomethane,,,C(I)I,,,,-2.2,reduction,ACN
+570,Carbon tetrachloride,,,C(Cl)(Cl)(Cl)Cl,,,,-2.86,reduction,ACN
+571,Dibromomethane,,,C(Br)Br,,,,-2.86,reduction,ACN
+572,Ethyl 2-bromoacetate,,,CCOC(=O)CBr,,,,-1.46,reduction,ACN
+573,Diethyl 2-bromomalonate,,,CCOC(=O)C(C(=O)OCC)Br,,,,-1.0,reduction,ACN
+574,p-Anisaldehyde,,,COC1=CC=C(C=C1)C=O,,,,1.6800000000000002,oxidation,ACN
+575,p-Hydroxybenzaldehyde,,,C1=CC(=CC=C1C=O)O,,,,1.5699999999999998,oxidation,ACN
+576,p-Nitrobenzaldehyde,,,C1=CC(=CC=C1C=O)[N+](=O)[O-],,,,-1.24,reduction,ACN
+577,p-Cyanobenzaldehyde,,,C1=CC(=CC=C1C=O)C#N,,,,-1.7999999999999998,reduction,ACN
+578,p-Trifluoromethylbenzaldehyde,,,C1=CC(=CC=C1C=O)C(F)(F)F,,,,-2.04,reduction,ACN
+579,Biphenyl-4-carboxaldehyde,,,C1=CC=C(C=C1)C2=CC=C(C=C2)C=O,,,,-2.1,reduction,ACN
+580,2-Naphthaldehyde,,,C1=CC=C2C=C(C=CC2=C1)C=O,,,,-2.11,reduction,ACN
+581,p-Chlorobenzaldehyde,,,C1=CC(=CC=C1C=O)Cl,,,,-2.23,reduction,ACN
+582,Benzaldehyde,,,C1=CC=C(C=C1)C=O,,,,-2.31,reduction,ACN
+583,o-Tolualdehyde,,,CC1=CC=CC=C1C=O,,,,-2.32,reduction,ACN
+584,3-Methylbutyraldehyde,,,CC(C)CC=O,,,,-2.62,reduction,ACN
+585,Cyclohexanecarboxaldehyde,,,C1CCC(CC1)C=O,,,,-2.66,reduction,ACN
+586,Benzaldoxime,,,C1=CC=C(C=C1)/C=N\O,,,,1.48,oxidation,ACN
+587,p-Dicyanobenzene,,,C1=CC(=CC=C1C#N)C#N,,,,-2.02,reduction,ACN
+588,o-Dicyanobenzene,,,C1=CC=C(C(=C1)C#N)C#N,,,,-2.08,reduction,ACN
+589,m-Dicyanobenzene,,,C1=CC(=CC(=C1)C#N)C#N,,,,-2.28,reduction,ACN
+590,Benzonitrile,,,C1=CC=C(C=C1)C#N,,,,-2.81,reduction,ACN
+591,Methyl 4-cyanobenzoate,,,COC(=O)C1=CC=C(C=C1)C#N,,,,-2.1,reduction,ACN
+592,Methyl benzoate,,,COC(=O)C1=CC=CC=C1,,,,-2.72,reduction,ACN
+593,Benzoic acid,,,C1=CC=C(C=C1)C(=O)O,,,,-2.67,reduction,ACN
+594,2-Nitrobenzenesulfonyl chloride,,,C1=CC=C(C(=C1)[N+](=O)[O-])S(=O)(=O)Cl,,,,-0.89,reduction,ACN
+595,Benzoyl chloride,,,C1=CC=C(C=C1)C(=O)Cl,,,,-1.58,reduction,ACN
+596,p-Toluenesulfonyl chloride,,,CC1=CC=C(C=C1)S(=O)(=O)Cl,,,,-1.75,reduction,ACN
+597,2-Mesitylenesulfonyl chloride,,,CC1=CC(=C(C(=C1)C)S(=O)(=O)Cl)C,,,,-1.83,reduction,ACN
+598,Trifluoroacetic anhydride,,,C(=O)(C(F)(F)F)OC(=O)C(F)(F)F,,,,-0.5800000000000001,reduction,ACN
+599,Maleic anhydride,,,C1=CC(=O)OC1=O,,,,-1.36,reduction,ACN
+600,Benzoic anhydride,,,C1=CC=C(C=C1)C(=O)OC(=O)C2=CC=CC=C2,,,,-1.39,reduction,ACN
+601,Phthalic anhydride,,,C1=CC=C2C(=C1)C(=O)OC2=O,,,,-1.7200000000000002,reduction,ACN
+602,Cyclohexyl methyl ketone,,,CC(=O)C1CCCCC1,,,,2.28,oxidation,ACN
+603,4'-Nitroacetophenone,,,CC(=O)C1=CC=C(C=C1)[N+](=O)[O-],,,,-1.31,reduction,ACN
+604,4'-Trifluoromethylacetophenone,,,CC(=O)C1=CC=C(C=C1)C(F)(F)F,,,,-2.12,reduction,ACN
+605,4'-Iodoacetophenone,,,CC(=O)C1=CC=C(C=C1)I,,,,-2.23,reduction,ACN
+606,4'-Bromoacetophenone,,,CC(=O)C1=CC=C(C=C1)Br,,,,-2.27,reduction,ACN
+607,4'-Chloroacetophenone,,,CC(=O)C1=CC=C(C=C1)Cl,,,,-2.29,reduction,ACN
+608,4-Acetylbiphenyl,,,CC(=O)C1=CC=C(C=C1)C2=CC=CC=C2,,,,-2.29,reduction,ACN
+609,Acetophenone,,,CC(=O)C1=CC=CC=C1,,,,-2.49,reduction,ACN
+610,4'-Fluoroacetophenone,,,CC(=O)C1=CC=C(C=C1)F,,,,-2.51,reduction,ACN
+611,4'-Methylacetophenone,,,CC1=CC=C(C=C1)C(=O)C,,,,-2.54,reduction,ACN
+612,Cyclohexanone,,,C1CCC(=O)CC1,,,,-2.71,reduction,ACN
+613,Triphenylsilane,,,C1=CC=C(C=C1)[Si](C2=CC=CC=C2)C3=CC=CC=C3,,,,2.04,oxidation,ACN
+614,Chlorotriphenylsilane,,,C1=CC=C(C=C1)[Si](C2=CC=CC=C2)(C3=CC=CC=C3)Cl,,,,2.03,oxidation,ACN
+615,Nitrobenzene,,,C1=CC=C(C=C1)[N+](=O)[O-],,,,-1.5699999999999998,reduction,ACN
+616,N-Chlorosuccinimide,,,C1CC(=O)N(C1=O)Cl,,,,-0.65,reduction,ACN
+617,"2,4-Dimethyl-1,3-pentadiene",,,CC(=CC(=C)C)C,,,,1.6,oxidation,ACN
+618,(E)-1-Chloro-3-(prop-1-en-1-yl)benzene,,,C/C=C/C1=CC(=CC=C1)Cl,,,,1.5099999999999998,oxidation,ACN
+619,(E)-1-Bromo-3-(prop-1-en-1-yl)benzene,,,C/C=C/C1=CC(=CC=C1)Br,,,,1.54,oxidation,ACN
+620,1-Methylcyclopentene,,,CC1=CCCC1,,,,1.37,oxidation,ACN
+621,1-bromo-4-[(E)-prop-1-enyl]benzene,,,C/C=C/C1=CC=C(C=C1)Br,,,,1.37,oxidation,ACN
+622,1-methyl-3-prop-1-enylbenzene,,,CC=CC1=CC=CC(=C1)C,,,,1.35,oxidation,ACN
+623,1-Chloro-4-(prop-1-en-1-yl)benzene,,,CC=CC1=CC=C(C=C1)Cl,,,,1.35,oxidation,ACN
+624,1-methyl-2-[(E)-prop-1-enyl]benzene,,,C/C=C/C1=CC=CC=C1C,,,,1.3199999999999998,oxidation,ACN
+625,1-tert-butyl-4-(prop-1-en-1-yl)benzene,,,CC=CC1=CC=C(C=C1)C(C)(C)C,,,,1.27,oxidation,ACN
+626,"1,2-bis(prop-1-enyl)benzene",,,CC=CC1=CC=CC=C1C=CC,,,,1.2599999999999998,oxidation,ACN
+627,(E)-1-Methoxy-3-(prop-1-en-1-yl)benzene,,,C/C=C/C1=CC(=CC=C1)OC,,,,1.2200000000000002,oxidation,ACN
+628,"1,1-Diphenylethylene",,,C=C(C1=CC=CC=C1)C2=CC=CC=C2,,,,1.16,oxidation,ACN
+629,"1,4-Dipropylbenzene",,,CCCC1=CC=C(C=C1)CCC,,,,1.0499999999999998,oxidation,ACN
+630,"3,4-Dimethoxystyrene",,,COC1=C(C=C(C=C1)C=C)OC,,,,0.7699999999999999,oxidation,ACN
+631,"1,4-Dioxane",,,C1COCCO1,,,,2.12,oxidation,ACN
+632,"3,4-Dihydro-2H-pyran",,,C1CC=COC1,,,,1.13,oxidation,ACN
+633,"1,8-Diazabicyclo[5.4.0]undec-7-ene",,,C1CCC2=NCCCN2CC1,,,,0.9,oxidation,ACN
+634,"N,N-Dimethylaniline",,,CN(C)C1=CC=CC=C1,,,,0.36,oxidation,ACN
+635,"2,6-Dimethylthiophenol",,,CC1=C(C(=CC=C1)C)S,,,,1.06,oxidation,ACN
+636,"1,4-Benzenedithiol",,,C1=CC(=CC=C1S)S,,,,0.7799999999999999,oxidation,ACN
+637,"2,3-Benzofuran",,,C1=CC=C2C(=C1)C=CO2,,,,1.36,oxidation,ACN
+638,"N,N-Dimethylformamide",,,CN(C)C=O,,,,1.88,oxidation,ACN
+639,"1,3-Dimethyl-3,4,5,6-tetrahydro-2(1H)-pyrimidone",,,CN1CCCN(C1=O)C,,,,1.17,oxidation,ACN
+640,"1,2-xylene",,,Cc1ccccc1C,,,,1.8400000000000003,oxidation,ACN
+641,"4-ethenyl-1,2-dimethylbenzene",,,C=Cc1ccc(C)c(C)c1,,,,0.7699999999999999,oxidation,ACN
+642,"1,4-bis(prop-1-enyl)benzene",,,CC=Cc1ccc(C=CC)cc1,,,,1.0499999999999998,oxidation,ACN
+643,"cyclohexa-1,3-diene",,,C1=CCCC=C1,,,,1.16,oxidation,ACN
+644,"1,3-bis(prop-1-enyl)benzene",,,CC=Cc1cccc(C=CC)c1,,,,1.2799999999999998,oxidation,ACN
+645,prop-1-en-2-ylbenzene,,,C=C(C)c1ccccc1,,,,1.5299999999999998,oxidation,ACN
+646,bicyclo[2.2.1]heptane,,,C1CC2CCC1C2,,,,1.8400000000000003,oxidation,ACN
+647,"1,3-di(propan-2-yloxy)benzene",,,CC(C)Oc1cccc(OC(C)C)c1,,,,1.09,oxidation,ACN
+648,"2,6-di(propan-2-yl)aniline",,,CC(C)c1cccc(C(C)C)c1N,,,,0.4599999999999999,oxidation,ACN
+649,1-phenylpyrrolidine,,,c1ccc(N2CCCC2)cc1,,,,0.5,oxidation,ACN
+650,1-chloro-4-iodobenzene,,,Clc1ccc(I)cc1,,,,-2.32,reduction,ACN
+651,1-bromo-4-iodobenzene,,,Brc1ccc(I)cc1,,,,-2.33,reduction,ACN
+652,"1,2-dichloroethane",,,ClCCCl,,,,-2.3,reduction,ACN
+653,2-bromo-1-phenylethanone,,,O=C(CBr)c1ccccc1,,,,-1.84,reduction,ACN
+654,benzoate,,,O=C([O-])c1ccccc1,,,,1.02,oxidation,ACN
+655,piperidin-2-one,,,O=C1CCCCN1,,,,2.2,oxidation,ACN
+656,oxolan-2-one,,,O=C1CCCO1,,,,-2.51,reduction,ACN
+657,"3,5-bis(trifluoromethyl)benzenesulfonyl chloride",,,O=S(=O)(Cl)c1cc(C(F)(F)F)cc(C(F)(F)F)c1,,,,-0.8300000000000001,reduction,ACN
+658,anthracene,,,c1ccc2cc3ccccc3cc2c1,,,,-2.3,reduction,DMF
+659,diphenyldiazene,,,c1ccc(/N=N/c2ccccc2)cc1,,,,-1.7400000000000002,reduction,DMF
+660,diphenylmethanone,,,O=C(c1ccccc1)c1ccccc1,,,,-2.26,reduction,ACN
+661,"2-[4-(dicyanomethylidene)cyclohexa-2,5-dien-1-ylidene]propanedinitrile",,,N#CC(C#N)=c1ccc(=C(C#N)C#N)cc1,,,,-0.25,reduction,ACN
+662,"2-(1,3-dithiol-2-ylidene)-1,3-dithiole",,,C1=CSC(=C2SC=CS2)S1,,,,0.28,oxidation,ACN
+663,n-Pentane,,,CCCCC,,,,2.76,oxidation,ACN
+664,2-Methylpentane,,,CCCC(C)C,,,,2.89,oxidation,ACN
+665,3-Methylpentane,,,CCC(C)CC,,,,2.8000000000000003,oxidation,ACN
+666,"2,2-Dimethylbutane",,,CCC(C)(C)C,,,,3.16,oxidation,ACN
+667,n-Hexane,,,CCCCCC,,,,2.72,oxidation,ACN
+668,n-Heptane,,,CCCCCCC,,,,2.68,oxidation,ACN
+669,n-Octane,,,CCCCCCCC,,,,2.76,oxidation,ACN
+670,Bicyclo(1.1.0)butane,,,C1C2C1C2,,,,1.2999999999999998,oxidation,ACN
+671,"Bicyclo[1.1.0]butane, 1-methyl-",,,CC12CC1C2,,,,1.08,oxidation,ACN
+672,"1,3-Dimethylbicyclo(1.1.0)butane",,,CC12CC1(C2)C,,,,0.7100000000000001,oxidation,ACN
+673,"2,2-dimethylbicyclo[1.1.0]butane",,,CC1(C2C1C2)C,,,,1.17,oxidation,ACN
+674,"1,2,2-trimethylbicyclo[1.1.0]butane",,,CC1(C2C1(C2)C)C,,,,0.88,oxidation,ACN
+675,"1,2,2,3-tetramethylbicyclo[1.1.0]butane",,,CC1(C2(C1(C2)C)C)C,,,,0.64,oxidation,ACN
+676,"2,2,4,4-tetramethylbicyclo[1.1.0]butane",,,CC1(C2C1C2(C)C)C,,,,1.1800000000000002,oxidation,ACN
+677,"1,2,2,3,4,4-hexamethylbicyclo[1.1.0]butane",,,CC1(C2(C1(C2(C)C)C)C)C,,,,0.5399999999999999,oxidation,ACN
+678,Cyclobutane,,,C1CCC1,,,,1.52,oxidation,ACN
+679,"Tricyclo(2.2.1.02,6)heptane",,,C1C2CC3C1C3C2,,,,1.73,oxidation,ACN
+680,bicyclo[3.1.1]heptane,,,C1CC2CC(C1)C2,,,,1.11,oxidation,ACN
+681,"Pentacyclo[3.3.0.02,4.03,7.06,8]octane",,,C12C3C4C3C5C4C1C25,,,,1.15,oxidation,ACN
+682,"Pentacyclo[4.3.0.02,4.03,8.05,7]nonane",,,C1C2C3C4C1C5C2C5C34,,,,1.23,oxidation,ACN
+683,"Pentacyclo(4.2.0.02,5.03,8.04,7)octane",,,C12C3C4C1C5C2C3C45,,,,1.34,oxidation,ACN
+684,"Pentacyclo(4.3.0.02,5.03,8.04,7)nonane",,,C1C2C3C4C1C5C2C3C45,,,,1.35,oxidation,ACN
+685,Adamantane,,,C1C2CC3CC1CC(C2)C3,,,,2.3000000000000003,oxidation,ACN
+686,Ethylene,,,C=C,,,,2.78,oxidation,ACN
+687,Propene,,,CC=C,,,,2.58,oxidation,ACN
+688,2-methylprop-1-ene,,,CC(=C)C,,,,2.53,oxidation,ACN
+689,1-Butene,,,CCC=C,,,,2.54,oxidation,ACN
+690,2-methylbut-1-ene,,,CCC(=C)C,,,,1.85,oxidation,ACN
+691,"buta-1,3-diene",,,C=CC=C,,,,1.91,oxidation,ACN
+692,"2,3-dimethylbuta-1,3-diene",,,CC(=C)C(=C)C,,,,1.7200000000000002,oxidation,ACN
+693,1-Pentene,,,CCCC=C,,,,2.62,oxidation,ACN
+694,1-Octene,,,CCCCCCC=C,,,,2.58,oxidation,ACN
+695,2-Octene,,,CCCCC/C=C/C,,,,2.1100000000000003,oxidation,ACN
+696,"cyclohexa-1,4-diene",,,C1C=CCC=C1,,,,1.48,oxidation,ACN
+697,"bicyclo[2.2.1]hepta-2,5-diene",,,C1C2C=CC1C=C2,,,,1.17,oxidation,ACN
+698,Benzene,,,C1=CC=CC=C1,,,,2.02,oxidation,ACN
+699,p-Xylene,,,CC1=CC=C(C=C1)C,,,,1.5,oxidation,ACN
+700,Ethylbenzene,,,CCC1=CC=CC=C1,,,,1.9,oxidation,ACN
+701,1-Propylbenzene,,,CCCC1=CC=CC=C1,,,,1.91,oxidation,ACN
+702,t-Butylbenzene,,,CC(C)(C)C1=CC=CC=C1,,,,1.81,oxidation,ACN
+703,Cyclohexylbenzene,,,C1CCC(CC1)C2=CC=CC=C2,,,,1.8000000000000005,oxidation,ACN
+704,"1,2,3-trimethylbenzene",,,CC1=C(C(=CC=C1)C)C,,,,1.5300000000000002,oxidation,ACN
+705,"1,2,4-trimethylbenzene",,,CC1=CC(=C(C=C1)C)C,,,,1.5100000000000002,oxidation,ACN
+706,"1,2,3,5-tetramethylbenzene",,,CC1=CC(=C(C(=C1)C)C)C,,,,1.44,oxidation,ACN
+707,"1,2,4,5-tetramethylbenzene",,,CC1=CC(=C(C=C1C)C)C,,,,1.17,oxidation,ACN
+708,"1,2,3,4,5-pentamethylbenzene",,,CC1=CC(=C(C(=C1C)C)C)C,,,,1.16,oxidation,ACN
+709,"1,2,3,4,5,6-hexamethylbenzene",,,CC1=C(C(=C(C(=C1C)C)C)C)C,,,,1.08,oxidation,ACN
+710,cyclopropylbenzene,,,C1CC1C2=CC=CC=C2,,,,1.4500000000000002,oxidation,ACN
+711,1-cyclopropyl-4-methylbenzene,,,CC1=CC=C(C=C1)C2CC2,,,,1.2000000000000002,oxidation,ACN
+712,trans-1-Methyl-2-phenylcyclopropane,,,C[C@@H]1C[C@H]1C2=CC=CC=C2,,,,1.2999999999999998,oxidation,ACN
+713,"(2,2-dimethylcyclopropyl)benzene",,,CC1(CC1C2=CC=CC=C2)C,,,,1.36,oxidation,ACN
+714,"1,2,3,4-tetrahydronaphthalene",,,C1CCC2=CC=CC=C2C1,,,,1.5100000000000002,oxidation,ACN
+715,azulene,,,C1=CC=C2C=CC=C2C=C1,,,,0.5499999999999999,oxidation,ACN
+716,1-methylnaphthalene,,,CC1=CC=CC2=CC=CC=C12,,,,1.06,oxidation,ACN
+717,2-methylnaphthalene,,,CC1=CC2=CC=CC=C2C=C1,,,,1.04,oxidation,ACN
+718,"2,6-dimethylnaphthalene",,,CC1=CC2=C(C=C1)C=C(C=C2)C,,,,0.97,oxidation,ACN
+719,acenaphthylene,,,C1=CC2=C3C(=C1)C=CC3=CC=C2,,,,0.89,oxidation,ACN
+720,n-Propylamine,,,CCCN,,,,1.0,oxidation,ACN
+721,Diethylamine,,,CCNCC,,,,0.89,oxidation,ACN
+722,n-Butylamine,,,CCCCN,,,,1.0,oxidation,ACN
+723,i-Butylamine,,,CC(C)CN,,,,0.99,oxidation,ACN
+724,t-Butylamine,,,CC(C)(C)N,,,,1.0099999999999998,oxidation,ACN
+725,n-Pentylamine,,,CCCCCN,,,,1.06,oxidation,ACN
+726,n-Nonylamine,,,CCCCCCCCCN,,,,1.09,oxidation,ACN
+727,Di-n-propylamine,,,CCCNCCC,,,,0.7999999999999999,oxidation,ACN
+728,Di-n-butylamine,,,CCCCNCCCC,,,,0.7499999999999999,oxidation,ACN
+729,Di-sec-butylamine,,,CCC(C)NC(C)CC,,,,0.7699999999999999,oxidation,ACN
+730,Trimethylamine,,,CN(C)C,,,,0.66,oxidation,ACN
+731,Tri-n-propylamine,,,CCCN(CCC)CCC,,,,0.39,oxidation,ACN
+732,2-(dimethylamino)acetonitrile,,,CN(C)CC#N,,,,0.96,oxidation,ACN
+733,4-methoxyaniline,,,COC1=CC=C(C=C1)N,,,,0.1999999999999999,oxidation,ACN
+734,4-chloroaniline,,,C1=CC(=CC=C1N)Cl,,,,0.5399999999999999,oxidation,ACN
+735,"N,N-dimethyl-1-phenylmethanamine",,,CN(C)CC1=CC=CC=C1,,,,0.61,oxidation,ACN
+736,N-methylaniline,,,CNC1=CC=CC=C1,,,,0.5099999999999999,oxidation,ACN
+737,"N,N-Dimethyl-4-nitroaniline",,,CN(C)C1=CC=C(C=C1)[N+](=O)[O-],,,,0.89,oxidation,ACN
+738,N-ethylaniline,,,CCNC1=CC=CC=C1,,,,0.5299999999999999,oxidation,ACN
+739,"2,3,5,6-tetramethylaniline",,,CC1=CC(=C(C(=C1C)N)C)C,,,,0.28,oxidation,ACN
+740,"1-N,1-N,4-N,4-N-tetramethylbenzene-1,4-diamine",,,CN(C)C1=CC=C(C=C1)N(C)C,,,,-0.22,reduction,ACN
+741,"1-N,1-N,3-N,3-N-tetramethylbenzene-1,3-diamine",,,CN(C)C1=CC(=CC=C1)N(C)C,,,,0.1999999999999999,oxidation,ACN
+742,"1-N,1-N,2-N,2-N-tetramethylbenzene-1,2-diamine",,,CN(C)C1=CC=CC=C1N(C)C,,,,0.16,oxidation,ACN
+743,"3-methoxy-N,N-dimethylaniline",,,CN(C)C1=CC(=CC=C1)OC,,,,0.37,oxidation,ACN
+744,"4-methoxy-N,N-dimethylaniline",,,CN(C)C1=CC=C(C=C1)OC,,,,0.2099999999999999,oxidation,ACN
+745,"2-methoxy-N,N-dimethylaniline",,,CN(C)C1=CC=CC=C1OC,,,,0.36,oxidation,ACN
+746,"2,3,5,6-tetramethylbenzene-1,4-diamine",,,CC1=C(C(=C(C(=C1N)C)C)N)C,,,,-0.3,reduction,ACN
+747,naphthalen-1-amine,,,C1=CC=C2C(=C1)C=CC=C2N,,,,0.2199999999999999,oxidation,ACN
+748,naphthalen-2-amine,,,C1=CC=C2C=C(C=CC2=C1)N,,,,0.3199999999999999,oxidation,ACN
+749,"1,4-diazabicyclo[2.2.2]octane",,,C1CN2CCN1CC2,,,,0.18,oxidation,ACN
+750,"N,N-dimethyl-1-phenylethenamine",,,CN(C)C(=C)C1=CC=CC=C1,,,,0.3099999999999999,oxidation,ACN
+751,CH3OH,,,CO,,,,2.79,oxidation,ACN
+752,ethanol,,,CCO,,,,2.5700000000000003,oxidation,ACN
+753,propan-2-ol,,,CC(C)O,,,,2.56,oxidation,ACN
+754,butan-1-ol,,,CCCCO,,,,2.62,oxidation,ACN
+755,butan-2-ol,,,CCC(C)O,,,,2.6100000000000003,oxidation,ACN
+756,pentan-1-ol,,,CCCCCO,,,,2.52,oxidation,ACN
+757,CH2OH,,,[CH2]O,,,,1.5100000000000002,oxidation,ACN
+758,"1,2,3-trimethoxybenzene",,,COC1=C(C(=CC=C1)OC)OC,,,,1.0299999999999998,oxidation,ACN
+759,"1,2,4-trimethoxybenzene",,,COC1=CC(=C(C=C1)OC)OC,,,,0.7300000000000001,oxidation,ACN
+760,"1,3,5-trimethoxybenzene",,,COC1=CC(=CC(=C1)OC)OC,,,,1.1,oxidation,ACN
+761,1-cyclopropyl-4-methoxybenzene,,,COC1=CC=C(C=C1)C2CC2,,,,0.96,oxidation,ACN
+762,1-ethyl-4-methoxybenzene,,,CCC1=CC=C(C=C1)OC,,,,1.0699999999999998,oxidation,ACN
+763,"1,3-benzodioxole",,,C1OC2=CC=CC=C2O1,,,,1.0299999999999998,oxidation,ACN
+764,"1,3-benzodioxole-5-carboxylic acid",,,C1OC2=C(O1)C=C(C=C2)C(=O)O,,,,1.2400000000000002,oxidation,ACN
+765,"1,3-benzodioxole-5-carbaldehyde",,,C1OC2=C(O1)C=C(C=C2)C=O,,,,1.2599999999999998,oxidation,ACN
+766,2-(4-methoxyphenyl)acetic acid,,,COC1=CC=C(C=C1)CC(=O)O,,,,1.1800000000000002,oxidation,ACN
+767,"3,3-dimethylbutan-2-one",,,CC(=O)C(C)(C)C,,,,2.03,oxidation,ACN
+768,3-methylbutan-2-one,,,CC(C)C(=O)C,,,,2.12,oxidation,ACN
+769,"2,4-dimethylpentan-3-one",,,CC(C)C(=O)C(C)C,,,,2.01,oxidation,ACN
+770,phenyl formate,,,C1=CC=C(C=C1)OC=O,,,,1.58,oxidation,ACN
+771,1-chloro-4-cyclopropylbenzene,,,C1CC1C2=CC=C(C=C2)Cl,,,,1.58,oxidation,ACN
+772,p-Chlorotoluene,,,CC1=CC=C(C=C1)Cl,,,,1.7000000000000002,oxidation,ACN
+773,"N,N-dimethylacetamide",,,CC(=O)N(C)C,,,,1.7000000000000002,oxidation,ACN
+774,"N,N-dimethylbenzamide",,,CN(C)C(=O)C1=CC=CC=C1,,,,1.65,oxidation,ACN
+775,1-(methoxymethyl)piperidine,,,COCN1CCCCC1,,,,1.4900000000000002,oxidation,ACN
+776,methyl piperidine-1-carboxylate,,,COC(=O)N1CCCCC1,,,,1.5700000000000005,oxidation,ACN
+777,trimethyl(prop-2-enyl)silane,,,C[Si](C)(C)CC=C,,,,1.11,oxidation,ACN
+778,trimethyl(3-methylbut-2-enyl)silane,,,CC(=CC[Si](C)(C)C)C,,,,1.0,oxidation,ACN
+779,1-ethoxyethenoxy(trimethyl)silane,,,CCOC(=C)O[Si](C)(C)C,,,,0.89,oxidation,ACN
+780,(1-methoxy-2-methylprop-1-enoxy)-trimethylsilane,,,CC(=C(OC)O[Si](C)(C)C)C,,,,0.5099999999999999,oxidation,ACN
+781,phenysilane,,,C1=CC=C(C=C1)[SiH3],,,,2.0,oxidation,ACN
+782,1-Methyl-4-silylbenzene,,,CC1=CC=C(C=C1)[SiH3],,,,1.88,oxidation,ACN
+783,"(2,4,6-trimethylphenyl)silane",,,CC1=CC(=C(C(=C1)C)[SiH3])C,,,,1.7800000000000002,oxidation,ACN
+784,"N,N-Dimethyl-4-silylaniline",,,CN(C)C1=CC=C(C=C1)[SiH3],,,,0.68,oxidation,ACN
+785,Benzyltrimethylsilane,,,C[Si](C)(C)CC1=CC=CC=C1,,,,0.99,oxidation,ACN
+786,trimethyl(phenylsulfanylmethyl)silane,,,C[Si](C)(C)CSC1=CC=CC=C1,,,,1.09,oxidation,ACN
+787,N-[(Trimethylsilyl)methyl]aniline,,,C[Si](C)(C)CNC1=CC=CC=C1,,,,0.38,oxidation,ACN
+788,propane-1-thiol,,,CCCS,,,,1.08,oxidation,ACN
+789,butane-1-thiol,,,CCCCS,,,,1.2799999999999998,oxidation,ACN
+790,methylsulfanylmethane,,,CSC,,,,1.14,oxidation,ACN
+791,ethylsulfanylethane,,,CCSCC,,,,1.29,oxidation,ACN
+792,methylsulfinylmethane,,,CS(=O)C,,,,1.6100000000000003,oxidation,ACN
+793,"N,N-dimethylmethanesulfonamide",,,CN(C)S(=O)(=O)C,,,,1.6800000000000002,oxidation,ACN
+794,Pyrrole,,,C1=CNC=C1,,,,0.7000000000000001,oxidation,ACN
+795,Pyridine,,,C1=CC=NC=C1,,,,1.7600000000000002,oxidation,ACN
+796,Thiophene,,,C1=CSC=C1,,,,1.54,oxidation,ACN
+797,2-tert-butyl-1H-pyrrole,,,CC(C)(C)C1=CC=CN1,,,,0.7300000000000001,oxidation,ACN
+798,4-nitro-1-oxidopyridin-1-ium,,,C1=C[N+](=CC=C1[N+](=O)[O-])[O-],,,,1.7400000000000002,oxidation,ACN
+799,1-oxidopyridin-1-ium-4-carbonitrile,,,C1=C[N+](=CC=C1C#N)[O-],,,,1.88,oxidation,ACN
+800,Nicotinonitrile 1-oxide,,,C1=CC(=C[N+](=C1)[O-])C#N,,,,1.62,oxidation,ACN
+801,4-chloropyridine N-oxide,,,C1=C[N+](=CC=C1Cl)[O-],,,,1.4,oxidation,ACN
+802,1-oxidopyridin-1-ium,,,C1=CC=[N+](C=C1)[O-],,,,1.41,oxidation,ACN
+803,4-methyl-1-oxidopyridin-1-ium,,,CC1=CC=[N+](C=C1)[O-],,,,1.2200000000000002,oxidation,ACN
+804,3-methyl-1-oxidopyridin-1-ium,,,CC1=C[N+](=CC=C1)[O-],,,,1.4,oxidation,ACN
+805,4-methoxy-1-oxidopyridin-1-ium,,,COC1=CC=[N+](C=C1)[O-],,,,0.97,oxidation,ACN
+806,"N,N-dimethyl-1-oxidopyridin-1-ium-4-amine",,,CN(C)C1=CC=[N+](C=C1)[O-],,,,0.37,oxidation,ACN
+807,3-methoxy-1-oxidopyridin-1-ium,,,COC1=C[N+](=CC=C1)[O-],,,,1.33,oxidation,ACN
+808,3-chloro-1-oxidopyridin-1-ium,,,C1=CC(=C[N+](=C1)[O-])Cl,,,,1.5100000000000002,oxidation,ACN
+809,ethyl 1-oxidopyridin-1-ium-3-carboxylate,,,CCOC(=O)C1=C[N+](=CC=C1)[O-],,,,1.5300000000000002,oxidation,ACN
+810,ethyl 1-oxidopyridin-1-ium-4-carboxylate,,,CCOC(=O)C1=CC=[N+](C=C1)[O-],,,,1.5900000000000003,oxidation,ACN
+811,4-ethyl-1-oxidopyridin-1-ium,,,CCC1=CC=[N+](C=C1)[O-],,,,1.1800000000000002,oxidation,ACN
+812,2-(1H-pyrrol-2-yl)-1H-pyrrole,,,C1=CNC(=C1)C2=CC=CN2,,,,0.2099999999999999,oxidation,ACN
+813,2-methyl-5-(1H-pyrrol-2-yl)-1H-pyrrole,,,CC1=CC=C(N1)C2=CC=CN2,,,,0.0699999999999999,oxidation,ACN
+814,2-methyl-5-(5-methyl-1H-pyrrol-2-yl)-1H-pyrrole,,,CC1=CC=C(N1)C2=CC=C(N2)C,,,,-0.0899999999999999,reduction,ACN
+815,2-methyl-1H-benzimidazole,,,CC1=NC2=CC=CC=C2N1,,,,0.99,oxidation,ACN
+816,"1,2,3-Trimethyl-1H-benzimidazolium",,,CC1=[N+](C2=CC=CC=C2N1C)C,,,,1.91,oxidation,ACN
+817,1-Ethylquinolinium,,,CC[N+]1=CC=CC2=CC=CC=C21,,,,2.19,oxidation,ACN
+818,"1,1-dimethylhydrazine",,,CN(C)N,,,,-0.2,reduction,ACN
+819,"1,1,2,2-tetramethylhydrazine",,,CN(C)N(C)C,,,,-0.1099999999999999,reduction,ACN
+820,"1,1,2-trimethyl-2-propylhydrazine",,,CCCN(C)N(C)C,,,,-0.12,reduction,ACN
+821,Butyltrimethylhydrazine,,,CCCCN(C)N(C)C,,,,-0.12,reduction,ACN
+822,"1,1-dimethyl-2,2-dipropylhydrazine",,,CCCN(CCC)N(C)C,,,,-0.14,reduction,ACN
+823,"N,N'-Diethyl-N,N'-dimethylhydrazine",,,CCN(C)N(C)CC,,,,-0.13,reduction,ACN
+824,tert-Butyl trimethylhydrazine,,,CC(C)(C)N(C)N(C)C,,,,0.05,oxidation,ACN
+825,"Hydrazine, 1,2-di-tert-butyl 1,2-dimethyl-",,,CC(C)(C)N(C)N(C)C(C)(C)C,,,,0.13,oxidation,ACN
+826,"1-Pyrrolidinamine, N,N-dimethyl-",,,CN(C)N1CCCC1,,,,-0.27,reduction,ACN
+827,"1-Piperidinamine, N,N-dimethyl-",,,CN(C)N1CCCCC1,,,,-0.0799999999999999,reduction,ACN
+828,N-(N-Pyrrolidinyl)-piperidine,,,C1CCN(CC1)N2CCCC2,,,,-0.24,reduction,ACN
+829,"Hexahydropyrazolo[1,2-a]pyrazole",,,C1CN2CCCN2C1,,,,-0.36,reduction,ACN
+830,"1,2-dimethylpyrazolidine",,,CN1CCCN1C,,,,-0.33,reduction,ACN
+831,"2,3-Diazabicyclo(2.2.2)octane, 2,3-dimethyl-",,,CN1C2CCC(N1C)CC2,,,,-0.29,reduction,ACN
+832,"Pyridazine, hexahydro-1,2,3,6-tetramethyl-, cis-",,,CC1CCC(N(N1C)C)C,,,,-0.24,reduction,ACN
+833,"1,2-dimethylhexahydropyridazine",,,CN1CCCCN1C,,,,-0.21,reduction,ACN
+834,"1,2-Diazacyclohex-4-ene, 1,2-dimethyl-",,,CN1CC=CCN1C,,,,-0.1099999999999999,reduction,ACN
+835,"1,6-Diazabicyclo(4.4.0)decane",,,C1CCN2CCCCN2C1,,,,-0.16,reduction,ACN
+836,"3,4-diethyl-1,3,4-oxadiazolidine",,,CCN1COCN1CC,,,,0.17,oxidation,ACN
+837,"1,2,4,5-Tetraazacyclohexane, 1,2,4,5-tetramethyl-",,,CN1CN(N(CN1C)C)C,,,,-0.0699999999999999,reduction,ACN
+838,"2,3-Diazabicyclo[2.2.1]hept-2-ene",,,C1CC2CC1N=N2,,,,1.58,oxidation,ACN
+839,"7,7-dimethyl-2,3-diazabicyclo[2.2.1]hept-2-ene",,,CC1(C2CCC1N=N2)C,,,,1.46,oxidation,ACN
+840,"1,4-dimethyl-2,3-diazabicyclo[2.2.1]hept-2-ene",,,CC12CCC(C1)(N=N2)C,,,,1.2000000000000002,oxidation,ACN
+841,"2,3-diazabicyclo[2.2.2]oct-2-ene",,,C1CC2CCC1N=N2,,,,1.06,oxidation,ACN
+842,"1,4-Dimethyl-2,3-diaza-bicyclo(2.2.2)oct-2-ene",,,CC12CCC(CC1)(N=N2)C,,,,0.95,oxidation,ACN
+843,"methyl 3,5,5-trimethyl-4,5-dihydro-3H-pyrazole-3-carboxylate",,,CC1(CC(N=N1)(C)C(=O)OC)C,,,,1.66,oxidation,ACN
+844,"3,4-diazatricyclo[4.2.1.02,5]nona-3,7-diene",,,C1C2C=CC1C3C2N=N3,,,,1.91,oxidation,ACN
+845,N-[(E)-diethylaminodiazenyl]-N-ethylethanamine,,,CCN(CC)/N=N/N(CC)CC,,,,-0.0699999999999999,reduction,ACN
+846,"2,2'-Bipyridine",,,C1=CC=NC(=C1)C2=CC=CC=N2,,,,-3.6499999999999995,reduction,ACN
+847,"1,10-phenanthroline",,,C1=CC2=C(C3=C(C=CC=N3)C=C2)N=C1,,,,-3.51,reduction,ACN
+848,"3,3'-Azotoluene",,,CC1=CC(=CC=C1)N=NC2=CC=CC(=C2)C,,,,"-2.8999999999999995,-3.5299999999999994",reduction,ACN
+849,"1,1'-Azonaphthalene",,,C1=CC=C2C(=C1)C=CC=C2N=NC3=CC=CC4=CC=CC=C43,,,,"-2.6499999999999995,-3.2099999999999995",reduction,ACN
+850,"2,2'-Azonaphthalene",,,C1=CC=C2C=C(C=CC2=C1)N=NC3=CC4=CC=CC=C4C=C3,,,,"-2.7399999999999998,-3.2699999999999996",reduction,ACN
+851,"4,4'-Azobiphenyl",,,C1=CC=C(C=C1)C2=CC=C(C=C2)N=NC3=CC=C(C=C3)C4=CC=CC=C4,,,,"-2.7399999999999998,-3.2899999999999996",reduction,ACN
+852,"4,4'-Azopyridine",,,C1=CN=CC=C1N=NC2=CC=NC=C2,,,,"-2.32,-3.05",reduction,ACN
+853,"2,3-Dimethylnaphthalene",,,CC1=CC2=CC=CC=C2C=C1C,,,,"0.993,1.253",oxidation,ACN
+854,Indan,,,C1CC2=CC=CC=C2C1,,,,"1.503,1.933",oxidation,ACN
+855,Tetracene,,,C1=CC=C2C=C3C=C4C=CC=CC4=CC3=CC2=C1,,,,"0.453,1.113",oxidation,ACN
+856,"1,2-Benzanthracene",,,C1=CC=C2C(=C1)C=CC3=CC4=CC=CC=C4C=C32,,,,"0.913,1.003",oxidation,ACN
+857,Pyrene,,,C1=CC2=C3C(=C1)C=CC4=CC=CC(=C43)C=C2,,,,"0.973,1.153",oxidation,ACN
+858,Chrysene,,,C1=CC=C2C(=C1)C=CC3=C2C=CC4=CC=CC=C43,,,,"1.133,1.183",oxidation,ACN
+859,Triphenylene,,,C1=CC=C2C(=C1)C3=CC=CC=C3C4=CC=CC=C24,,,,"1.373,1.463",oxidation,ACN
+860,"1,2,5,6-Dibenzanthracene",,,C1=CC=C2C(=C1)C=CC3=CC4=C(C=CC5=CC=CC=C54)C=C32,,,,"0.913,1.173",oxidation,ACN
+861,Phenoxathiin,,,C1=CC=C2C(=C1)OC3=CC=CC=C3S2,,,,"0.738,1.233",oxidation,ACN
+862,Thianthrene,,,C1=CC=C2C(=C1)SC3=CC=CC=C3S2,,,,"0.778,1.103",oxidation,ACN
+863,"3,4-Dimethoxypropenylbenzene",,,C/C=C/C1=CC(=C(C=C1)OC)OC,,,,"0.600,0.820,1.020",oxidation,ACN
+864,p-Nitro aniline,,,C1=CC(=CC=C1N)[N+](=O)[O-],,,,"0.590,0.760",oxidation,ACN
+865,9-Amino-10-phenylanthracene,,,C1=CC=C(C=C1)C2=C3C=CC=CC3=C(C4=CC=CC=C42)N,,,,"0.083,0.933",oxidation,ACN
+866,N-Methylphenothiazine,,,CN1C2=CC=CC=C2SC3=CC=CC=C31,,,,"0.313,0.883",oxidation,ACN
+867,Persantine,,,C1CCN(CC1)C2=NC(=NC3=C2N=C(N=C3N4CCCCC4)N(CCO)CCO)N(CCO)CCO,,,,"0.133,0.383",oxidation,ACN
+868,"9,10-Dibromoanthracene",,,C1=CC=C2C(=C1)C(=C3C=CC=CC3=C2Br)Br,,,,"1.063,1.383",oxidation,ACN
+869,p-Methoxybenzyl alcohol,,,COC1=CC=C(C=C1)CO,,,,"1.133,1.553",oxidation,ACN
+870,p-Iodobenzyl alcohol,,,C1=CC(=CC=C1CO)I,,,,"1.493,1.823",oxidation,ACN
+871,Cinnamyl alcohol,,,C1=CC=C(C=C1)/C=C/CO,,,,"1.243,1.733",oxidation,ACN
+872,p-Nitrocinnamyl alcohol,,,C1=CC(=CC=C1/C=C/CO)[N+](=O)[O-],,,,"1.273,1.683",oxidation,ACN
+873,Hydrazobenzene,,,C1=CC=C(C=C1)NNC2=CC=CC=C2,,,,"0.093,1.263",oxidation,ACN
+874,"4,4'-Dichlorohydrazobenzene",,,C1=CC(=CC=C1NNC2=CC=C(C=C2)Cl)Cl,,,,"0.173,1.353",oxidation,ACN
+875,"5,10-dihydro-5,10-dimethylphenazine",,,CN1C2=CC=CC=C2N(C3=CC=CC=C31)C,,,,"-0.29,0.5",oxidation,ACN

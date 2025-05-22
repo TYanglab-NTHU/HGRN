@@ -1,0 +1,382 @@
+Name,smiles,E12,Metal,Reaction,SMILES,solvent
+Toluene,CC1=CC=CC=C1,1.98,None,oxidation,CC1=CC=CC=C1,ACN
+m-Xylene,CC1=CC(=CC=C1)C,1.8400000000000003,None,oxidation,CC1=CC(=CC=C1)C,ACN
+Mesitylene,CC1=CC(=CC(=C1)C)C,1.69,None,oxidation,CC1=CC(=CC(=C1)C)C,ACN
+Naphthalene,C1=CC=C2C=CC=CC2=C1,1.2599999999999998,None,oxidation,C1=CC=C2C=CC=CC2=C1,ACN
+Phenylacetylene,C#CC1=CC=CC=C1,1.89,None,oxidation,C#CC1=CC=CC=C1,ACN
+Diphenylacetylene,C1=CC=C(C=C1)C#CC2=CC=CC=C2,1.46,None,oxidation,C1=CC=C(C=C1)C#CC2=CC=CC=C2,ACN
+1-ethynyl-4-methoxybenzene,COC1=CC=C(C=C1)C#C,1.27,None,oxidation,COC1=CC=C(C=C1)C#C,ACN
+2-Methyl-1-pentene,CCCC(=C)C,2.12,None,oxidation,CCCC(=C)C,ACN
+Cyclohexene,C1CCC=CC1,1.99,None,oxidation,C1CCC=CC1,ACN
+Cyclopentene,C1CC=CC1,1.94,None,oxidation,C1CC=CC1,ACN
+Norbornene,C1CC2CC1C=C2,1.8400000000000003,None,oxidation,C1CC2CC1C=C2,ACN
+3-Methyl-2-buten-1-ol,CC(=CCO)C,1.7200000000000002,None,oxidation,CC(=CCO)C,ACN
+2-Methyl-2-butene,CC=C(C)C,1.6,None,oxidation,CC=C(C)C,ACN
+Styrene,C=CC1=CC=CC=C1,1.59,None,oxidation,C=CC1=CC=CC=C1,ACN
+2-Chloro-trans-β-methylstyrene,C=CC1=CC=CC=C1,1.56,None,oxidation,Not Found,ACN
+1-Methylcyclohexene,CC1=CCCCC1,1.56,None,oxidation,CC1=CCCCC1,ACN
+beta-Methylstyrene,C/C=C/C1=CC=CC=C1,1.5299999999999998,None,oxidation,CC=CC1=CC=CC=C1,ACN
+(E)-Methyl 4-(prop-1-en-1-yl)benzoate,C/C=C/C1=CC=C(C=C1)C(=O)OC,1.56,None,oxidation,CC=CC1=CC=C(C=C1)C(=O)OC,ACN
+Indene,C1C=CC2=CC=CC=C21,1.2799999999999998,None,oxidation,C1C=CC2=CC=CC=C21,ACN
+1-Phenylcyclohexene,C1CCC(=CC1)C2=CC=CC=C2,1.2599999999999998,None,oxidation,C1CCC(=CC1)C2=CC=CC=C2,ACN
+trans-Anethole,C/C=C/C1=CC=C(C=C1)OC,0.86,None,oxidation,CC=CC1=CC=C(C=C1)OC,ACN
+4-Cyanophenol,C1=CC(=CC=C1C#N)O,1.7000000000000002,None,oxidation,C1=CC(=CC=C1C#N)O,ACN
+Isosafrole,C/C=C/C1=CC2=C(C=C1)OCO2,0.7699999999999999,None,oxidation,CC=CC1=CC2=C(C=C1)OCO2,ACN
+4-Bromophenol,C1=CC(=CC=C1O)Br,1.31,None,oxidation,C1=CC(=CC=C1O)Br,ACN
+Phenol,C1=CC=C(C=C1)O,1.25,None,oxidation,C1=CC=C(C=C1)O,ACN
+Guaiacol,COC1=CC=CC=C1O,1.0299999999999998,None,oxidation,COC1=CC=CC=C1O,ACN
+2-Naphthol,C1=CC=C2C=C(C=CC2=C1)O,1.02,None,oxidation,C1=CC=C2C=C(C=CC2=C1)O,ACN
+4-Methoxyphenol,COC1=CC=C(C=C1)O,0.7899999999999999,None,oxidation,COC1=CC=C(C=C1)O,ACN
+Hydroquinone,C1=CC(=CC=C1O)O,0.7599999999999999,None,oxidation,C1=CC(=CC=C1O)O,ACN
+Diphenyl ether,C1=CC=C(C=C1)OC2=CC=CC=C2,1.5,None,oxidation,C1=CC=C(C=C1)OC2=CC=CC=C2,ACN
+Anisole,COC1=CC=CC=C1,1.4300000000000002,None,oxidation,COC1=CC=CC=C1,ACN
+m-Dimethoxybenzene,COC1=CC(=CC=C1)OC,1.12,None,oxidation,COC1=CC(=CC=C1)OC,ACN
+o-Dimethoxybenzene,COC1=CC=CC=C1OC,1.0499999999999998,None,oxidation,COC1=CC=CC=C1OC,ACN
+2-Methoxynaphthalene,COC1=CC2=CC=CC=C2C=C1,0.94,None,oxidation,COC1=CC2=CC=CC=C2C=C1,ACN
+p-Dimethoxybenzene,COC1=CC=C(C=C1)OC,0.92,None,oxidation,COC1=CC=C(C=C1)OC,ACN
+Diisopropylamine,CC(C)NC(C)C,0.7100000000000001,None,oxidation,CC(C)NC(C)C,ACN
+Aniline,C1=CC=C(C=C1)N,0.57,None,oxidation,C1=CC=C(C=C1)N,ACN
+Piperidine,C1CCNCC1,0.5599999999999999,None,oxidation,C1CCNCC1,ACN
+Diphenylamine,C1=CC=C(C=C1)NC2=CC=CC=C2,0.54,None,oxidation,C1=CC=C(C=C1)NC2=CC=CC=C2,ACN
+Pyrrolidine,C1CCNC1,0.51,None,oxidation,C1CCNC1,ACN
+N-Phenylmorpholine,C1COCCN1C2=CC=CC=C2,0.5,None,oxidation,C1COCCN1C2=CC=CC=C2,ACN
+m-Anisidine,COC1=CC=CC(=C1)N,0.48,None,oxidation,COC1=CC=CC(=C1)N,ACN
+p-Toluidine,CC1=CC=C(C=C1)N,0.43,None,oxidation,CC1=CC=C(C=C1)N,ACN
+Triethylamine,CCN(CC)CC,0.4499999999999999,None,oxidation,CCN(CC)CC,ACN
+1-Morpholinocyclohexene,C1CCC(=CC1)N2CCOCC2,0.16,None,oxidation,C1CCC(=CC1)N2CCOCC2,ACN
+o-Phenylenediamine,C1=CC=C(C(=C1)N)N,0.0999999999999999,None,oxidation,C1=CC=C(C(=C1)N)N,ACN
+1-Cyclohex-1-enylpyrrolidine,C1CCC(=CC1)N2CCCC2,-0.06,None,reduction,C1CCC(=CC1)N2CCCC2,ACN
+p-Nitrophenyl disulfide,C1=CC(=CC=C1[N+](=O)[O-])SSC2=CC=C(C=C2)[N+](=O)[O-],1.64,None,oxidation,C1=CC(=CC=C1[N+](=O)[O-])SSC2=CC=C(C=C2)[N+](=O)[O-],ACN
+Phenyl disulfide,C1=CC=C(C=C1)SSC2=CC=CC=C2,1.1800000000000002,None,oxidation,C1=CC=C(C=C1)SSC2=CC=CC=C2,ACN
+Thiphenol,C1=CC=C(C=C1)S,1.13,None,oxidation,C1=CC=C(C=C1)S,ACN
+p-Tolyl disulfide,CC1=CC=C(C=C1)SSC2=CC=C(C=C2)C,1.08,None,oxidation,CC1=CC=C(C=C1)SSC2=CC=C(C=C2)C,ACN
+Thioanisole,CSC1=CC=CC=C1,1.06,None,oxidation,CSC1=CC=CC=C1,ACN
+2-Naphthalenethiol,C1=CC=C2C=C(C=CC2=C1)S,0.95,None,oxidation,C1=CC=C2C=C(C=CC2=C1)S,ACN
+p-Methoxyphenyl disulfide,COC1=CC=C(C=C1)SSC2=CC=C(C=C2)OC,0.9,None,oxidation,COC1=CC=C(C=C1)SSC2=CC=C(C=C2)OC,ACN
+4-Methoxythiophenol,COC1=CC=C(C=C1)S,0.7699999999999999,None,oxidation,COC1=CC=C(C=C1)S,ACN
+Pyrazole,C1=CNN=C1,1.83,None,oxidation,C1=CNN=C1,ACN
+Quinoline,C1=CC=C2C(=C1)C=CC=N2,1.7600000000000002,None,oxidation,C1=CC=C2C(=C1)C=CC=N2,ACN
+Furan,C1=COC=C1,1.56,None,oxidation,C1=COC=C1,ACN
+Furfuryl alcohol,C1=COC(=C1)CO,1.35,None,oxidation,C1=COC(=C1)CO,ACN
+Thianaphthene,C1=CC=C2C(=C1)C=CS2,1.2400000000000002,None,oxidation,C1=CC=C2C(=C1)C=CS2,ACN
+Indole,C1=CC=C2C(=C1)C=CN2,0.7799999999999999,None,oxidation,C1=CC=C2C(=C1)C=CN2,ACN
+Imidazole,C1=CN=CN1,0.7699999999999999,None,oxidation,C1=CN=CN1,ACN
+2-Mercaptobenzoxazole,C1=CC=C2C(=C1)NC(=S)O2,0.6900000000000001,None,oxidation,C1=CC=C2C(=C1)NC(=S)O2,ACN
+N-Methylpyrrole,CN1C=CC=C1,0.66,None,oxidation,CN1C=CC=C1,ACN
+5-Methoxyindole,COC1=CC2=C(C=C1)NC=C2,0.66,None,oxidation,COC1=CC2=C(C=C1)NC=C2,ACN
+2-Mercaptobenzothiazole,C1=CC=C2C(=C1)NC(=S)S2,0.65,None,oxidation,C1=CC=C2C(=C1)NC(=S)S2,ACN
+4-Methoxyindole,COC1=CC=CC2=C1C=CN2,0.59,None,oxidation,COC1=CC=CC2=C1C=CN2,ACN
+2-Aminothiazole,C1=CSC(=N1)N,0.57,None,oxidation,C1=CSC(=N1)N,ACN
+6-Methoxyindole,COC1=CC2=C(C=C1)C=CN2,0.54,None,oxidation,COC1=CC2=C(C=C1)C=CN2,ACN
+2-Mercaptobenzimidazole,C1=CC=C2C(=C1)NC(=S)N2,0.43,None,oxidation,C1=CC=C2C(=C1)NC(=S)N2,ACN
+Chlorobenzene,C1=CC=C(C=C1)Cl,2.23,None,oxidation,C1=CC=C(C=C1)Cl,ACN
+Bromobenzene,C1=CC=C(C=C1)Br,2.12,None,oxidation,C1=CC=C(C=C1)Br,ACN
+Iodobenzene,C1=CC=C(C=C1)I,1.79,None,oxidation,C1=CC=C(C=C1)I,ACN
+1-Fluoro-4-nitrobenzene,C1=CC(=CC=C1[N+](=O)[O-])F,-1.61,None,reduction,C1=CC(=CC=C1[N+](=O)[O-])F,ACN
+Diiodomethane,C(I)I,-2.2,None,reduction,C(I)I,ACN
+Carbon tetrachloride,C(Cl)(Cl)(Cl)Cl,-2.86,None,reduction,C(Cl)(Cl)(Cl)Cl,ACN
+Dibromomethane,C(Br)Br,-2.86,None,reduction,C(Br)Br,ACN
+Ethyl 2-bromoacetate,CCOC(=O)CBr,-1.46,None,reduction,CCOC(=O)CBr,ACN
+Diethyl 2-bromomalonate,CCOC(=O)C(C(=O)OCC)Br,-1.0,None,reduction,CCOC(=O)C(C(=O)OCC)Br,ACN
+p-Anisaldehyde,COC1=CC=C(C=C1)C=O,1.6800000000000002,None,oxidation,COC1=CC=C(C=C1)C=O,ACN
+p-Hydroxybenzaldehyde,C1=CC(=CC=C1C=O)O,1.5699999999999998,None,oxidation,C1=CC(=CC=C1C=O)O,ACN
+p-Nitrobenzaldehyde,C1=CC(=CC=C1C=O)[N+](=O)[O-],-1.24,None,reduction,C1=CC(=CC=C1C=O)[N+](=O)[O-],ACN
+p-Cyanobenzaldehyde,C1=CC(=CC=C1C=O)C#N,-1.7999999999999998,None,reduction,C1=CC(=CC=C1C=O)C#N,ACN
+p-Trifluoromethylbenzaldehyde,C1=CC(=CC=C1C=O)C(F)(F)F,-2.04,None,reduction,C1=CC(=CC=C1C=O)C(F)(F)F,ACN
+Biphenyl-4-carboxaldehyde,C1=CC=C(C=C1)C2=CC=C(C=C2)C=O,-2.1,None,reduction,C1=CC=C(C=C1)C2=CC=C(C=C2)C=O,ACN
+2-Naphthaldehyde,C1=CC=C2C=C(C=CC2=C1)C=O,-2.11,None,reduction,C1=CC=C2C=C(C=CC2=C1)C=O,ACN
+p-Chlorobenzaldehyde,C1=CC(=CC=C1C=O)Cl,-2.23,None,reduction,C1=CC(=CC=C1C=O)Cl,ACN
+Benzaldehyde,C1=CC=C(C=C1)C=O,-2.31,None,reduction,C1=CC=C(C=C1)C=O,ACN
+o-Tolualdehyde,CC1=CC=CC=C1C=O,-2.32,None,reduction,CC1=CC=CC=C1C=O,ACN
+3-Methylbutyraldehyde,CC(C)CC=O,-2.62,None,reduction,CC(C)CC=O,ACN
+Cyclohexanecarboxaldehyde,C1CCC(CC1)C=O,-2.66,None,reduction,C1CCC(CC1)C=O,ACN
+Benzaldoxime,C1=CC=C(C=C1)/C=N\O,1.48,None,oxidation,C1=CC=C(C=C1)C=NO,ACN
+p-Dicyanobenzene,C1=CC(=CC=C1C#N)C#N,-2.02,None,reduction,C1=CC(=CC=C1C#N)C#N,ACN
+o-Dicyanobenzene,C1=CC=C(C(=C1)C#N)C#N,-2.08,None,reduction,C1=CC=C(C(=C1)C#N)C#N,ACN
+m-Dicyanobenzene,C1=CC(=CC(=C1)C#N)C#N,-2.28,None,reduction,C1=CC(=CC(=C1)C#N)C#N,ACN
+Benzonitrile,C1=CC=C(C=C1)C#N,-2.81,None,reduction,C1=CC=C(C=C1)C#N,ACN
+Methyl 4-cyanobenzoate,COC(=O)C1=CC=C(C=C1)C#N,-2.1,None,reduction,COC(=O)C1=CC=C(C=C1)C#N,ACN
+Methyl benzoate,COC(=O)C1=CC=CC=C1,-2.72,None,reduction,COC(=O)C1=CC=CC=C1,ACN
+Benzoic acid,C1=CC=C(C=C1)C(=O)O,-2.67,None,reduction,C1=CC=C(C=C1)C(=O)O,ACN
+2-Nitrobenzenesulfonyl chloride,C1=CC=C(C(=C1)[N+](=O)[O-])S(=O)(=O)Cl,-0.89,None,reduction,C1=CC=C(C(=C1)[N+](=O)[O-])S(=O)(=O)Cl,ACN
+Benzoyl chloride,C1=CC=C(C=C1)C(=O)Cl,-1.58,None,reduction,C1=CC=C(C=C1)C(=O)Cl,ACN
+p-Toluenesulfonyl chloride,CC1=CC=C(C=C1)S(=O)(=O)Cl,-1.75,None,reduction,CC1=CC=C(C=C1)S(=O)(=O)Cl,ACN
+2-Mesitylenesulfonyl chloride,CC1=CC(=C(C(=C1)C)S(=O)(=O)Cl)C,-1.83,None,reduction,CC1=CC(=C(C(=C1)C)S(=O)(=O)Cl)C,ACN
+Trifluoroacetic anhydride,C(=O)(C(F)(F)F)OC(=O)C(F)(F)F,-0.5800000000000001,None,reduction,C(=O)(C(F)(F)F)OC(=O)C(F)(F)F,ACN
+Maleic anhydride,C1=CC(=O)OC1=O,-1.36,None,reduction,C1=CC(=O)OC1=O,ACN
+Benzoic anhydride,C1=CC=C(C=C1)C(=O)OC(=O)C2=CC=CC=C2,-1.39,None,reduction,C1=CC=C(C=C1)C(=O)OC(=O)C2=CC=CC=C2,ACN
+Phthalic anhydride,C1=CC=C2C(=C1)C(=O)OC2=O,-1.7200000000000002,None,reduction,C1=CC=C2C(=C1)C(=O)OC2=O,ACN
+Cyclohexyl methyl ketone,CC(=O)C1CCCCC1,2.28,None,oxidation,CC(=O)C1CCCCC1,ACN
+4'-Nitroacetophenone,CC(=O)C1=CC=C(C=C1)[N+](=O)[O-],-1.31,None,reduction,CC(=O)C1=CC=C(C=C1)[N+](=O)[O-],ACN
+4'-Trifluoromethylacetophenone,CC(=O)C1=CC=C(C=C1)C(F)(F)F,-2.12,None,reduction,CC(=O)C1=CC=C(C=C1)C(F)(F)F,ACN
+4'-Iodoacetophenone,CC(=O)C1=CC=C(C=C1)I,-2.23,None,reduction,CC(=O)C1=CC=C(C=C1)I,ACN
+4'-Bromoacetophenone,CC(=O)C1=CC=C(C=C1)Br,-2.27,None,reduction,CC(=O)C1=CC=C(C=C1)Br,ACN
+4'-Chloroacetophenone,CC(=O)C1=CC=C(C=C1)Cl,-2.29,None,reduction,CC(=O)C1=CC=C(C=C1)Cl,ACN
+4-Acetylbiphenyl,CC(=O)C1=CC=C(C=C1)C2=CC=CC=C2,-2.29,None,reduction,CC(=O)C1=CC=C(C=C1)C2=CC=CC=C2,ACN
+Acetophenone,CC(=O)C1=CC=CC=C1,-2.49,None,reduction,CC(=O)C1=CC=CC=C1,ACN
+4'-Fluoroacetophenone,CC(=O)C1=CC=C(C=C1)F,-2.51,None,reduction,CC(=O)C1=CC=C(C=C1)F,ACN
+4'-Methylacetophenone,CC1=CC=C(C=C1)C(=O)C,-2.54,None,reduction,CC1=CC=C(C=C1)C(=O)C,ACN
+Cyclohexanone,C1CCC(=O)CC1,-2.71,None,reduction,C1CCC(=O)CC1,ACN
+Triphenylsilane,C1=CC=C(C=C1)[Si](C2=CC=CC=C2)C3=CC=CC=C3,2.04,None,oxidation,C1=CC=C(C=C1)[Si](C2=CC=CC=C2)C3=CC=CC=C3,ACN
+Chlorotriphenylsilane,C1=CC=C(C=C1)[Si](C2=CC=CC=C2)(C3=CC=CC=C3)Cl,2.03,None,oxidation,C1=CC=C(C=C1)[Si](C2=CC=CC=C2)(C3=CC=CC=C3)Cl,ACN
+Nitrobenzene,C1=CC=C(C=C1)[N+](=O)[O-],-1.5699999999999998,None,reduction,C1=CC=C(C=C1)[N+](=O)[O-],ACN
+N-Chlorosuccinimide,C1CC(=O)N(C1=O)Cl,-0.65,None,reduction,C1CC(=O)N(C1=O)Cl,ACN
+"2,4-Dimethyl-1,3-pentadiene",CC(=CC(=C)C)C,1.6,None,oxidation,CC(=CC(=C)C)C,ACN
+(E)-1-Chloro-3-(prop-1-en-1-yl)benzene,C/C=C/C1=CC(=CC=C1)Cl,1.5099999999999998,None,oxidation,CC=CC1=CC(=CC=C1)Cl,ACN
+(E)-1-Bromo-3-(prop-1-en-1-yl)benzene,C/C=C/C1=CC(=CC=C1)Br,1.54,None,oxidation,CC=CC1=CC(=CC=C1)Br,ACN
+1-Methylcyclopentene,CC1=CCCC1,1.37,None,oxidation,CC1=CCCC1,ACN
+1-bromo-4-[(E)-prop-1-enyl]benzene,C/C=C/C1=CC=C(C=C1)Br,1.37,None,oxidation,CC=CC1=CC=C(C=C1)Br,ACN
+1-methyl-3-prop-1-enylbenzene,CC=CC1=CC=CC(=C1)C,1.35,None,oxidation,CC=CC1=CC=CC(=C1)C,ACN
+1-Chloro-4-(prop-1-en-1-yl)benzene,CC=CC1=CC=C(C=C1)Cl,1.35,None,oxidation,CC=CC1=CC=C(C=C1)Cl,ACN
+1-methyl-2-[(E)-prop-1-enyl]benzene,C/C=C/C1=CC=CC=C1C,1.3199999999999998,None,oxidation,CC=CC1=CC=CC=C1C,ACN
+1-tert-butyl-4-(prop-1-en-1-yl)benzene,CC=CC1=CC=C(C=C1)C(C)(C)C,1.27,None,oxidation,CC=CC1=CC=C(C=C1)C(C)(C)C,ACN
+"1,2-bis(prop-1-enyl)benzene",CC=CC1=CC=CC=C1C=CC,1.2599999999999998,None,oxidation,CC=CC1=CC=CC=C1C=CC,ACN
+(E)-1-Methoxy-3-(prop-1-en-1-yl)benzene,C/C=C/C1=CC(=CC=C1)OC,1.2200000000000002,None,oxidation,CC=CC1=CC(=CC=C1)OC,ACN
+"1,1-Diphenylethylene",C=C(C1=CC=CC=C1)C2=CC=CC=C2,1.16,None,oxidation,C=C(C1=CC=CC=C1)C2=CC=CC=C2,ACN
+"1,4-Dipropylbenzene",CCCC1=CC=C(C=C1)CCC,1.0499999999999998,None,oxidation,CCCC1=CC=C(C=C1)CCC,ACN
+"3,4-Dimethoxystyrene",COC1=C(C=C(C=C1)C=C)OC,0.7699999999999999,None,oxidation,COC1=C(C=C(C=C1)C=C)OC,ACN
+"1,4-Dioxane",C1COCCO1,2.12,None,oxidation,C1COCCO1,ACN
+"3,4-Dihydro-2H-pyran",C1CC=COC1,1.13,None,oxidation,C1CC=COC1,ACN
+"1,8-Diazabicyclo[5.4.0]undec-7-ene",C1CCC2=NCCCN2CC1,0.9,None,oxidation,C1CCC2=NCCCN2CC1,ACN
+"N,N-Dimethylaniline",CN(C)C1=CC=CC=C1,0.36,None,oxidation,CN(C)C1=CC=CC=C1,ACN
+"2,6-Dimethylthiophenol",CC1=C(C(=CC=C1)C)S,1.06,None,oxidation,CC1=C(C(=CC=C1)C)S,ACN
+"1,4-Benzenedithiol",C1=CC(=CC=C1S)S,0.7799999999999999,None,oxidation,C1=CC(=CC=C1S)S,ACN
+"2,3-Benzofuran",C1=CC=C2C(=C1)C=CO2,1.36,None,oxidation,C1=CC=C2C(=C1)C=CO2,ACN
+"N,N-Dimethylformamide",CN(C)C=O,1.88,None,oxidation,CN(C)C=O,ACN
+"1,3-Dimethyl-3,4,5,6-tetrahydro-2(1H)-pyrimidone",CN1CCCN(C1=O)C,1.17,None,oxidation,CN1CCCN(C1=O)C,ACN
+"1,2-xylene",Cc1ccccc1C,1.8400000000000003,None,oxidation,CC1=CC=CC=C1C,ACN
+"4-ethenyl-1,2-dimethylbenzene",C=Cc1ccc(C)c(C)c1,0.7699999999999999,None,oxidation,CC1=C(C=C(C=C1)C=C)C,ACN
+"1,4-bis(prop-1-enyl)benzene",CC=Cc1ccc(C=CC)cc1,1.0499999999999998,None,oxidation,CC=CC1=CC=C(C=C1)C=CC.CC=CC1=CC=C(C=C1)C=CC.CC=CC1=CC=C(C=C1)C=CC.CC=CC1=CC=C(C=C1)C=CC,ACN
+"cyclohexa-1,3-diene",C1=CCCC=C1,1.16,None,oxidation,C1CC=CC=C1,ACN
+"1,3-bis(prop-1-enyl)benzene",CC=Cc1cccc(C=CC)c1,1.2799999999999998,None,oxidation,CC=CC1=CC(=CC=C1)C=CC,ACN
+prop-1-en-2-ylbenzene,C=C(C)c1ccccc1,1.5299999999999998,None,oxidation,CC(=C)C1=CC=CC=C1,ACN
+bicyclo[2.2.1]heptane,C1CC2CCC1C2,1.8400000000000003,None,oxidation,C1CC2CCC1C2,ACN
+"1,3-di(propan-2-yloxy)benzene",CC(C)Oc1cccc(OC(C)C)c1,1.09,None,oxidation,CC(C)OC1=CC(=CC=C1)OC(C)C,ACN
+"2,6-di(propan-2-yl)aniline",CC(C)c1cccc(C(C)C)c1N,0.4599999999999999,None,oxidation,CC(C)C1=C(C(=CC=C1)C(C)C)N,ACN
+1-phenylpyrrolidine,c1ccc(N2CCCC2)cc1,0.5,None,oxidation,C1CCN(C1)C2=CC=CC=C2,ACN
+1-chloro-4-iodobenzene,Clc1ccc(I)cc1,-2.32,None,reduction,C1=CC(=CC=C1Cl)I,ACN
+1-bromo-4-iodobenzene,Brc1ccc(I)cc1,-2.33,None,reduction,C1=CC(=CC=C1Br)I,ACN
+"1,2-dichloroethane",ClCCCl,-2.3,None,reduction,C(CCl)Cl,ACN
+2-bromo-1-phenylethanone,O=C(CBr)c1ccccc1,-1.84,None,reduction,C1=CC=C(C=C1)C(=O)CBr,ACN
+benzoate,O=C([O-])c1ccccc1,1.02,None,oxidation,C1=CC=C(C=C1)C(=O)[O-],ACN
+piperidin-2-one,O=C1CCCCN1,2.2,None,oxidation,C1CCNC(=O)C1,ACN
+oxolan-2-one,O=C1CCCO1,-2.51,None,reduction,C1CC(=O)OC1,ACN
+"3,5-bis(trifluoromethyl)benzenesulfonyl chloride",O=S(=O)(Cl)c1cc(C(F)(F)F)cc(C(F)(F)F)c1,-0.8300000000000001,None,reduction,C1=C(C=C(C=C1C(F)(F)F)S(=O)(=O)Cl)C(F)(F)F,ACN
+anthracene,c1ccc2cc3ccccc3cc2c1,-2.3,None,reduction,C1=CC=C2C=C3C=CC=CC3=CC2=C1,DMF
+diphenyldiazene,c1ccc(/N=N/c2ccccc2)cc1,-1.7400000000000002,None,reduction,C1=CC=C(C=C1)N=NC2=CC=CC=C2,DMF
+diphenylmethanone,O=C(c1ccccc1)c1ccccc1,-2.26,None,reduction,C1=CC=C(C=C1)C(=O)C2=CC=CC=C2,ACN
+"2-[4-(dicyanomethylidene)cyclohexa-2,5-dien-1-ylidene]propanedinitrile",N#CC(C#N)=c1ccc(=C(C#N)C#N)cc1,-0.25,None,reduction,C1=CC(=C(C#N)C#N)C=CC1=C(C#N)C#N,ACN
+"2-(1,3-dithiol-2-ylidene)-1,3-dithiole",C1=CSC(=C2SC=CS2)S1,0.28,None,oxidation,C1=CSC(=C2SC=CS2)S1,ACN
+n-Pentane,CCCCC,2.76,None,oxidation,CCCCC,ACN
+2-Methylpentane,CCCC(C)C,2.89,None,oxidation,CCCC(C)C,ACN
+3-Methylpentane,CCC(C)CC,2.8000000000000003,None,oxidation,CCC(C)CC,ACN
+"2,2-Dimethylbutane",CCC(C)(C)C,3.16,None,oxidation,CCC(C)(C)C,ACN
+n-Hexane,CCCCCC,2.72,None,oxidation,CCCCCC,ACN
+n-Heptane,CCCCCCC,2.68,None,oxidation,CCCCCCC,ACN
+n-Octane,CCCCCCCC,2.76,None,oxidation,CCCCCCCC,ACN
+Bicyclo(1.1.0)butane,C1C2C1C2,1.2999999999999998,None,oxidation,C1C2C1C2,ACN
+"Bicyclo[1.1.0]butane, 1-methyl-",CC12CC1C2,1.08,None,oxidation,CC12CC1C2,ACN
+"1,3-Dimethylbicyclo(1.1.0)butane",CC12CC1(C2)C,0.7100000000000001,None,oxidation,CC12CC1(C2)C,ACN
+"2,2-dimethylbicyclo[1.1.0]butane",CC1(C2C1C2)C,1.17,None,oxidation,CC1(C2C1C2)C,ACN
+"1,2,2-trimethylbicyclo[1.1.0]butane",CC1(C2C1(C2)C)C,0.88,None,oxidation,CC1(C2C1(C2)C)C,ACN
+"1,2,2,3-tetramethylbicyclo[1.1.0]butane",CC1(C2(C1(C2)C)C)C,0.64,None,oxidation,CC1(C2(C1(C2)C)C)C,ACN
+"2,2,4,4-tetramethylbicyclo[1.1.0]butane",CC1(C2C1C2(C)C)C,1.1800000000000002,None,oxidation,CC1(C2C1C2(C)C)C,ACN
+"1,2,2,3,4,4-hexamethylbicyclo[1.1.0]butane",CC1(C2(C1(C2(C)C)C)C)C,0.5399999999999999,None,oxidation,CC1(C2(C1(C2(C)C)C)C)C,ACN
+Cyclobutane,C1CCC1,1.52,None,oxidation,C1CCC1,ACN
+"Tricyclo(2.2.1.02,6)heptane",C1C2CC3C1C3C2,1.73,None,oxidation,C1C2CC3C1C3C2,ACN
+bicyclo[3.1.1]heptane,C1CC2CC(C1)C2,1.11,None,oxidation,C1CC2CC(C1)C2,ACN
+"Pentacyclo[3.3.0.02,4.03,7.06,8]octane",C12C3C4C3C5C4C1C25,1.15,None,oxidation,C12C3C4C3C5C4C1C25,ACN
+"Pentacyclo[4.3.0.02,4.03,8.05,7]nonane",C1C2C3C4C1C5C2C5C34,1.23,None,oxidation,C1C2C3C4C1C5C2C5C34,ACN
+"Pentacyclo(4.2.0.02,5.03,8.04,7)octane",C12C3C4C1C5C2C3C45,1.34,None,oxidation,C12C3C4C1C5C2C3C45,ACN
+"Pentacyclo(4.3.0.02,5.03,8.04,7)nonane",C1C2C3C4C1C5C2C3C45,1.35,None,oxidation,C1C2C3C4C1C5C2C3C45,ACN
+Adamantane,C1C2CC3CC1CC(C2)C3,2.3000000000000003,None,oxidation,C1C2CC3CC1CC(C2)C3,ACN
+Ethylene,C=C,2.78,None,oxidation,C=C,ACN
+Propene,CC=C,2.58,None,oxidation,CC=C,ACN
+2-methylprop-1-ene,CC(=C)C,2.53,None,oxidation,CC(=C)C,ACN
+1-Butene,CCC=C,2.54,None,oxidation,CCC=C,ACN
+2-methylbut-1-ene,CCC(=C)C,1.85,None,oxidation,CCC(=C)C,ACN
+"buta-1,3-diene",C=CC=C,1.91,None,oxidation,C=CC=C,ACN
+"2,3-dimethylbuta-1,3-diene",CC(=C)C(=C)C,1.7200000000000002,None,oxidation,CC(=C)C(=C)C,ACN
+1-Pentene,CCCC=C,2.62,None,oxidation,CCCC=C,ACN
+1-Octene,CCCCCCC=C,2.58,None,oxidation,CCCCCCC=C,ACN
+2-Octene,CCCCC/C=C/C,2.1100000000000003,None,oxidation,CCCCCC=CC,ACN
+"cyclohexa-1,4-diene",C1C=CCC=C1,1.48,None,oxidation,C1C=CCC=C1,ACN
+"bicyclo[2.2.1]hepta-2,5-diene",C1C2C=CC1C=C2,1.17,None,oxidation,C1C2C=CC1C=C2,ACN
+Benzene,C1=CC=CC=C1,2.02,None,oxidation,C1=CC=CC=C1,ACN
+p-Xylene,CC1=CC=C(C=C1)C,1.5,None,oxidation,CC1=CC=C(C=C1)C,ACN
+Ethylbenzene,CCC1=CC=CC=C1,1.9,None,oxidation,CCC1=CC=CC=C1,ACN
+1-Propylbenzene,CCCC1=CC=CC=C1,1.91,None,oxidation,CCCC1=CC=CC=C1,ACN
+t-Butylbenzene,CC(C)(C)C1=CC=CC=C1,1.81,None,oxidation,CC(C)(C)C1=CC=CC=C1,ACN
+Cyclohexylbenzene,C1CCC(CC1)C2=CC=CC=C2,1.8000000000000005,None,oxidation,C1CCC(CC1)C2=CC=CC=C2,ACN
+"1,2,3-trimethylbenzene",CC1=C(C(=CC=C1)C)C,1.5300000000000002,None,oxidation,CC1=C(C(=CC=C1)C)C,ACN
+"1,2,4-trimethylbenzene",CC1=CC(=C(C=C1)C)C,1.5100000000000002,None,oxidation,CC1=CC(=C(C=C1)C)C,ACN
+"1,2,3,5-tetramethylbenzene",CC1=CC(=C(C(=C1)C)C)C,1.44,None,oxidation,CC1=CC(=C(C(=C1)C)C)C,ACN
+"1,2,4,5-tetramethylbenzene",CC1=CC(=C(C=C1C)C)C,1.17,None,oxidation,CC1=CC(=C(C=C1C)C)C,ACN
+"1,2,3,4,5-pentamethylbenzene",CC1=CC(=C(C(=C1C)C)C)C,1.16,None,oxidation,CC1=CC(=C(C(=C1C)C)C)C,ACN
+"1,2,3,4,5,6-hexamethylbenzene",CC1=C(C(=C(C(=C1C)C)C)C)C,1.08,None,oxidation,CC1=C(C(=C(C(=C1C)C)C)C)C,ACN
+cyclopropylbenzene,C1CC1C2=CC=CC=C2,1.4500000000000002,None,oxidation,C1CC1C2=CC=CC=C2,ACN
+1-cyclopropyl-4-methylbenzene,CC1=CC=C(C=C1)C2CC2,1.2000000000000002,None,oxidation,CC1=CC=C(C=C1)C2CC2,ACN
+trans-1-Methyl-2-phenylcyclopropane,C[C@@H]1C[C@H]1C2=CC=CC=C2,1.2999999999999998,None,oxidation,CC1CC1C2=CC=CC=C2,ACN
+"(2,2-dimethylcyclopropyl)benzene",CC1(CC1C2=CC=CC=C2)C,1.36,None,oxidation,CC1(CC1C2=CC=CC=C2)C,ACN
+"1,2,3,4-tetrahydronaphthalene",C1CCC2=CC=CC=C2C1,1.5100000000000002,None,oxidation,C1CCC2=CC=CC=C2C1,ACN
+azulene,C1=CC=C2C=CC=C2C=C1,0.5499999999999999,None,oxidation,C1=CC=C2C=CC=C2C=C1,ACN
+1-methylnaphthalene,CC1=CC=CC2=CC=CC=C12,1.06,None,oxidation,CC1=CC=CC2=CC=CC=C12,ACN
+2-methylnaphthalene,CC1=CC2=CC=CC=C2C=C1,1.04,None,oxidation,CC1=CC2=CC=CC=C2C=C1,ACN
+"2,6-dimethylnaphthalene",CC1=CC2=C(C=C1)C=C(C=C2)C,0.97,None,oxidation,CC1=CC2=C(C=C1)C=C(C=C2)C,ACN
+acenaphthylene,C1=CC2=C3C(=C1)C=CC3=CC=C2,0.89,None,oxidation,C1=CC2=C3C(=C1)C=CC3=CC=C2,ACN
+n-Propylamine,CCCN,1.0,None,oxidation,CCCN,ACN
+Diethylamine,CCNCC,0.89,None,oxidation,CCNCC,ACN
+n-Butylamine,CCCCN,1.0,None,oxidation,CCCCN,ACN
+i-Butylamine,CC(C)CN,0.99,None,oxidation,CC(C)CN,ACN
+t-Butylamine,CC(C)(C)N,1.0099999999999998,None,oxidation,CC(C)(C)N,ACN
+n-Pentylamine,CCCCCN,1.06,None,oxidation,CCCCCN,ACN
+n-Nonylamine,CCCCCCCCCN,1.09,None,oxidation,CCCCCCCCCN,ACN
+Di-n-propylamine,CCCNCCC,0.7999999999999999,None,oxidation,CCCNCCC,ACN
+Di-n-butylamine,CCCCNCCCC,0.7499999999999999,None,oxidation,CCCCNCCCC,ACN
+Di-sec-butylamine,CCC(C)NC(C)CC,0.7699999999999999,None,oxidation,CCC(C)NC(C)CC,ACN
+Trimethylamine,CN(C)C,0.66,None,oxidation,CN(C)C,ACN
+Tri-n-propylamine,CCCN(CCC)CCC,0.39,None,oxidation,CCCN(CCC)CCC,ACN
+2-(dimethylamino)acetonitrile,CN(C)CC#N,0.96,None,oxidation,CN(C)CC#N,ACN
+4-methoxyaniline,COC1=CC=C(C=C1)N,0.1999999999999999,None,oxidation,COC1=CC=C(C=C1)N,ACN
+4-chloroaniline,C1=CC(=CC=C1N)Cl,0.5399999999999999,None,oxidation,C1=CC(=CC=C1N)Cl,ACN
+"N,N-dimethyl-1-phenylmethanamine",CN(C)CC1=CC=CC=C1,0.61,None,oxidation,CN(C)CC1=CC=CC=C1,ACN
+N-methylaniline,CNC1=CC=CC=C1,0.5099999999999999,None,oxidation,CNC1=CC=CC=C1,ACN
+"N,N-Dimethyl-4-nitroaniline",CN(C)C1=CC=C(C=C1)[N+](=O)[O-],0.89,None,oxidation,CN(C)C1=CC=C(C=C1)[N+](=O)[O-],ACN
+N-ethylaniline,CCNC1=CC=CC=C1,0.5299999999999999,None,oxidation,CCNC1=CC=CC=C1,ACN
+"2,3,5,6-tetramethylaniline",CC1=CC(=C(C(=C1C)N)C)C,0.28,None,oxidation,CC1=CC(=C(C(=C1C)N)C)C,ACN
+"1-N,1-N,4-N,4-N-tetramethylbenzene-1,4-diamine",CN(C)C1=CC=C(C=C1)N(C)C,-0.22,None,reduction,CN(C)C1=CC=C(C=C1)N(C)C,ACN
+"1-N,1-N,3-N,3-N-tetramethylbenzene-1,3-diamine",CN(C)C1=CC(=CC=C1)N(C)C,0.1999999999999999,None,oxidation,CN(C)C1=CC(=CC=C1)N(C)C,ACN
+"1-N,1-N,2-N,2-N-tetramethylbenzene-1,2-diamine",CN(C)C1=CC=CC=C1N(C)C,0.16,None,oxidation,CN(C)C1=CC=CC=C1N(C)C,ACN
+"3-methoxy-N,N-dimethylaniline",CN(C)C1=CC(=CC=C1)OC,0.37,None,oxidation,CN(C)C1=CC(=CC=C1)OC,ACN
+"4-methoxy-N,N-dimethylaniline",CN(C)C1=CC=C(C=C1)OC,0.2099999999999999,None,oxidation,CN(C)C1=CC=C(C=C1)OC,ACN
+"2-methoxy-N,N-dimethylaniline",CN(C)C1=CC=CC=C1OC,0.36,None,oxidation,CN(C)C1=CC=CC=C1OC,ACN
+"2,3,5,6-tetramethylbenzene-1,4-diamine",CC1=C(C(=C(C(=C1N)C)C)N)C,-0.3,None,reduction,CC1=C(C(=C(C(=C1N)C)C)N)C,ACN
+naphthalen-1-amine,C1=CC=C2C(=C1)C=CC=C2N,0.2199999999999999,None,oxidation,C1=CC=C2C(=C1)C=CC=C2N,ACN
+naphthalen-2-amine,C1=CC=C2C=C(C=CC2=C1)N,0.3199999999999999,None,oxidation,C1=CC=C2C=C(C=CC2=C1)N,ACN
+"1,4-diazabicyclo[2.2.2]octane",C1CN2CCN1CC2,0.18,None,oxidation,C1CN2CCN1CC2,ACN
+"N,N-dimethyl-1-phenylethenamine",CN(C)C(=C)C1=CC=CC=C1,0.3099999999999999,None,oxidation,CN(C)C(=C)C1=CC=CC=C1,ACN
+CH3OH,CO,2.79,None,oxidation,CO,ACN
+ethanol,CCO,2.5700000000000003,None,oxidation,CCO,ACN
+propan-2-ol,CC(C)O,2.56,None,oxidation,CC(C)O,ACN
+butan-1-ol,CCCCO,2.62,None,oxidation,CCCCO,ACN
+butan-2-ol,CCC(C)O,2.6100000000000003,None,oxidation,CCC(C)O,ACN
+pentan-1-ol,CCCCCO,2.52,None,oxidation,CCCCCO,ACN
+CH2OH,[CH2]O,1.5100000000000002,None,oxidation,[CH2]O,ACN
+"1,2,3-trimethoxybenzene",COC1=C(C(=CC=C1)OC)OC,1.0299999999999998,None,oxidation,COC1=C(C(=CC=C1)OC)OC,ACN
+"1,2,4-trimethoxybenzene",COC1=CC(=C(C=C1)OC)OC,0.7300000000000001,None,oxidation,COC1=CC(=C(C=C1)OC)OC,ACN
+"1,3,5-trimethoxybenzene",COC1=CC(=CC(=C1)OC)OC,1.1,None,oxidation,COC1=CC(=CC(=C1)OC)OC,ACN
+1-cyclopropyl-4-methoxybenzene,COC1=CC=C(C=C1)C2CC2,0.96,None,oxidation,COC1=CC=C(C=C1)C2CC2,ACN
+1-ethyl-4-methoxybenzene,CCC1=CC=C(C=C1)OC,1.0699999999999998,None,oxidation,CCC1=CC=C(C=C1)OC,ACN
+"1,3-benzodioxole",C1OC2=CC=CC=C2O1,1.0299999999999998,None,oxidation,C1OC2=CC=CC=C2O1,ACN
+"1,3-benzodioxole-5-carboxylic acid",C1OC2=C(O1)C=C(C=C2)C(=O)O,1.2400000000000002,None,oxidation,C1OC2=C(O1)C=C(C=C2)C(=O)O,ACN
+"1,3-benzodioxole-5-carbaldehyde",C1OC2=C(O1)C=C(C=C2)C=O,1.2599999999999998,None,oxidation,C1OC2=C(O1)C=C(C=C2)C=O,ACN
+2-(4-methoxyphenyl)acetic acid,COC1=CC=C(C=C1)CC(=O)O,1.1800000000000002,None,oxidation,COC1=CC=C(C=C1)CC(=O)O,ACN
+"3,3-dimethylbutan-2-one",CC(=O)C(C)(C)C,2.03,None,oxidation,CC(=O)C(C)(C)C,ACN
+3-methylbutan-2-one,CC(C)C(=O)C,2.12,None,oxidation,CC(C)C(=O)C,ACN
+"2,4-dimethylpentan-3-one",CC(C)C(=O)C(C)C,2.01,None,oxidation,CC(C)C(=O)C(C)C,ACN
+phenyl formate,C1=CC=C(C=C1)OC=O,1.58,None,oxidation,C1=CC=C(C=C1)OC=O,ACN
+1-chloro-4-cyclopropylbenzene,C1CC1C2=CC=C(C=C2)Cl,1.58,None,oxidation,C1CC1C2=CC=C(C=C2)Cl,ACN
+p-Chlorotoluene,CC1=CC=C(C=C1)Cl,1.7000000000000002,None,oxidation,CC1=CC=C(C=C1)Cl,ACN
+"N,N-dimethylacetamide",CC(=O)N(C)C,1.7000000000000002,None,oxidation,CC(=O)N(C)C,ACN
+"N,N-dimethylbenzamide",CN(C)C(=O)C1=CC=CC=C1,1.65,None,oxidation,CN(C)C(=O)C1=CC=CC=C1,ACN
+1-(methoxymethyl)piperidine,COCN1CCCCC1,1.4900000000000002,None,oxidation,COCN1CCCCC1,ACN
+methyl piperidine-1-carboxylate,COC(=O)N1CCCCC1,1.5700000000000005,None,oxidation,COC(=O)N1CCCCC1,ACN
+trimethyl(prop-2-enyl)silane,C[Si](C)(C)CC=C,1.11,None,oxidation,C[Si](C)(C)CC=C,ACN
+trimethyl(3-methylbut-2-enyl)silane,CC(=CC[Si](C)(C)C)C,1.0,None,oxidation,CC(=CC[Si](C)(C)C)C,ACN
+1-ethoxyethenoxy(trimethyl)silane,CCOC(=C)O[Si](C)(C)C,0.89,None,oxidation,CCOC(=C)O[Si](C)(C)C,ACN
+(1-methoxy-2-methylprop-1-enoxy)-trimethylsilane,CC(=C(OC)O[Si](C)(C)C)C,0.5099999999999999,None,oxidation,CC(=C(OC)O[Si](C)(C)C)C,ACN
+phenysilane,C1=CC=C(C=C1)[SiH3],2.0,None,oxidation,C1=CC=C(C=C1)[SiH3],ACN
+1-Methyl-4-silylbenzene,CC1=CC=C(C=C1)[SiH3],1.88,None,oxidation,CC1=CC=C(C=C1)[SiH3],ACN
+"(2,4,6-trimethylphenyl)silane",CC1=CC(=C(C(=C1)C)[SiH3])C,1.7800000000000002,None,oxidation,CC1=CC(=C(C(=C1)C)[Si])C,ACN
+"N,N-Dimethyl-4-silylaniline",CN(C)C1=CC=C(C=C1)[SiH3],0.68,None,oxidation,CN(C)C1=CC=C(C=C1)[SiH3],ACN
+Benzyltrimethylsilane,C[Si](C)(C)CC1=CC=CC=C1,0.99,None,oxidation,C[Si](C)(C)CC1=CC=CC=C1,ACN
+trimethyl(phenylsulfanylmethyl)silane,C[Si](C)(C)CSC1=CC=CC=C1,1.09,None,oxidation,C[Si](C)(C)CSC1=CC=CC=C1,ACN
+N-[(Trimethylsilyl)methyl]aniline,C[Si](C)(C)CNC1=CC=CC=C1,0.38,None,oxidation,C[Si](C)(C)CNC1=CC=CC=C1,ACN
+propane-1-thiol,CCCS,1.08,None,oxidation,CCCS,ACN
+butane-1-thiol,CCCCS,1.2799999999999998,None,oxidation,CCCCS,ACN
+methylsulfanylmethane,CSC,1.14,None,oxidation,CSC,ACN
+ethylsulfanylethane,CCSCC,1.29,None,oxidation,CCSCC,ACN
+methylsulfinylmethane,CS(=O)C,1.6100000000000003,None,oxidation,CS(=O)C,ACN
+"N,N-dimethylmethanesulfonamide",CN(C)S(=O)(=O)C,1.6800000000000002,None,oxidation,CN(C)S(=O)(=O)C,ACN
+Pyrrole,C1=CNC=C1,0.7000000000000001,None,oxidation,C1=CNC=C1,ACN
+Pyridine,C1=CC=NC=C1,1.7600000000000002,None,oxidation,C1=CC=NC=C1,ACN
+Thiophene,C1=CSC=C1,1.54,None,oxidation,C1=CSC=C1,ACN
+2-tert-butyl-1H-pyrrole,CC(C)(C)C1=CC=CN1,0.7300000000000001,None,oxidation,CC(C)(C)C1=CC=CN1,ACN
+4-nitro-1-oxidopyridin-1-ium,C1=C[N+](=CC=C1[N+](=O)[O-])[O-],1.7400000000000002,None,oxidation,C1=C[N+](=CC=C1[N+](=O)[O-])[O-],ACN
+1-oxidopyridin-1-ium-4-carbonitrile,C1=C[N+](=CC=C1C#N)[O-],1.88,None,oxidation,C1=C[N+](=CC=C1C#N)[O-],ACN
+Nicotinonitrile 1-oxide,C1=CC(=C[N+](=C1)[O-])C#N,1.62,None,oxidation,C1=CC(=C[N+](=C1)[O-])C#N,ACN
+4-chloropyridine N-oxide,C1=C[N+](=CC=C1Cl)[O-],1.4,None,oxidation,C1=C[N+](=CC=C1Cl)[O-],ACN
+1-oxidopyridin-1-ium,C1=CC=[N+](C=C1)[O-],1.41,None,oxidation,C1=CC=[N+](C=C1)[O-],ACN
+4-methyl-1-oxidopyridin-1-ium,CC1=CC=[N+](C=C1)[O-],1.2200000000000002,None,oxidation,CC1=CC=[N+](C=C1)[O-],ACN
+3-methyl-1-oxidopyridin-1-ium,CC1=C[N+](=CC=C1)[O-],1.4,None,oxidation,CC1=C[N+](=CC=C1)[O-],ACN
+4-methoxy-1-oxidopyridin-1-ium,COC1=CC=[N+](C=C1)[O-],0.97,None,oxidation,COC1=CC=[N+](C=C1)[O-],ACN
+"N,N-dimethyl-1-oxidopyridin-1-ium-4-amine",CN(C)C1=CC=[N+](C=C1)[O-],0.37,None,oxidation,CN(C)C1=CC=[N+](C=C1)[O-],ACN
+3-methoxy-1-oxidopyridin-1-ium,COC1=C[N+](=CC=C1)[O-],1.33,None,oxidation,COC1=C[N+](=CC=C1)[O-],ACN
+3-chloro-1-oxidopyridin-1-ium,C1=CC(=C[N+](=C1)[O-])Cl,1.5100000000000002,None,oxidation,C1=CC(=C[N+](=C1)[O-])Cl,ACN
+ethyl 1-oxidopyridin-1-ium-3-carboxylate,CCOC(=O)C1=C[N+](=CC=C1)[O-],1.5300000000000002,None,oxidation,CCOC(=O)C1=C[N+](=CC=C1)[O-],ACN
+ethyl 1-oxidopyridin-1-ium-4-carboxylate,CCOC(=O)C1=CC=[N+](C=C1)[O-],1.5900000000000003,None,oxidation,CCOC(=O)C1=CC=[N+](C=C1)[O-],ACN
+4-ethyl-1-oxidopyridin-1-ium,CCC1=CC=[N+](C=C1)[O-],1.1800000000000002,None,oxidation,CCC1=CC=[N+](C=C1)[O-],ACN
+2-(1H-pyrrol-2-yl)-1H-pyrrole,C1=CNC(=C1)C2=CC=CN2,0.2099999999999999,None,oxidation,C1=CNC(=C1)C2=CC=CN2,ACN
+2-methyl-5-(1H-pyrrol-2-yl)-1H-pyrrole,CC1=CC=C(N1)C2=CC=CN2,0.0699999999999999,None,oxidation,CC1=CC=C(N1)C2=CC=CN2,ACN
+2-methyl-5-(5-methyl-1H-pyrrol-2-yl)-1H-pyrrole,CC1=CC=C(N1)C2=CC=C(N2)C,-0.0899999999999999,None,reduction,CC1=CC=C(N1)C2=CC=C(N2)C,ACN
+2-methyl-1H-benzimidazole,CC1=NC2=CC=CC=C2N1,0.99,None,oxidation,CC1=NC2=CC=CC=C2N1,ACN
+"1,2,3-Trimethyl-1H-benzimidazolium",CC1=[N+](C2=CC=CC=C2N1C)C,1.91,None,oxidation,CC1=[N+](C2=CC=CC=C2N1C)C,ACN
+1-Ethylquinolinium,CC[N+]1=CC=CC2=CC=CC=C21,2.19,None,oxidation,CC[N+]1=CC=CC2=CC=CC=C21,ACN
+"1,1-dimethylhydrazine",CN(C)N,-0.2,None,reduction,CN(C)N,ACN
+"1,1,2,2-tetramethylhydrazine",CN(C)N(C)C,-0.1099999999999999,None,reduction,CN(C)N(C)C,ACN
+"1,1,2-trimethyl-2-propylhydrazine",CCCN(C)N(C)C,-0.12,None,reduction,CCCN(C)N(C)C,ACN
+Butyltrimethylhydrazine,CCCCN(C)N(C)C,-0.12,None,reduction,CCCCN(C)N(C)C,ACN
+"1,1-dimethyl-2,2-dipropylhydrazine",CCCN(CCC)N(C)C,-0.14,None,reduction,CCCN(CCC)N(C)C,ACN
+"N,N'-Diethyl-N,N'-dimethylhydrazine",CCN(C)N(C)CC,-0.13,None,reduction,CCN(C)N(C)CC,ACN
+tert-Butyl trimethylhydrazine,CC(C)(C)N(C)N(C)C,0.05,None,oxidation,CC(C)(C)N(C)N(C)C,ACN
+"Hydrazine, 1,2-di-tert-butyl 1,2-dimethyl-",CC(C)(C)N(C)N(C)C(C)(C)C,0.13,None,oxidation,CC(C)(C)N(C)N(C)C(C)(C)C,ACN
+"1-Pyrrolidinamine, N,N-dimethyl-",CN(C)N1CCCC1,-0.27,None,reduction,CN(C)N1CCCC1,ACN
+"1-Piperidinamine, N,N-dimethyl-",CN(C)N1CCCCC1,-0.0799999999999999,None,reduction,CN(C)N1CCCCC1,ACN
+N-(N-Pyrrolidinyl)-piperidine,C1CCN(CC1)N2CCCC2,-0.24,None,reduction,C1CCN(CC1)N2CCCC2,ACN
+"Hexahydropyrazolo[1,2-a]pyrazole",C1CN2CCCN2C1,-0.36,None,reduction,C1CN2CCCN2C1,ACN
+"1,2-dimethylpyrazolidine",CN1CCCN1C,-0.33,None,reduction,CN1CCCN1C,ACN
+"2,3-Diazabicyclo(2.2.2)octane, 2,3-dimethyl-",CN1C2CCC(N1C)CC2,-0.29,None,reduction,CN1C2CCC(N1C)CC2,ACN
+"Pyridazine, hexahydro-1,2,3,6-tetramethyl-, cis-",CC1CCC(N(N1C)C)C,-0.24,None,reduction,CC1CCC(N(N1C)C)C,ACN
+"1,2-dimethylhexahydropyridazine",CN1CCCCN1C,-0.21,None,reduction,CN1CCCCN1C,ACN
+"1,2-Diazacyclohex-4-ene, 1,2-dimethyl-",CN1CC=CCN1C,-0.1099999999999999,None,reduction,CN1CC=CCN1C,ACN
+"1,6-Diazabicyclo(4.4.0)decane",C1CCN2CCCCN2C1,-0.16,None,reduction,C1CCN2CCCCN2C1,ACN
+"3,4-diethyl-1,3,4-oxadiazolidine",CCN1COCN1CC,0.17,None,oxidation,CCN1COCN1CC,ACN
+"1,2,4,5-Tetraazacyclohexane, 1,2,4,5-tetramethyl-",CN1CN(N(CN1C)C)C,-0.0699999999999999,None,reduction,CN1CN(N(CN1C)C)C,ACN
+"2,3-Diazabicyclo[2.2.1]hept-2-ene",C1CC2CC1N=N2,1.58,None,oxidation,C1CC2CC1N=N2,ACN
+"7,7-dimethyl-2,3-diazabicyclo[2.2.1]hept-2-ene",CC1(C2CCC1N=N2)C,1.46,None,oxidation,CC1(C2CCC1N=N2)C,ACN
+"1,4-dimethyl-2,3-diazabicyclo[2.2.1]hept-2-ene",CC12CCC(C1)(N=N2)C,1.2000000000000002,None,oxidation,CC12CCC(C1)(N=N2)C,ACN
+"2,3-diazabicyclo[2.2.2]oct-2-ene",C1CC2CCC1N=N2,1.06,None,oxidation,C1CC2CCC1N=N2,ACN
+"1,4-Dimethyl-2,3-diaza-bicyclo(2.2.2)oct-2-ene",CC12CCC(CC1)(N=N2)C,0.95,None,oxidation,CC12CCC(CC1)(N=N2)C,ACN
+"methyl 3,5,5-trimethyl-4,5-dihydro-3H-pyrazole-3-carboxylate",CC1(CC(N=N1)(C)C(=O)OC)C,1.66,None,oxidation,CC1(CC(N=N1)(C)C(=O)OC)C,ACN
+"3,4-diazatricyclo[4.2.1.02,5]nona-3,7-diene",C1C2C=CC1C3C2N=N3,1.91,None,oxidation,C1C2C=CC1C3C2N=N3,ACN
+N-[(E)-diethylaminodiazenyl]-N-ethylethanamine,CCN(CC)/N=N/N(CC)CC,-0.0699999999999999,None,reduction,CCN(CC)N=NN(CC)CC,ACN
+"2,2'-Bipyridine",C1=CC=NC(=C1)C2=CC=CC=N2,-3.6499999999999995,None,reduction,C1=CC=NC(=C1)C2=CC=CC=N2,ACN
+"1,10-phenanthroline",C1=CC2=C(C3=C(C=CC=N3)C=C2)N=C1,-3.51,None,reduction,C1=CC2=C(C3=C(C=CC=N3)C=C2)N=C1,ACN
+"3,3'-Azotoluene",CC1=CC(=CC=C1)N=NC2=CC=CC(=C2)C,"-2.8999999999999995,-3.5299999999999994",None,reduction,CC1=CC(=CC=C1)N=NC2=CC=CC(=C2)C,ACN
+"1,1'-Azonaphthalene",C1=CC=C2C(=C1)C=CC=C2N=NC3=CC=CC4=CC=CC=C43,"-2.6499999999999995,-3.2099999999999995",None,reduction,C1=CC=C2C(=C1)C=CC=C2N=NC3=CC=CC4=CC=CC=C43,ACN
+"2,2'-Azonaphthalene",C1=CC=C2C=C(C=CC2=C1)N=NC3=CC4=CC=CC=C4C=C3,"-2.7399999999999998,-3.2699999999999996",None,reduction,C1=CC=C2C=C(C=CC2=C1)N=NC3=CC4=CC=CC=C4C=C3,ACN
+"4,4'-Azobiphenyl",C1=CC=C(C=C1)C2=CC=C(C=C2)N=NC3=CC=C(C=C3)C4=CC=CC=C4,"-2.7399999999999998,-3.2899999999999996",None,reduction,C1=CC=C(C=C1)C2=CC=C(C=C2)N=NC3=CC=C(C=C3)C4=CC=CC=C4,ACN
+"4,4'-Azopyridine",C1=CN=CC=C1N=NC2=CC=NC=C2,"-2.32,-3.05",None,reduction,C1=CN=CC=C1N=NC2=CC=NC=C2,ACN
+"2,3-Dimethylnaphthalene",CC1=CC2=CC=CC=C2C=C1C,"0.993,1.253",None,oxidation,CC1=CC2=CC=CC=C2C=C1C,ACN
+Indan,C1CC2=CC=CC=C2C1,"1.503,1.933",None,oxidation,C1CC2=CC=CC=C2C1,ACN
+Tetracene,C1=CC=C2C=C3C=C4C=CC=CC4=CC3=CC2=C1,"0.453,1.113",None,oxidation,C1=CC=C2C=C3C=C4C=CC=CC4=CC3=CC2=C1,ACN
+"1,2-Benzanthracene",C1=CC=C2C(=C1)C=CC3=CC4=CC=CC=C4C=C32,"0.913,1.003",None,oxidation,C1=CC=C2C(=C1)C=CC3=CC4=CC=CC=C4C=C32,ACN
+Pyrene,C1=CC2=C3C(=C1)C=CC4=CC=CC(=C43)C=C2,"0.973,1.153",None,oxidation,C1=CC2=C3C(=C1)C=CC4=CC=CC(=C43)C=C2,ACN
+Chrysene,C1=CC=C2C(=C1)C=CC3=C2C=CC4=CC=CC=C43,"1.133,1.183",None,oxidation,C1=CC=C2C(=C1)C=CC3=C2C=CC4=CC=CC=C43,ACN
+Triphenylene,C1=CC=C2C(=C1)C3=CC=CC=C3C4=CC=CC=C24,"1.373,1.463",None,oxidation,C1=CC=C2C(=C1)C3=CC=CC=C3C4=CC=CC=C24,ACN
+"1,2,5,6-Dibenzanthracene",C1=CC=C2C(=C1)C=CC3=CC4=C(C=CC5=CC=CC=C54)C=C32,"0.913,1.173",None,oxidation,C1=CC=C2C(=C1)C=CC3=CC4=C(C=CC5=CC=CC=C54)C=C32,ACN
+Phenoxathiin,C1=CC=C2C(=C1)OC3=CC=CC=C3S2,"0.738,1.233",None,oxidation,C1=CC=C2C(=C1)OC3=CC=CC=C3S2,ACN
+Thianthrene,C1=CC=C2C(=C1)SC3=CC=CC=C3S2,"0.778,1.103",None,oxidation,C1=CC=C2C(=C1)SC3=CC=CC=C3S2,ACN
+"3,4-Dimethoxypropenylbenzene",C/C=C/C1=CC(=C(C=C1)OC)OC,"0.600,0.820,1.020",None,oxidation,CC=CC1=CC(=C(C=C1)OC)OC,ACN
+p-Nitro aniline,C1=CC(=CC=C1N)[N+](=O)[O-],"0.590,0.760",None,oxidation,C1=CC(=CC=C1N)[N+](=O)[O-],ACN
+9-Amino-10-phenylanthracene,C1=CC=C(C=C1)C2=C3C=CC=CC3=C(C4=CC=CC=C42)N,"0.083,0.933",None,oxidation,C1=CC=C(C=C1)C2=C3C=CC=CC3=C(C4=CC=CC=C42)N,ACN
+N-Methylphenothiazine,CN1C2=CC=CC=C2SC3=CC=CC=C31,"0.313,0.883",None,oxidation,CN1C2=CC=CC=C2SC3=CC=CC=C31,ACN
+Persantine,C1CCN(CC1)C2=NC(=NC3=C2N=C(N=C3N4CCCCC4)N(CCO)CCO)N(CCO)CCO,"0.133,0.383",None,oxidation,C1CCN(CC1)C2=NC(=NC3=C2N=C(N=C3N4CCCCC4)N(CCO)CCO)N(CCO)CCO,ACN
+"9,10-Dibromoanthracene",C1=CC=C2C(=C1)C(=C3C=CC=CC3=C2Br)Br,"1.063,1.383",None,oxidation,C1=CC=C2C(=C1)C(=C3C=CC=CC3=C2Br)Br,ACN
+p-Methoxybenzyl alcohol,COC1=CC=C(C=C1)CO,"1.133,1.553",None,oxidation,COC1=CC=C(C=C1)CO,ACN
+p-Iodobenzyl alcohol,C1=CC(=CC=C1CO)I,"1.493,1.823",None,oxidation,C1=CC(=CC=C1CO)I,ACN
+Cinnamyl alcohol,C1=CC=C(C=C1)/C=C/CO,"1.243,1.733",None,oxidation,C1=CC=C(C=C1)C=CCO,ACN
+p-Nitrocinnamyl alcohol,C1=CC(=CC=C1/C=C/CO)[N+](=O)[O-],"1.273,1.683",None,oxidation,C1=CC(=CC=C1C=CCO)[N+](=O)[O-],ACN
+Hydrazobenzene,C1=CC=C(C=C1)NNC2=CC=CC=C2,"0.093,1.263",None,oxidation,C1=CC=C(C=C1)NNC2=CC=CC=C2,ACN
+"4,4'-Dichlorohydrazobenzene",C1=CC(=CC=C1NNC2=CC=C(C=C2)Cl)Cl,"0.173,1.353",None,oxidation,C1=CC(=CC=C1NNC2=CC=C(C=C2)Cl)Cl,ACN
+"5,10-dihydro-5,10-dimethylphenazine",CN1C2=CC=CC=C2N(C3=CC=CC=C31)C,"-0.29,0.5",None,oxidation,CN1C2=CC=CC=C2N(C3=CC=CC=C31)C,ACN
