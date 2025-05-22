@@ -35,24 +35,27 @@ if __name__ == '__main__':
     parser.add_option("--device", dest="device", type=str, default='cuda', help='使用的設備：cuda 或 cpu')
     opts, args = parser.parse_args()
 
-train_dataset_metal   = dataloader.load_data(opts.input_metal, opts.test_size, is_metal=True, features=opts.num_features,label_columns=['IE', 'EA', 'E12'])[0].dataset
-train_dataset_element = dataloader.load_data(opts.input_element, opts.test_size, is_metal=True, features=opts.num_features,label_columns=['IE', 'EA', 'E12'])[0].dataset
-train_dataset_organic, test_dataset_organic = dataloader.load_data(opts.input_organic, opts.test_size, is_metal=False, features=opts.num_features,label_columns=['IE', 'EA', 'E12'])
-train_dataset_organic = train_dataset_organic.dataset
+print("Loading data...")
+train_dataset_metal, _   = OrganicMetal_potential.data_loader(opts.input_metal, opts.test_size, is_metal=True, features=opts.num_features)
+train_dataset_element, _ = OrganicMetal_potential.data_loader(opts.input_element, opts.test_size, is_metal=True, features=opts.num_features)
+train_dataset_organic, test_dataset_organic = OrganicMetal_potential.data_loader(opts.input_organic, opts.test_size, is_metal=False, features=opts.num_features)
+print("Data loaded")
 # train_dataset_metal, _   = OrganicMetal_potential.data_loader(opts.input_metal, opts.test_size, is_metal=True, features=opts.num_features)
 # train_dataset_element, _ = OrganicMetal_potential.data_loader(opts.input_element, opts.test_size, is_metal=True, features=opts.num_features)
 # train_dataset_organic, test_dataset_organic = OrganicMetal_potential.data_loader(opts.input_organic, opts.test_size, is_metal=False, features=opts.num_features)
 train_dataset = train_dataset_metal + train_dataset_element + train_dataset_organic 
-test_loader   = test_dataset_organic
+test_loader   = DataLoader(test_dataset_organic, batch_size=opts.batch_size, shuffle=False)
 train_loader  = DataLoader(train_dataset, batch_size=opts.batch_size, shuffle=True)
 
 device = torch.device(opts.device)
+print("Creating model...")
 model  = OGNN_RNN_allmask(node_dim=opts.num_features, bond_dim=11, hidden_dim=opts.num_features, output_dim=opts.output_size, depth=opts.depth ,dropout=opts.dropout, model_type=opts.model_type).to(device)
-
+print("Model created")
 optimizer = torch.optim.Adam(model.parameters(), lr=opts.lr)
 scheduler = lr_scheduler.StepLR(optimizer, step_size=1, gamma=opts.anneal_rate)
 
 train_loss_history,train_reg_history,train_cla_history, test_loss_history,test_reg_history,test_cla_history, train_accuracy_history, test_accuracy_history = [], [], [], [], [], [], [], []
+print("Training model...")
 for epoch in range(opts.num_epochs):
     model.train()
     total_loss, total_cla_loss, total_reg_loss, count = 0, 0, 0, 0
@@ -107,4 +110,4 @@ with open(os.path.join(os.getcwd(), "config.json"), 'w') as f:
     json.dump(config, f, indent=4)
 
 # parity plot
-OrganicMetal_potential.parity_plot("reg_train_pred_true.csv", "reg_valid_pred_true.csv")
+parity_plot("reg_train_pred_true.csv", "reg_valid_pred_true.csv")

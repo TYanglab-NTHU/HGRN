@@ -214,10 +214,13 @@ def metal_features(metal, features=153):
     oxidation_state = get_metal_oxidation_state(metal)
     metal_symbol = metal.split(str(oxidation_state))[0]
     mol = Chem.MolFromSmiles("[{}]".format(metal_symbol))
+    if mol is None:
+        raise ValueError(f"無法解析金屬符號: {metal_symbol}")
     atom = mol.GetAtomWithIdx(0) 
-    edge_index = torch.tensor([[0],[0]], dtype=torch.long).cuda()
-    batch1 = torch.tensor([0], dtype=torch.long).cuda()
-    edge_attr = torch.tensor([[0,0,0,0,0,0,0,0,0,0,0]], dtype=torch.float).cuda()
+    # 使用CPU創建tensor，讓調用者負責將其移到適當的設備
+    edge_index = torch.tensor([[0],[0]], dtype=torch.long)
+    batch1 = torch.tensor([0], dtype=torch.long)
+    edge_attr = torch.tensor([[0,0,0,0,0,0,0,0,0,0,0]], dtype=torch.float)
 
     return (atom_features(atom, oxidation_state, features)), (edge_index, batch1), edge_attr
 
@@ -232,6 +235,8 @@ def tensorize_with_subgraphs(smiles_batch, metal, features=153):
     for smi in smiles_batch:
         minds = []  # List to store all metal indices
         mol = Chem.MolFromSmiles(smi, sanitize=False)
+        if mol is None:
+            raise ValueError(f"無法解析SMILES字符串: {smi}")
         for i, atom in enumerate(mol.GetAtoms()):
             if atom.GetSymbol() in TM_LIST:
                 minds.append(i)  # Collect all metal indices
@@ -257,14 +262,14 @@ def tensorize_with_subgraphs(smiles_batch, metal, features=153):
                 bond_feature_dict[(end, start)] = bond_feat
                 ligand_edge_idx.append([start, end])
                 ligand_edge_idx.append([end, start])
-            ligand_edge_idx = torch.Tensor(ligand_edge_idx).long().T
+            ligand_edge_idx = torch.Tensor(ligand_edge_idx).long().T if ligand_edge_idx else torch.empty((2, 0)).long()
             for start, end in ligand_edge_idx.T.tolist():
                 if (start, end) in bond_feature_dict:
                     ligand_bond_features.append(bond_feature_dict[(start, end)])
                 else:
                     ligand_bond_features.append(torch.zeros((1, 11)))
             ligand_bond_features = [t.flatten() for t in ligand_bond_features]
-            ligand_bond_features = torch.stack(ligand_bond_features) 
+            ligand_bond_features = torch.stack(ligand_bond_features) if ligand_bond_features else torch.empty((0, 11))
             ligand_batch_idx = np.zeros((mol.GetNumAtoms()))
             ligand_batch_idx = torch.Tensor(ligand_batch_idx).long()
 
@@ -577,6 +582,8 @@ def order(smiles_batch):
     for smi in smiles_batch:
         midx = None
         mol = Chem.MolFromSmiles(smi, sanitize=False)
+        if mol is None:
+            raise ValueError(f"無法解析SMILES字符串: {smi}")
         
         for i, atom in enumerate(mol.GetAtoms()):
             if atom.GetSymbol() in TM_LIST:
@@ -634,6 +641,8 @@ def order(smiles_batch):
     frag_to_group = defaultdict(list)
     for frag_smile in mol_smiles:
         frag_mol = Chem.MolFromSmiles(frag_smile)
+        if frag_mol is None:
+            continue  # 跳過無效的片段SMILES
         atom_symbols = [atom.GetSymbol() for atom in frag_mol.GetAtoms()]
         for group, symbols in grouped_atoms.items():
             if sorted(atom_symbols) == sorted(symbols) and frag_smile not in frag_to_group[group]:
@@ -646,6 +655,8 @@ def redox_each_num(smiles_batch, metal, redox_sites):
     for smi in smiles_batch:
         midx = None
         mol = Chem.MolFromSmiles(smi, sanitize=False)
+        if mol is None:
+            raise ValueError(f"無法解析SMILES字符串: {smi}")
         
         for i, atom in enumerate(mol.GetAtoms()):
             if atom.GetSymbol() in TM_LIST:
@@ -703,6 +714,8 @@ def redox_each_num(smiles_batch, metal, redox_sites):
     frag_to_group = defaultdict(list)
     for frag_smile in mol_smiles:
         frag_mol = Chem.MolFromSmiles(frag_smile)
+        if frag_mol is None:
+            continue  # 跳過無效的片段SMILES
         atom_symbols = [atom.GetSymbol() for atom in frag_mol.GetAtoms()]
         for group, symbols in grouped_atoms.items():
             if sorted(atom_symbols) == sorted(symbols) and frag_smile not in frag_to_group[group]:

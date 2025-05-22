@@ -196,15 +196,54 @@ class OrganicMetal_potential():
                     for key in ['IE', 'EA', 'E12', 'E12_inv']:
                         if isinstance(true_labels.get(key), torch.Tensor):
                             gt_tensor = true_labels[key]
-                            sample_reg_dict[f"{key}_actual"] = gt_tensor.squeeze().cpu().numpy()
+                            # 處理多維真實值：如果是向量，轉為列表；如果是標量，保持標量
+                            gt_numpy = gt_tensor.squeeze().cpu().numpy()
+                            if gt_numpy.ndim == 0:
+                                sample_reg_dict[f"{key}_actual"] = float(gt_numpy)
+                            else:
+                                sample_reg_dict[f"{key}_actual"] = gt_numpy.tolist()
                         else:
                             sample_reg_dict[f"{key}_actual"] = np.nan
 
                         if potential_regs.get(key) and len(potential_regs[key]) > 0:
                             pred_tensor = potential_regs[key][0]
-                            sample_reg_dict[f"{key}_pred"] = pred_tensor.squeeze().cpu().numpy()
+                            pred_numpy = pred_tensor.squeeze().cpu().numpy()
+                            sample_reg_dict[f"{key}_pred"] = float(pred_numpy) if pred_numpy.ndim == 0 else pred_numpy.tolist()
                             if true_labels.get(key) is not None:
-                                loss_reg = F.mse_loss(pred_tensor.squeeze(), true_labels[key].squeeze())
+                                # 確保預測值和真實值維度匹配
+                                pred_val = pred_tensor.squeeze()
+                                true_val = true_labels[key].squeeze()
+                                
+                                # 處理維度不匹配的情況
+                                if true_val.dim() > 0 and pred_val.dim() == 0:
+                                    # 真實值是向量，預測值是標量 - 取真實值的第一個元素
+                                    true_val = true_val[0] if len(true_val) > 0 else true_val.mean()
+                                elif pred_val.dim() > 0 and true_val.dim() == 0:
+                                    # 預測值是向量，真實值是標量 - 取預測值的第一個元素
+                                    pred_val = pred_val[0] if len(pred_val) > 0 else pred_val.mean()
+                                elif true_val.dim() > 0 and pred_val.dim() > 0:
+                                    # 兩者都是向量 - 確保形狀相同，如果不同則只取第一個元素
+                                    min_len = min(len(true_val), len(pred_val))
+                                    if min_len > 0:
+                                        true_val = true_val[0]
+                                        pred_val = pred_val[0]
+                                    else:
+                                        true_val = true_val.mean()
+                                        pred_val = pred_val.mean()
+                                
+                                # 確保兩個值都是標量
+                                if pred_val.dim() > 0:
+                                    pred_val = pred_val.item() if pred_val.numel() == 1 else pred_val.mean()
+                                if true_val.dim() > 0:
+                                    true_val = true_val.item() if true_val.numel() == 1 else true_val.mean()
+                                
+                                # 確保都是張量
+                                if not isinstance(pred_val, torch.Tensor):
+                                    pred_val = torch.tensor(pred_val, device=device)
+                                if not isinstance(true_val, torch.Tensor):
+                                    true_val = torch.tensor(true_val, device=device)
+                                
+                                loss_reg = F.mse_loss(pred_val, true_val)
                                 total_reg_loss += loss_reg.item()
                         else:
                             sample_reg_dict[f"{key}_pred"] = np.nan
@@ -472,7 +511,10 @@ class OM():
                         actuals     += str(real.cpu().numpy()) + ","
                         if i < len(E12_regs):
                             predictions += str(E12_regs[i].squeeze().cpu().detach().numpy()) + ","
-                            loss_reg    += F.mse_loss(E12_regs[i].squeeze(), real).item() 
+                            # 確保維度匹配
+                            pred_val = E12_regs[i].squeeze()
+                            real_val = real.squeeze()
+                            loss_reg += F.mse_loss(pred_val, real_val).item()
                         else:
                             break
 

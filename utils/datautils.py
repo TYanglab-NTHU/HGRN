@@ -4,7 +4,8 @@ import pandas as pd
 
 import torch
 import torch.optim as optim
-from torch_geometric.data     import Data, DataLoader
+from torch_geometric.data     import Data
+from torch_geometric.loader import DataLoader
 
 from sklearn.metrics         import confusion_matrix, ConfusionMatrixDisplay
 from sklearn.model_selection import KFold
