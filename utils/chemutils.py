@@ -203,12 +203,15 @@ def atom_features(atom, oxidation_state=None, features=153):
         return torch.Tensor(
             atom_symbol_encoding +
             atom_degree_encoding +
-            formal_charge_encoding+
+            formal_charge_encoding +
             chiral_tag_encoding +
             num_h_encoding +
             hybridization_encoding +
-            is_aromatic
-            ) # 118+13 
+            is_aromatic +
+            # 新增兩個特徵
+            atom_eff_charge +
+            atomic_mass
+        ) # 155個特徵
 
 def metal_features(metal, features=153):
     oxidation_state = get_metal_oxidation_state(metal)

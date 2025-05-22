@@ -15,6 +15,13 @@ ligand_edge_idx = torch.Tensor(ligand_edge_idx).long().T if ligand_edge_idx else
 確保不會stack empty tensor
 - Chem.MolFromSmiles回傳空值的情況修改
 
+```c
+Error evaluating model: mat1 and mat2 shapes cannot be multiplied (1x153 and 155x512)
+```
+- 這個問題是elif features == 153:沒有增加atom_eff_charge, atomic_mass，維度少2
+
+還有另外的問題: RuntimeError: mat1 and mat2 shapes cannot be multiplied (6x166 and 164x153)
+
 ## 對pretrain_model.py的改動
 - 修改total loss是Int無法backward的問題
 - 修改total loss原地操作的問題
@@ -22,9 +29,5 @@ ligand_edge_idx = torch.Tensor(ligand_edge_idx).long().T if ligand_edge_idx else
 ## 對trainutils_v2的改動
 - 修改mse計算時兩個維度不同的問題，已確保相同
 
-這個bug還沒de
-```c
-Error evaluating model: mat1 and mat2 shapes cannot be multiplied (1x153 and 155x512)
-```
 
 
