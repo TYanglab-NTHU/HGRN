@@ -64,8 +64,24 @@ class dataloader:
             
             # 獲取標籤值
             if col in row and pd.notna(row[col][0] if isinstance(row[col], list) else row[col]):
-                value = row[col] if isinstance(row[col], list) else [row[col]]
-                labels[key] = torch.Tensor(value)
+                value = row[col]
+                # 轉換值為浮點數列表
+                if isinstance(value, list):
+                    try:
+                        value = [float(v) for v in value]
+                    except (ValueError, TypeError):
+                        print(f"Warning: Could not convert value {value} to float for {key}")
+                        labels[key] = None
+                        reaction_info[key] = None
+                        continue
+                else:
+                    try:
+                        value = [float(value)]
+                    except (ValueError, TypeError):
+                        labels[key] = None
+                        reaction_info[key] = None
+                        continue
+                labels[key] = torch.tensor(value, dtype=torch.float32)
                 
                 # 獲取反應信息
                 reaction_type = None
@@ -117,9 +133,10 @@ class dataloader:
         def create_data_object(row, is_metal=False):
             try:
                 if is_metal:
+                    metal = row.get("Metal")
                     fatoms, graphs, edge_features = metal_features(row["Metal"], features)
                     fatoms = torch.unsqueeze(fatoms, dim=0)
-                    name = [row["Metal"]]
+                    name = metal
                 else:
                     smiles = row.get("smiles") or row.get("pubchem_smiles")
                     if pd.isna(smiles):
@@ -171,7 +188,6 @@ class dataloader:
         
         return (DataLoader(train_dataset, batch_size=1, shuffle=True),
                 DataLoader(test_dataset, batch_size=1, shuffle=False))
-
 
 
 def data_loader(file_path, tensorize_fn, batch_size, test_size=0.2):

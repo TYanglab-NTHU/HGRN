@@ -381,7 +381,7 @@ class OGNN_RNN_allmask(nn.Module):
         
         for graph in batch.to_data_list():
             x, edge_index, edge_attr, true_potentials, reaction= graph.x, graph.edge_index, graph.edge_attr, graph.ys, graph.reaction
-            if graph.solvent != 'None':
+            if graph.solvent is not None:
                 solvent = graph.solvent
             else:
                 solvent = 'None'

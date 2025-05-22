@@ -43,8 +43,8 @@ train_dataset_organic = train_dataset_organic.dataset
 # train_dataset_element, _ = OrganicMetal_potential.data_loader(opts.input_element, opts.test_size, is_metal=True, features=opts.num_features)
 # train_dataset_organic, test_dataset_organic = OrganicMetal_potential.data_loader(opts.input_organic, opts.test_size, is_metal=False, features=opts.num_features)
 train_dataset = train_dataset_metal + train_dataset_element + train_dataset_organic 
-test_dataset  = test_dataset_organic
-train_loader , test_loader  = DataLoader(train_dataset, batch_size=opts.batch_size, shuffle=True), DataLoader(test_dataset, batch_size=opts.batch_size, shuffle=False)
+test_loader   = test_dataset_organic
+train_loader  = DataLoader(train_dataset, batch_size=opts.batch_size, shuffle=True)
 
 device = torch.device(opts.device)
 model  = OGNN_RNN_allmask(node_dim=opts.num_features, bond_dim=11, hidden_dim=opts.num_features, output_dim=opts.output_size, depth=opts.depth ,dropout=opts.dropout, model_type=opts.model_type).to(device)

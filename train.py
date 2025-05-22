@@ -47,14 +47,15 @@ scheduler = lr_scheduler.StepLR(optimizer, step_size=1, gamma=opts.anneal_rate)
 
 "Load Pretrain GCN1 model"
 if opts.pretrain:
-    sys.path.append('/work/u7069586/OMGNN-OROP/scripts')
-    from pre_models import OrganicMetalGCN
-    pretrained_model      = OrganicMetalGCN(node_dim=opts.num_features, bond_dim=11, hidden_dim=opts.num_features, output_dim=opts.output_size,dropout=opts.dropout).to(device)
-    pretrained_checkpoint = torch.load('/work/u7069586/OMGNN/models/model_pretrain_gcn1-1-500.pkl', map_location='cpu')
-    pretrained_model.load_state_dict(pretrained_checkpoint)
+    pretrained_model      = OGNN_RNN_allmask(node_dim=opts.num_features, bond_dim=11, hidden_dim=opts.num_features, output_dim=opts.output_size,dropout=opts.dropout).to(device)
+    pretrained_checkpoint = torch.load('./checkpoint/model_pretrain_gcn1-1-500.pkl', map_location='cpu')
+    
+    # 只載入 GCN1 相關的參數
+    gcn1_state_dict = {k: v for k, v in pretrained_checkpoint.items() if 'GCN1' in k}
+    pretrained_model.load_state_dict(gcn1_state_dict, strict=False)
     pretrained_model.eval()
     model.GCN1.load_state_dict(pretrained_model.GCN1.state_dict())
-    print("Pretrain GCN1")
+    print("Pretrain GCN1 loaded successfully")
 
 train_loss_history,train_reg_history,train_cla_history, test_loss_history,test_reg_history,test_cla_history, train_accuracy_history, test_accuracy_history = [], [], [], [], [], [], [], []
 for epoch in range(opts.num_epochs):

@@ -475,7 +475,7 @@ def tensorize_with_subgraphs(smiles_batch, metal, features=153):
             for bond in mol.GetBonds():
                 begin_idx = bond.GetBeginAtomIdx()
                 end_idx = bond.GetEndAtomIdx()
-                print(begin_idx , end_idx)
+                # print(begin_idx , end_idx)
                 bond_tuple = (min(begin_idx, end_idx), max(begin_idx, end_idx))
                 # get metal-lig bonds and metal-metal bonds
                 if bond_tuple not in excluded_bonds and not any(
@@ -490,13 +490,13 @@ def tensorize_with_subgraphs(smiles_batch, metal, features=153):
                 return intrafrag_dict.get(atom_idx, None)
             bond_tensor_map = []
             for bond in interfrag_bonds:
-                print(begin_idx , end_idx)
+                # print(begin_idx , end_idx)
                 begin_idx = bond.GetBeginAtomIdx()
                 end_idx = bond.GetEndAtomIdx()
                 begin_tensor = atom_idx_to_tensor(begin_idx, intrafrag_batch_idx_dict)
                 end_tensor = atom_idx_to_tensor(end_idx, intrafrag_batch_idx_dict)
                 bond_tensor_map.append((begin_tensor, end_tensor))
-                print(begin_idx , end_idx)
+                # print(begin_idx , end_idx)
             bond_feature_dict = {(min(a, b), max(a, b)): feature for (a, b), feature in zip(interfrag_bond_idx, bond_features_list)}
 
             def map_to_tensor_indices(atom_idx1, atom_idx2, mapping_dict):
@@ -545,7 +545,7 @@ def tensorize_with_subgraphs(smiles_batch, metal, features=153):
 
             complex_edge_idx = []
             for midx, nidx in inds_bond_removed_metal:
-                print(midx, nidx)
+                # print(midx, nidx)
                 complex_idx1 = interfrag_batch_idx[intrafrag_batch_idx_dict[midx].item()]
                 complex_idx2 = interfrag_batch_idx[intrafrag_batch_idx_dict[nidx].item()]
                 complex_edge_idx.append([complex_idx1, complex_idx2])
