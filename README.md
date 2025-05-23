@@ -34,3 +34,15 @@ Error evaluating model: mat1 and mat2 shapes cannot be multiplied (1x153 and 155
 
 
 
+## 2025/5/23 debug紀錄
+- 修改了在forward裡面用tensor做indices的問題
+- 因為在dataloader階段多寫了安全性檢查，導致上游data.append()進去錯誤的data（應該進入Exception）
+- 修改了real_E12在計算mse時的張量錯誤(unsqueeze(0))
+- 修改了real_num_peaks的取用，dict不應該用indices取
+```c
+real_num_peaks = torch.tensor(
+    [v[1] for v in graph.redox.values()], device=device
+)
+```
+- 確保計算CrossEntropyLoss都是在相同的設備上
+- 要做real_E12.numel() == 0:break的安全性檢查
