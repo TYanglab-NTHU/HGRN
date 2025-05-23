@@ -1,5 +1,6 @@
 import torch 
 import torch.nn as nn
+import warnings
 from torch_geometric.data import Data
 from torch_geometric.nn   import global_mean_pool, global_max_pool
 from torch_geometric.nn   import MessagePassing, GCNConv,  Linear, BatchNorm, GlobalAttention, GATConv
@@ -125,11 +126,10 @@ class OMGNN_RNN(nn.Module):
 
         result_pooled = self.pool(result, batch)
         return result, result_pooled
-
     def forward(self, batch, device):
         for graph in batch.to_data_list():
             x, edge_index, edge_attr, midx, real_E12, reaction, redox = graph.x, graph.edge_index, graph.edge_attr, graph.midx, graph.ys, graph.reaction, graph.redox
-        
+
         subgraph1, batch1_2, subgraph2, subgraph3 = edge_index
         subgraph1_edge_index, batch1 = subgraph1
         subgraph2_edge_index, batch2, filtered_mask = subgraph2
@@ -146,15 +146,13 @@ class OMGNN_RNN(nn.Module):
         new_batch = batch2[batch1_2.long()]
 
         mapping_dict    = {val.item(): new_batch[batch1 == val].unique().item() for val in batch1.unique()}
-        ordered_indices = torch.tensor([mapping_dict[k] for k in sorted(mapping_dict)], device=device)
-
-        real_num_peaks = torch.tensor([graph.redox[i][1] for i in range(len(graph.redox))]).cuda()
+        ordered_indices = [mapping_dict[k] for k in sorted(mapping_dict)]
+        # real_num_peaks = torch.tensor([graph.redox[i][1] for i in range(len(graph.redox))])
+        real_num_peaks = torch.tensor(
+            [v[1] for v in graph.redox.values()], device=device
+        )
 
         redox_sites = [i for i, value in enumerate(real_num_peaks) for _ in range(int(value))]
-        # if redox_sites == []:
-        #     loss_cla    = nn.CrossEntropyLoss()(each_num_redox, real_num_peaks)
-        #     # loss_cla.backward(retain_graph=True)
-        #     total_loss += loss_cla
 
         E12s = []
         count = 0
@@ -176,13 +174,9 @@ class OMGNN_RNN(nn.Module):
                 lig_potentials = self.E12_reg_ox(batch1_subgraph3_result[unique_redox_sites])
                 E12, idx = lig_potentials.min(dim=0)
             E12s.append(E12)
-        
-            loss_cla    = nn.CrossEntropyLoss()(each_num_redox, real_num_peaks)
-            loss_reg    = nn.MSELoss()(E12, real_E12[0])
-            loss        = loss_cla + loss_reg
-            total_loss += loss
-            # loss.backward(retain_graph=True)
-
+            loss_cla    = nn.CrossEntropyLoss()(each_num_redox.to(device), real_num_peaks.to(device))
+            loss_reg    = nn.MSELoss()(E12, real_E12[0].unsqueeze(0))
+            total_loss += loss_reg + loss_cla
             real_E12       = real_E12[1:]
             redox_site_idx = unique_redox_sites[idx]
 
@@ -237,11 +231,144 @@ class OMGNN_RNN(nn.Module):
                 elif reaction == 'oxidation':
                     E12 = self.E12_reg_ox(subgraph3_pooled)
                 E12s.append(E12)
-                loss_reg    = nn.MSELoss()(E12, real_E12[0])
-                total_loss += loss_reg
+                if torch.isnan(E12) or torch.isnan(real_E12[0]):
+                    warnings.warn("NaN detected in E12 or real_E12[0]")
+                else:
+                    loss_reg    = nn.MSELoss()(E12, real_E12[0])
+                    total_loss += loss_reg
                 # loss_reg.backward(retain_graph=True)
-
         return total_loss
+    
+    
+    # def forward(self, batch, device):
+    #     for graph in batch.to_data_list():
+    #         x, edge_index, edge_attr, midx, real_E12, reaction, redox = graph.x, graph.edge_index, graph.edge_attr, graph.midx, graph.ys, graph.reaction, graph.redox
+        
+    #     subgraph1, batch1_2, subgraph2, subgraph3 = edge_index
+    #     subgraph1_edge_index, batch1 = subgraph1
+    #     subgraph2_edge_index, batch2, filtered_mask = subgraph2
+    #     subgraph3_edge_index, batch3 = subgraph3
+
+    #     #"results after GCN and result_ after global pooling"
+    #     subgraph1_result, subgraph1_pooled = self.forward_subgraph(x=x, edge_index=subgraph1_edge_index, batch=batch1, edge_attr=edge_attr[0], gcn=self.GCN1)
+    #     subgraph2_result, subgraph2_pooled = self.forward_subgraph(x=subgraph1_result, edge_index=subgraph2_edge_index, batch=batch2, edge_attr=edge_attr[1], gcn=self.GCN2,pre_proc=lambda x: global_mean_pool(x, batch1_2))
+    #     subgraph3_result, subgraph3_pooled = self.forward_subgraph(x=subgraph2_pooled, edge_index=subgraph3_edge_index, batch=batch3, edge_attr=edge_attr[2], gcn=self.GCN3)
+
+    #     total_loss = 0
+    #     # convert batch1 index to batch3 index
+    #     m_batch1  = batch1[midx[0]]
+    #     new_batch = batch2[batch1_2.long()]
+
+    #     mapping_dict    = {val.item(): new_batch[batch1 == val].unique().item() for val in batch1.unique()}
+    #     ordered_indices = [mapping_dict[k] for k in sorted(mapping_dict)]
+
+    #     # 處理字典格式的 graph.redox
+    #     real_num_peaks = torch.tensor([graph.redox[i][1] for i in range(len(graph.redox))]).to(device)
+    #     # real_num_peaks = torch.tensor([graph.redox[key][1] for key in sorted(graph.redox.keys())]).to(device)
+
+    #     redox_sites = [i for i, value in enumerate(real_num_peaks) for _ in range(int(value))]
+    #     # if redox_sites == []:
+    #     #     loss_cla    = nn.CrossEntropyLoss()(each_num_redox, real_num_peaks)
+    #     #     # loss_cla.backward(retain_graph=True)
+    #     #     total_loss += loss_cla
+
+    #     E12s = []
+    #     count = 0
+    #     while redox_sites:
+    #         count += 1
+    #         batch1_subgraph3_result = subgraph3_result[ordered_indices]
+    #         if real_E12.numel() == 0:
+    #             break
+    #         if   reaction == 'reduction':
+    #             each_num_redox = self.num_peaks_red(batch1_subgraph3_result)
+    #         elif reaction == 'oxidation':
+    #             each_num_redox = self.num_peaks_ox(batch1_subgraph3_result)
+            
+    #         unique_redox_sites = list(set(redox_sites))
+    #         if   reaction == 'reduction':
+    #             lig_potentials = self.E12_reg_red(batch1_subgraph3_result[unique_redox_sites])
+    #             E12, idx = lig_potentials.max(dim=0)
+    #         elif reaction == 'oxidation':
+    #             lig_potentials = self.E12_reg_ox(batch1_subgraph3_result[unique_redox_sites])
+    #             E12, idx = lig_potentials.min(dim=0)
+    #         E12s.append(E12)
+        
+    #         loss_cla    = nn.CrossEntropyLoss()(each_num_redox.to(device), real_num_peaks.to(device))
+            
+    #         # loss_cla    = nn.CrossEntropyLoss()(each_num_redox, real_num_peaks)
+    #         if torch.isnan(E12) or torch.isnan(real_E12[0]):
+    #             warnings.warn("NaN detected in E12 or real_E12[0]")
+    #         else:
+    #             loss_reg    = nn.MSELoss()(E12, real_E12[0].unsqueeze(0))
+    #             total_loss += loss_reg + loss_cla
+    #         # print("test")
+    #         # loss_reg    = nn.MSELoss()(E12, real_E12[0])
+    #         # loss        = loss_cla + loss_reg
+    #         # total_loss += loss
+    #         # loss.backward(retain_graph=True)
+
+    #         real_E12       = real_E12[1:]
+    #         redox_site_idx = unique_redox_sites[idx]
+
+    #         # gat x with GCN1
+    #         redox_x_idx = [i for i, idx in enumerate(batch1) if idx == redox_site_idx]
+    #         redox_x_    = x[redox_x_idx]
+    #         redox_subgraph1_result_  = subgraph1_result[redox_x_idx]
+    #         if redox_site_idx == m_batch1:
+    #             if reaction == 'reduction':
+    #                 new_tensor =  torch.roll(redox_x_[124:137], shifts=-1, dims=1)
+    #             if reaction == 'oxidation':
+    #                 new_tensor =  torch.roll(redox_x_[124:137], shifts=1, dims=1)
+    #             redox_x_change = redox_x_.clone()
+    #             redox_x_change[124:137] = new_tensor
+    #         else:
+    #             redox_x_change = redox_subgraph1_result_ * self.gate_GCN1(redox_subgraph1_result_) + redox_x_
+    #             # redox_x_change =  redox_x_ * self.gate_GCN1( redox_x_) + redox_x_
+
+    #         x_              = x.clone()
+    #         x_[redox_x_idx] = redox_x_change
+    #         subgraph1_result, subgraph1_pooled = self.forward_subgraph(x=x_, edge_index=subgraph1_edge_index, batch=batch1, edge_attr=edge_attr[0], gcn=self.GCN1)
+    #         subgraph2_result, subgraph2_pooled = self.forward_subgraph(x=subgraph1_result, edge_index=subgraph2_edge_index, batch=batch2, edge_attr=edge_attr[1], gcn=self.GCN2,pre_proc=lambda x: global_mean_pool(x, batch1_2))
+
+    #         # gat GCN2 with GCN3
+    #         batch2_redox_idx = mapping_dict.get(redox_site_idx)
+    #         all_indices      = torch.arange(subgraph2_pooled.shape[0], device=device)
+    #         nonredox_subgraph2_pooled = subgraph2_pooled[all_indices != batch2_redox_idx]
+    #         updated_subgraph2_pooled  = nonredox_subgraph2_pooled.clone()
+    #         redox_subgraph2_pooled    = subgraph2_pooled[batch2_redox_idx]
+    #         redox_subgraph3_result_   = subgraph3_result[batch2_redox_idx]
+    #         redox_site_change = redox_subgraph3_result_ * self.gate_GCN3(redox_subgraph3_result_) + redox_subgraph2_pooled
+    #         # redox_site_change = redox_subgraph2_pooled  * self.gate_GCN3(redox_subgraph2_pooled) + redox_subgraph2_pooled
+    #         subgraph2_result_ = torch.cat([updated_subgraph2_pooled[:batch2_redox_idx], redox_site_change.unsqueeze(0), updated_subgraph2_pooled[batch2_redox_idx:]], dim=0)
+
+    #         subgraph3_result, subgraph3_pooled = self.forward_subgraph(x=subgraph2_result_, edge_index=subgraph3_edge_index, batch=batch3, edge_attr=edge_attr[2], gcn=self.GCN3)
+
+    #         # redox_pos = [redox[redox_site_idx][0]]
+    #         # sites = [i for i in range(len(redox)) if redox[i][0] in redox_pos]
+    #         # for site in sites:
+    #         #     if site in redox_sites:
+    #         #         redox_sites.remove(site)
+    #         redox_sites.remove(redox_site_idx)
+
+    #         real_num_peaks = real_num_peaks.clone()  # ensure a separate copy
+    #         real_num_peaks[redox_site_idx] = real_num_peaks[redox_site_idx] - 1
+
+    #     if redox_sites != []:
+    #         if E12s == []:
+    #             subgraph3_pooled = self.pool(subgraph3_result, batch3)
+    #             if   reaction == 'reduction':
+    #                 E12 = self.E12_reg_red(subgraph3_pooled)
+    #             elif reaction == 'oxidation':
+    #                 E12 = self.E12_reg_ox(subgraph3_pooled)
+    #             E12s.append(E12)
+    #             if torch.isnan(E12) or torch.isnan(real_E12[0]):
+    #                 warnings.warn("NaN detected in E12 or real_E12[0]")
+    #             else:
+    #                 loss_reg    = nn.MSELoss()(E12, real_E12[0])
+    #                 total_loss += loss_reg
+    #             # loss_reg.backward(retain_graph=True)
+    #     print("test")
+    #     return total_loss
 
     def get_subgraph2_representation(self, batch, device):
         """

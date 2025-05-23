@@ -1,0 +1,13 @@
+{
+    "input": "data/one_organic_ip_ea_rp.csv",
+    "input_metal": "data/metal_ip_ea_rp.csv",
+    "num_features": 153,
+    "output_size": 1,
+    "dropout": 0.3,
+    "batch_size": 1,
+    "num_epochs": 10,
+    "lr": 0.001,
+    "depth": 3,
+    "anneal_rate": 0.9,
+    "model_type": "DMPNN"
+}

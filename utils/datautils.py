@@ -205,11 +205,21 @@ def data_loader(file_path, tensorize_fn, batch_size, test_size=0.2):
                 label = torch.Tensor(row['E12'])
                 name = fatoms[1]
                 redox_idxs = redox_each_num([row["smiles"]], row["Metal"], row["redox_site_smiles"])
-                data_item  = Data(x=fatoms[0], edge_index=graphs, edge_attr=edge_features, redox=redox_idxs, ys=label, name=name, reaction=row["Reaction"], oreder_site=row["redox_site_smiles"], binding_atoms=binding_atoms)
+                data_item = Data(
+                    x=fatoms[0], 
+                    edge_index=graphs, 
+                    edge_attr=edge_features, 
+                    redox=redox_idxs, 
+                    ys=label, 
+                    name=name, 
+                    reaction=row["Reaction"], 
+                    oreder_site=row["redox_site_smiles"], 
+                    binding_atoms=binding_atoms
+                )
                 data_item.midx = midx
                 dataset.append(data_item)
             except Exception as e:
-                print(f"Error processing row: {e}")
+                # print(f"Error processing row: {e}")
                 continue
         return dataset
 

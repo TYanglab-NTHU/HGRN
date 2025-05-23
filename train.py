@@ -17,7 +17,7 @@ from utils.datautils import *
 # ============================== # 
 if __name__ == '__main__':
     parser = OptionParser()
-    parser.add_option("-i", "--input", dest="input", default='/work/u7069586/E-hGNN/data/old_organo_rp_site_raw1.csv')
+    parser.add_option("-i", "--input", dest="input", default='data/organo_rp_site_raw1.csv')
     parser.add_option("--pretrain_path", dest="pretrain_path", default='/work/u7069586/OMGNN-OROP/scripts/')
     parser.add_option("--reaction", dest="reaction", default='reduction')
     parser.add_option("--type", dest="type", default="multiple")  # single or multiple 
@@ -26,7 +26,7 @@ if __name__ == '__main__':
     parser.add_option("--output_size", dest="output_size", default=1)
     parser.add_option("--dropout", dest="dropout", type=float, default=0.2)
     parser.add_option("--batch_size", dest="batch_size", type=int, default=1)
-    parser.add_option("--num_epochs", dest="num_epochs", type=int, default=250)
+    parser.add_option("--num_epochs", dest="num_epochs", type=int, default=10)
     parser.add_option("--lr", dest="lr", type=float, default=0.001)
     parser.add_option("--depth1", dest="depth1", type=int, default='3')
     parser.add_option("--depth2", dest="depth2", type=int, default='2')
@@ -35,12 +35,15 @@ if __name__ == '__main__':
     parser.add_option("--pretrain", dest="pretrain", default=True)
     opts, args = parser.parse_args()
 
+# print("Loading data...")
 train_data, test_loader = data_loader(file_path=opts.input,tensorize_fn=tensorize_with_subgraphs,batch_size=opts.batch_size,test_size=opts.test_size)
 train_loader  = DataLoader(train_data, batch_size=opts.batch_size, shuffle=False)
+# print("Data loaded successfully")
 
+# print("Loading model...")
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 model  = OMGNN_RNN(node_dim=opts.num_features, bond_dim=11, hidden_dim=opts.num_features, output_dim=opts.output_size, depth1=opts.depth1, depth2=opts.depth2, depth3=opts.depth3, dropout=opts.dropout).to(device)
-
+# print("Model loaded successfully")
 optimizer = torch.optim.Adam(model.parameters(), lr=opts.lr)
 scheduler = lr_scheduler.StepLR(optimizer, step_size=1, gamma=opts.anneal_rate)
 
@@ -48,7 +51,7 @@ scheduler = lr_scheduler.StepLR(optimizer, step_size=1, gamma=opts.anneal_rate)
 "Load Pretrain GCN1 model"
 if opts.pretrain:
     pretrained_model      = OGNN_RNN_allmask(node_dim=opts.num_features, bond_dim=11, hidden_dim=opts.num_features, output_dim=opts.output_size,dropout=opts.dropout).to(device)
-    pretrained_checkpoint = torch.load('./checkpoint/model_pretrain_gcn1-1-500.pkl', map_location='cpu')
+    pretrained_checkpoint = torch.load('./checkpoint/model_pretrain_gcn1-1-500.pkl', map_location='cpu', weights_only=True)
     
     # 只載入 GCN1 相關的參數
     gcn1_state_dict = {k: v for k, v in pretrained_checkpoint.items() if 'GCN1' in k}
@@ -57,6 +60,7 @@ if opts.pretrain:
     model.GCN1.load_state_dict(pretrained_model.GCN1.state_dict())
     print("Pretrain GCN1 loaded successfully")
 
+print("Start Training...")
 train_loss_history,train_reg_history,train_cla_history, test_loss_history,test_reg_history,test_cla_history, train_accuracy_history, test_accuracy_history = [], [], [], [], [], [], [], []
 for epoch in range(opts.num_epochs):
     model.train()

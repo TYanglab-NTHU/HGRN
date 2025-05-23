@@ -88,10 +88,16 @@ class OrganicMetal_potential():
                                 reaction_info[key] = None
                         name    = fatoms[1]
                         solvent = row['Solvent'] if 'Solvent' in row else "None"
-                        data_item = Data(x=fatoms[0], edge_index=graphs, edge_attr=edge_features, ys=labels,  solvent=solvent, name=name, reaction=reaction_info)                    
+                        data_item = Data(x=fatoms[0], 
+                                         edge_index=graphs, 
+                                         edge_attr=edge_features, 
+                                         ys=labels, 
+                                         solvent=solvent, 
+                                         name=name, 
+                                         reaction=reaction_info)
                     dataset.append(data_item)
                 except Exception as e:
-                    print(f"Error processing row: {e}")
+                    # print(f"[data_loader] Error processing row: {e}")
                     continue
             return dataset
 
@@ -164,7 +170,7 @@ class OrganicMetal_potential():
                             data_item = Data(x=fatoms[0], edge_index=graphs, edge_attr=edge_features, ys=labels,  solvent=solvent, name=name, reaction=reaction_info)                    
                         dataset.append(data_item)
                 except Exception as e:
-                    print(f"Error processing row: {e}")
+                    # print(f"[sample_loader] Error processing row: {e}")
                     continue
             return dataset
 
@@ -454,7 +460,7 @@ class OM():
             dataset = []
             for _, row in data.iterrows():
                 try:
-                    [fatoms, graphs, edge_features, midx] = tensorize_with_subgraphs([row["smiles"]], row["Metal"])
+                    [fatoms, graphs, edge_features, midx] = tensorize_with_subgraphs([row["smiles"]], row["Metal"], features)
                     label = torch.Tensor(row['E12'])
                     name = fatoms[1]
                     redox_idxs = redox_each_num([row["smiles"]], row["Metal"], row["redox_site_smiles"])
@@ -462,7 +468,7 @@ class OM():
                     data_item.midx = midx
                     dataset.append(data_item)
                 except Exception as e:
-                    print(f"Error processing row: {e}")
+                    # print(f"Error processing row: {e}")
                     continue
             return dataset
 

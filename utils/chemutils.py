@@ -7,7 +7,11 @@ import pandas as pd
 import numpy as np
 import networkx as nx
 from rdkit import Chem
+from rdkit import RDLogger
 from collections import defaultdict
+
+# 關閉RDKit的警告訊息
+RDLogger.DisableLog('rdApp.*')
 
 # !TODO Check ELEM_LIST
 elem_list = [
@@ -207,11 +211,12 @@ def atom_features(atom, oxidation_state=None, features=153):
             chiral_tag_encoding +
             num_h_encoding +
             hybridization_encoding +
-            is_aromatic +
+            is_aromatic
             # 新增兩個特徵
-            atom_eff_charge +
-            atomic_mass
-        ) # 155個特徵
+            # +
+            # atom_eff_charge +
+            # atomic_mass
+        ) # 153個特徵
 
 def metal_features(metal, features=153):
     oxidation_state = get_metal_oxidation_state(metal)
@@ -658,8 +663,6 @@ def redox_each_num(smiles_batch, metal, redox_sites):
     for smi in smiles_batch:
         midx = None
         mol = Chem.MolFromSmiles(smi, sanitize=False)
-        if mol is None:
-            raise ValueError(f"無法解析SMILES字符串: {smi}")
         
         for i, atom in enumerate(mol.GetAtoms()):
             if atom.GetSymbol() in TM_LIST:
@@ -718,7 +721,7 @@ def redox_each_num(smiles_batch, metal, redox_sites):
     for frag_smile in mol_smiles:
         frag_mol = Chem.MolFromSmiles(frag_smile)
         if frag_mol is None:
-            continue  # 跳過無效的片段SMILES
+            raise ValueError(f"[frag_mol] 無法解析SMILES字符串: {smi}")
         atom_symbols = [atom.GetSymbol() for atom in frag_mol.GetAtoms()]
         for group, symbols in grouped_atoms.items():
             if sorted(atom_symbols) == sorted(symbols) and frag_smile not in frag_to_group[group]:

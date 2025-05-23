@@ -1,4 +1,9 @@
 # 修改內容
+## 腳本執行
+```c
+python pretrain.py --num_epochs 500 --i_organic "<organic_compound.csv>"
+```
+
 ## 環境建設
 - python 3.9會報很多奇怪的錯誤，搞了很久(2~3小時)，不外乎是or, and的邏輯運算子操作問題，但是換到3.7後又神奇的沒有問題了
 - 3.9會有一個Error processing row: too many dimensions 'str'的問題
@@ -18,9 +23,7 @@ ligand_edge_idx = torch.Tensor(ligand_edge_idx).long().T if ligand_edge_idx else
 ```c
 Error evaluating model: mat1 and mat2 shapes cannot be multiplied (1x153 and 155x512)
 ```
-- 這個問題是elif features == 153:沒有增加atom_eff_charge, atomic_mass，維度少2
-
-還有另外的問題: RuntimeError: mat1 and mat2 shapes cannot be multiplied (6x166 and 164x153)
+- 這個問題是elif features == 153
 
 ## 對pretrain_model.py的改動
 - 修改total loss是Int無法backward的問題

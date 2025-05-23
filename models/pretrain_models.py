@@ -411,13 +411,14 @@ class OGNN_RNN_allmask(nn.Module):
                 num_peaks_ie = int(torch.argmax(peaks_ie, dim=1).item())
                 clas['IE'].append(peaks_ie)
                 
+                subgraph1_result_ie = subgraph1_result_orig.clone()
                 subgraph1_pooled_ie = subgraph1_pooled_orig.clone()
                 for i in range(num_peaks_ie):
                     potential = self.reg_IP(subgraph1_pooled_ie)
                     potentials['IE'].append(potential)
                     
                     x_update = x_orig.clone()
-                    sub_result_update = subgraph1_result_orig.clone()
+                    sub_result_update = subgraph1_result_ie.clone()
                     update_nodes = sub_result_update * self.gate_GCN1(sub_result_update) + x_update
                     subgraph1_result_ie, subgraph1_pooled_ie = self.forward_subgraph1(update_nodes, subgraph1_edge_index, batch1, edge_attr)
             
@@ -426,24 +427,26 @@ class OGNN_RNN_allmask(nn.Module):
                 clas['EA'].append(peaks_ea)
                 num_peaks_ea = int(torch.argmax(peaks_ea, dim=1).item())
                 
+                subgraph1_result_ea = subgraph1_result_orig.clone()
                 subgraph1_pooled_ea = subgraph1_pooled_orig.clone()
                 for i in range(num_peaks_ea):
                     potential = self.reg_EA(subgraph1_pooled_ea)
                     potentials['EA'].append(potential)
                     
                     x_update = x_orig.clone()
-                    sub_result_update = subgraph1_result_orig.clone()
+                    sub_result_update = subgraph1_result_ea.clone()
                     update_nodes = sub_result_update * self.gate_GCN1(sub_result_update) + x_update
                     subgraph1_result_ea, subgraph1_pooled_ea = self.forward_subgraph1(update_nodes, subgraph1_edge_index, batch1, edge_attr)
                     
             if reaction.get('E12') is not None:
                 if solvent != 'None':
                     solvent_features  = solvent_dict[solvent]
-                    solvent_features  = torch.Tensor(solvent_features).to(device).unsqueeze(0)
+                    solvent_features  = torch.Tensor(solvent_features).cuda().unsqueeze(0)
                 else:
                     solvent_features  = solvent_dict['ACN']
-                    solvent_features  = torch.Tensor(solvent_features).to(device).unsqueeze(0)
-                subgraph1_pooled_e12 = torch.cat([subgraph1_pooled_orig.clone(), solvent_features], dim=1)
+                    solvent_features  = torch.Tensor(solvent_features).cuda().unsqueeze(0)
+                subgraph1_result_e12  = subgraph1_result_orig.clone()
+                subgraph1_pooled_e12  = torch.cat([subgraph1_pooled_orig.clone(), solvent_features], dim=1)
                 
                 if pd.notnull(reaction['E12']):
                     if reaction['E12'] == 'reduction':
@@ -455,7 +458,10 @@ class OGNN_RNN_allmask(nn.Module):
                 clas['E12'].append(peaks_e12)
                 num_peaks_e12 = int(torch.argmax(peaks_e12, dim=1).item())
                 
+                subgraph1_result_e12 = subgraph1_result_orig.clone()
+                subgraph1_pooled     = subgraph1_pooled_orig.clone()
                 for i in range(num_peaks_e12):
+                    subgraph1_pooled_e12 = torch.cat([subgraph1_pooled.clone(), solvent_features], dim=1)
                     if reaction['E12'] == 'reduction':
                         potential = self.reg_red(subgraph1_pooled_e12)
                     else:
@@ -463,12 +469,8 @@ class OGNN_RNN_allmask(nn.Module):
                     potentials['E12'].append(potential) 
                     
                     x_update = x_orig.clone()
-                    sub_result_update = subgraph1_result_orig.clone()
+                    sub_result_update = subgraph1_result_e12.clone()
                     update_nodes      = sub_result_update * self.gate_GCN1(sub_result_update) + x_update
-                    subgraph1_result_e12, subgraph1_pooled_e12 = self.forward_subgraph1(update_nodes, subgraph1_edge_index, batch1, edge_attr)
+                    subgraph1_result_e12, subgraph1_pooled = self.forward_subgraph1(update_nodes, subgraph1_edge_index, batch1, edge_attr)
         
         return clas, potentials
-    
-# subgraph1_result, subgraph1_pooled = model.forward_subgraph(x=x, edge_index=subgraph1_edge_index, batch=batch1, edge_attr=edge_attr[0], gcn=model.GCN1)
-# subgraph2_result, subgraph2_pooled = model.forward_subgraph(x=subgraph1_result, edge_index=subgraph2_edge_index, batch=batch2, edge_attr=edge_attr[1], gcn=model.GCN2,pre_proc=lambda x: global_mean_pool(x, batch1_2))
-# subgraph3_result, subgraph3_pooled = model.forward_subgraph(x=subgraph2_pooled, edge_index=subgraph3_edge_index, batch=batch3, edge_attr=edge_attr[2], gcn=model.GCN3,transform_edge_attr=lambda attr: torch.stack(attr, dim=0))s
