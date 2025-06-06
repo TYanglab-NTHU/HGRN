@@ -18,7 +18,6 @@ from utils.datautils import *
 if __name__ == '__main__':
     parser = OptionParser()
     parser.add_option("-i", "--input", dest="input", default='/work/u7069586/E-hGNN/data/old_organo_rp_site_raw1.csv')
-    parser.add_option("--pretrain_path", dest="pretrain_path", default='/work/u7069586/OMGNN-OROP/scripts/')
     parser.add_option("--reaction", dest="reaction", default='reduction')
     parser.add_option("--type", dest="type", default="multiple")  # single or multiple 
     parser.add_option("-t", "--test_size", dest="test_size", type=float, default=0.2)
@@ -35,7 +34,7 @@ if __name__ == '__main__':
     parser.add_option("--pretrain", dest="pretrain", default=True)
     opts, args = parser.parse_args()
 
-train_data, test_loader = data_loader(file_path=opts.input,tensorize_fn=tensorize_with_subgraphs,batch_size=opts.batch_size,test_size=opts.test_size)
+train_data, test_loader = data_loader(file_path=opts.input,tensorize_fn=tensorize_with_subgraphs,batch_size=opts.batch_size,test_size=opts.test_size, random_state=16)
 train_loader  = DataLoader(train_data, batch_size=opts.batch_size, shuffle=False)
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
@@ -97,7 +96,6 @@ torch.save(model.state_dict(), os.path.join(os.getcwd(), "model.pkl"))
 # save config
 config = {
     'input': opts.input,
-    'pretrain_path': opts.pretrain_path,
     'num_features': opts.num_features,
     'output_size': opts.output_size,
     'dropout': opts.dropout,

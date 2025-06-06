@@ -1,10 +1,12 @@
+import pandas as pd 
+
 import torch 
 import torch.nn as nn
 import torch.nn.functional as F
+
 from torch_geometric.data import Data
 from torch_geometric.nn   import global_mean_pool
 from torch_geometric.nn   import MessagePassing, GCNConv,  Linear, BatchNorm, GlobalAttention, GATConv
-import pandas as pd 
 
 #dielectric constant, refractive index
 solvent_dict = {'ACN': [36.6*0.01, 1.3441*0.1],   
@@ -247,6 +249,9 @@ class OGNN_RNN_allmask(nn.Module):
             subgraph1_result, subgraph1_pooled = self.forward_subgraph1(x, subgraph1_edge_index, batch1, edge_attr) 
             real_num_peaks = torch.tensor(len(ie_potential), device=device)
             for i, true_potential in enumerate(ie_potential):
+                # 確保 true_potential 的維度正確
+                true_potential = true_potential.view(-1, 1) if true_potential.dim() == 0 else true_potential.view(-1, 1)
+
                 if x.shape[0] == 1:
                     potential = self.reg_IP(subgraph1_pooled)
                     loss_reg = nn.MSELoss()(potential, true_potential)
@@ -280,8 +285,11 @@ class OGNN_RNN_allmask(nn.Module):
             subgraph1_result, subgraph1_pooled = self.forward_subgraph1(x, subgraph1_edge_index, batch1, edge_attr) 
             real_num_peaks = torch.tensor(len(ea_potential), device=device)
             for i, true_potential in enumerate(ea_potential):
+                # 確保 true_potential 的維度正確
+                true_potential = true_potential.view(-1, 1) if true_potential.dim() == 0 else true_potential.view(-1, 1)
+
                 if x.shape[0] == 1:
-                    potential = self.reg_IP(subgraph1_pooled)
+                    potential = self.reg_EA(subgraph1_pooled)
                     loss_reg = nn.MSELoss()(potential, true_potential)
                     loss = loss_reg
                     total_loss += loss
@@ -290,8 +298,8 @@ class OGNN_RNN_allmask(nn.Module):
                     x_[:,124:137]  = torch.roll(x_[:,124:137], shifts=-1, dims=1)
                     update_nodes = x_
                 else:
-                    potential = self.reg_IP(subgraph1_pooled)
-                    num_peaks = self.num_peaks_IP(subgraph1_pooled)
+                    potential = self.reg_EA(subgraph1_pooled)
+                    num_peaks = self.num_peaks_EA(subgraph1_pooled)
                     loss_reg = nn.MSELoss()(potential, true_potential)
                     loss_cla = nn.CrossEntropyLoss()(num_peaks, real_num_peaks.unsqueeze(0))
                     loss = loss_reg + loss_cla
@@ -313,6 +321,9 @@ class OGNN_RNN_allmask(nn.Module):
             reaction = reaction['E12']
             real_num_peaks = torch.tensor(len(e12_potential), device=device)
             for i, true_potential in enumerate(e12_potential):
+                # 確保 true_potential 的維度正確
+                true_potential = true_potential.view(-1, 1) if true_potential.dim() == 0 else true_potential.view(-1, 1)
+
                 if solvent != 'None':
                     solvent_features  = solvent_dict[solvent]
                     solvent_features  = torch.Tensor(solvent_features).cuda().unsqueeze(0)
@@ -325,18 +336,18 @@ class OGNN_RNN_allmask(nn.Module):
                     if x.shape[0] == 1:
                         potential = self.reg_red(subgraph1_pooled_)
                         loss_reg = nn.MSELoss()(potential, true_potential)
-                        loss = loss_reg
+                        loss = loss_reg 
                         total_loss += loss
                         # update ligand node features (after redox)
                         x_ = x.clone()
-                        x_[:,124:137]  = torch.roll(x_[:,124:137], shifts=-1, dims=1)
+                        x_[:,124:137]  = torch.roll(x_[:,124:137], shifts=1, dims=1)
                         update_nodes = x_
                     else:
                         potential = self.reg_red(subgraph1_pooled_)
                         num_peaks = self.num_peaks_red(subgraph1_pooled_)
                         loss_reg = nn.MSELoss()(potential, true_potential)
                         loss_cla = nn.CrossEntropyLoss()(num_peaks, real_num_peaks.unsqueeze(0))
-                        loss = loss_reg + loss_cla
+                        loss = (loss_reg + loss_cla ) * (i+0.5)
                         total_loss += loss
 
                         # update ligand node features (after redox)
@@ -344,23 +355,23 @@ class OGNN_RNN_allmask(nn.Module):
                         subgraph1_result_ = subgraph1_result.clone()
                         update_nodes      = subgraph1_result_ * self.gate_GCN1(subgraph1_result_) + x_
                         # update_nodes      = x_ * self.gate_GCN1(x_) + x_
-                else:
+                elif reaction == 'oxidation':
                     if x.shape[0] == 1:
                         potential = self.reg_ox(subgraph1_pooled_)
                         loss_reg = nn.MSELoss()(potential, true_potential)
-                        loss = loss_reg
+                        loss = loss_reg 
                         total_loss += loss
 
                         # update ligand node features (after redox)
                         x_ = x.clone()
-                        x_[:,124:137]  = torch.roll(x_[:,124:137], shifts=1, dims=1)
+                        x_[:,124:137]  = torch.roll(x_[:,124:137], shifts=-1, dims=1)
                         update_nodes = x_                        
                     else:
                         potential = self.reg_ox(subgraph1_pooled_)
                         num_peaks = self.num_peaks_ox(subgraph1_pooled_)
                         loss_reg = nn.MSELoss()(potential, true_potential)
                         loss_cla = nn.CrossEntropyLoss()(num_peaks, real_num_peaks.unsqueeze(0))
-                        loss = loss_reg + loss_cla
+                        loss = (loss_reg  + loss_cla ) * (i+0.5)
                         total_loss += loss
 
                         # update ligand node features (after redox)
@@ -458,10 +469,6 @@ class OGNN_RNN_allmask(nn.Module):
                     x_update = x_orig.clone()
                     sub_result_update = subgraph1_result_e12.clone()
                     update_nodes      = sub_result_update * self.gate_GCN1(sub_result_update) + x_update
-                    subgraph1_result_e12, subgraph1_pooled = self.forward_subgraph1(update_nodes, subgraph1_edge_index, batch1, edge_attr)
+                    subgraph1_result_e12, subgraph1_pooled_e12 = self.forward_subgraph1(update_nodes, subgraph1_edge_index, batch1, edge_attr)
         
         return clas, potentials
-    
-# subgraph1_result, subgraph1_pooled = model.forward_subgraph(x=x, edge_index=subgraph1_edge_index, batch=batch1, edge_attr=edge_attr[0], gcn=model.GCN1)
-# subgraph2_result, subgraph2_pooled = model.forward_subgraph(x=subgraph1_result, edge_index=subgraph2_edge_index, batch=batch2, edge_attr=edge_attr[1], gcn=model.GCN2,pre_proc=lambda x: global_mean_pool(x, batch1_2))
-# subgraph3_result, subgraph3_pooled = model.forward_subgraph(x=subgraph2_pooled, edge_index=subgraph3_edge_index, batch=batch3, edge_attr=edge_attr[2], gcn=model.GCN3,transform_edge_attr=lambda attr: torch.stack(attr, dim=0))s

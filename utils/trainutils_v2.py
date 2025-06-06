@@ -423,7 +423,7 @@ class OM():
                     data_item.midx = midx
                     dataset.append(data_item)
                 except Exception as e:
-                    print(f"Error processing row: {e}")
+                    # print(f"Error processing row: {e}")
                     continue
             return dataset
 
@@ -507,12 +507,14 @@ class OM():
         df_reg = pd.DataFrame({
         "Actuals"    : eval_actuals_reg,
         "Predictions": eval_predictions_reg,
-        "SMILES"     : names
+        "SMILES"     : names,
+        "Reaction"   : [data.reaction for data in loader.dataset]
         })
         df_cla = pd.DataFrame({
             "Actuals"    : eval_actuals_cla,
             "Predictions": eval_predictions_cla,
-            "SMILES"     : names
+            "SMILES"     : names,
+            "Reaction"   : [data.reaction for data in loader.dataset]
         })
         if pd.isnull(output_file):
             pass

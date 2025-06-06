@@ -2,9 +2,14 @@ import os, ast
 import numpy as np
 import pandas as pd
 
+# 添加 RDKit 警告抑制
+from rdkit import RDLogger
+RDLogger.DisableLog('rdApp.*')
+
 import torch
 import torch.optim as optim
-from torch_geometric.data     import Data, DataLoader
+from torch_geometric.data     import Data
+from torch_geometric.loader   import DataLoader
 
 from sklearn.metrics         import confusion_matrix, ConfusionMatrixDisplay
 from sklearn.model_selection import KFold
@@ -166,7 +171,7 @@ class dataloader:
 
                 return data_item
             except Exception as e:
-                print(f"Error processing row: {e}")
+                # print(f"Error processing row: {e}")
                 return None
 
         def create_dataset(data):
@@ -182,37 +187,178 @@ class dataloader:
             dataset = create_dataset(df)
             return DataLoader(dataset, batch_size=1, shuffle=True), None
         
-        train_data, test_data = train_test_split(df, test_size=test_size, random_state=42)
+        train_data, test_data = train_test_split(df, test_size=test_size, random_state=8)
         train_dataset = create_dataset(train_data)
         test_dataset = create_dataset(test_data)
         
         return (DataLoader(train_dataset, batch_size=1, shuffle=True),
                 DataLoader(test_dataset, batch_size=1, shuffle=False))
 
+    @classmethod
+    def all_load_data(cls, file_path, is_metal=False, features=153, label_columns=None, default_reactions=None):
+        """統一的數據加載方法，不分割訓練和測試集
+        
+        Args:
+            file_path: 數據文件路徑
+            is_metal: 是否為金屬數據
+            features: 特徵數量
+            label_columns: 要處理的標籤列表，例如 ['E12']。如果為 None，則使用默認值。
+            default_reactions: 字典，定義每個標籤的默認反應類型
+            
+        Returns:
+            DataLoader: 包含所有數據的 DataLoader
+        """
+        df = pd.read_csv(file_path)
+        
+        # 如果沒有指定標籤列，使用默認值
+        if label_columns is None:
+            label_columns = ['E12']
+        
+        # 處理數值列表
+        for col in label_columns:
+            if col in df.columns:
+                df[col] = df[col].apply(cls.process_numeric_lists)
 
-def data_loader(file_path, tensorize_fn, batch_size, test_size=0.2):
+        def create_data_object(row, is_metal=False):
+            try:
+                if is_metal:
+                    metal = row.get("Metal")
+                    fatoms, graphs, edge_features = metal_features(row["Metal"], features)
+                    fatoms = torch.unsqueeze(fatoms, dim=0)
+                    name = metal
+                else:
+                    smiles = row.get("smiles") or row.get("pubchem_smiles")
+                    if pd.isna(smiles):
+                        return None
+                    [fatoms, graphs, edge_features, midx] = tensorize_with_subgraphs([smiles], 'None', features)
+                    name = fatoms[1]
+
+                # 處理所有可能的標籤，並傳入默認反應類型
+                labels, reaction_info = cls.process_labels(row, label_columns, default_reactions)
+                solvent = row.get('Solvent', "None")
+                
+                data_item = Data(
+                    x=fatoms if is_metal else fatoms[0],
+                    edge_index=graphs,
+                    edge_attr=edge_features,
+                    ys=labels,
+                    solvent=solvent,
+                    name=name,
+                    reaction=reaction_info
+                )
+                
+                if not is_metal and 'redox_site_smiles' in row:
+                    redox_idxs = redox_each_num([smiles], row["Metal"], row["redox_site_smiles"])
+                    data_item.redox = redox_idxs
+                    data_item.oreder_site = row["redox_site_smiles"]
+                    data_item.midx = midx
+
+                return data_item
+            except Exception as e:
+                return None
+
+        def create_dataset(data):
+            return [item for item in (create_data_object(row, is_metal) for _, row in data.iterrows()) if item is not None]
+        
+        dataset = create_dataset(df)
+        return DataLoader(dataset, batch_size=1, shuffle=False)
+
+
+def data_loader(file_path, tensorize_fn, batch_size, test_size=0.2, random_state=12):
     df = pd.read_csv(file_path)
 
-    df['E12'] = df['E12'].apply(lambda x: list(map(float, x.split(','))) if isinstance(x, str) and ',' in x else ([float(x)] if isinstance(x, str) else ([x] if not isinstance(x, list) else x)))
-    train_data, test_data = train_test_split(df, test_size=test_size, random_state=12)
+    # 確保 E12 列表的正確處理
+    df['E12'] = df['E12'].apply(lambda x: 
+        list(map(float, x.split(','))) if isinstance(x, str) and ',' in x 
+        else ([float(x)] if isinstance(x, str) 
+        else ([x] if not isinstance(x, list) else x)))
+    
+    train_data, test_data = train_test_split(df, test_size=test_size, random_state=random_state)
 
     def tensorize_dataset(data):
         dataset = []
         for _, row in data.iterrows():
             try:
                 [fatoms, graphs, edge_features, midx, binding_atoms] = tensorize_fn([row["smiles"]], row["Metal"])
-                label = torch.Tensor(row['E12'])
+                # 確保所有 E12 值都被轉換為張量
+                e12_values = row['E12']
+                if not isinstance(e12_values, list):
+                    e12_values = [e12_values]
+                label = torch.tensor(e12_values, dtype=torch.float32)
+                
                 name = fatoms[1]
                 redox_idxs = redox_each_num([row["smiles"]], row["Metal"], row["redox_site_smiles"])
-                data_item  = Data(x=fatoms[0], edge_index=graphs, edge_attr=edge_features, redox=redox_idxs, ys=label, name=name, reaction=row["Reaction"], oreder_site=row["redox_site_smiles"], binding_atoms=binding_atoms)
+                
+                # 創建包含所有 E12 值的數據項
+                data_item = Data(
+                    x=fatoms[0],
+                    edge_index=graphs,
+                    edge_attr=edge_features,
+                    redox=redox_idxs,
+                    ys=label,  # 現在包含所有 E12 值
+                    name=name,
+                    reaction=row["Reaction"],
+                    oreder_site=row["redox_site_smiles"],
+                    binding_atoms=binding_atoms
+                )
                 data_item.midx = midx
                 dataset.append(data_item)
             except Exception as e:
-                print(f"Error processing row: {e}")
+                # print(f"Error processing row: {e}")
                 continue
         return dataset
 
     train_dataset = tensorize_dataset(train_data)
     test_dataset = tensorize_dataset(test_data)
+    
+    # if train_dataset is None or test_dataset is None:
+    #     raise ValueError("無法處理數據集")
+        
     test_loader = DataLoader(test_dataset, batch_size=batch_size, shuffle=False)
     return train_dataset, test_loader
+
+
+def alldata_loader(file_path, tensorize_fn):
+    df = pd.read_csv(file_path)
+
+    # 確保 E12 列表的正確處理
+    df['E12'] = df['E12'].apply(lambda x: 
+        list(map(float, x.split(','))) if isinstance(x, str) and ',' in x 
+        else ([float(x)] if isinstance(x, str) 
+        else ([x] if not isinstance(x, list) else x)))
+    
+    def tensorize_dataset(data):
+        dataset = []
+        for _, row in data.iterrows():
+            try:
+                [fatoms, graphs, edge_features, midx, binding_atoms] = tensorize_fn([row["smiles"]], row["Metal"])
+                # 確保所有 E12 值都被轉換為張量
+                e12_values = row['E12']
+                if not isinstance(e12_values, list):
+                    e12_values = [e12_values]
+                label = torch.tensor(e12_values, dtype=torch.float32)
+                
+                name = fatoms[1]
+                redox_idxs = redox_each_num([row["smiles"]], row["Metal"], row["redox_site_smiles"])
+                
+                # 創建包含所有 E12 值的數據項
+                data_item = Data(
+                    x=fatoms[0],
+                    edge_index=graphs,
+                    edge_attr=edge_features,
+                    redox=redox_idxs,
+                    ys=label,  # 現在包含所有 E12 值
+                    name=name,
+                    reaction=row["Reaction"],
+                    oreder_site=row["redox_site_smiles"],
+                    binding_atoms=binding_atoms
+                )
+                data_item.midx = midx
+                dataset.append(data_item)
+            except Exception as e:
+                # print(f"Error processing row: {e}")
+                continue
+        return dataset
+
+    all_data = tensorize_dataset(df)
+    return all_data

@@ -1,5 +1,3 @@
-# sys.path.append('/work/u7069586/zeff/src/zeff/')
-# import zeff
 import re
 import torch
 import pubchempy as pcp
@@ -235,20 +233,17 @@ def tensorize_with_subgraphs(smiles_batch, metal, features=153):
         for i, atom in enumerate(mol.GetAtoms()):
             if atom.GetSymbol() in TM_LIST:
                 minds.append(i)  # Collect all metal indices
-        fatoms = []
-        ligand_edge_idx, intrafrag_edge_idx , interfrag_edge_idx, complex_edge_idx = [], [], [], []
-        ligand_bond_features, interfrag_bond_features, complex_bond_features = [], [], []
-        bindatom_backbone = {}
-        ninds_to_rmove, inds_bond_removed_metal, inds_bond_removed_non_metal = [], [], []
 
         ### GNN1: ligands ###
         #organic compound
+        fatoms = []
         if not minds: # No metal atoms found
             mol.UpdatePropertyCache(strict=False)
             for i, atom in enumerate(mol.GetAtoms()):
                 fatoms.append(atom_features(atom, features=features))
             fatoms = torch.stack(fatoms, 0)
             bond_feature_dict = {}
+            ligand_edge_idx = []
             for bond in mol.GetBonds():
                 bond_feat = bond_features(bond)
                 start = bond.GetBeginAtomIdx()
@@ -257,7 +252,8 @@ def tensorize_with_subgraphs(smiles_batch, metal, features=153):
                 bond_feature_dict[(end, start)] = bond_feat
                 ligand_edge_idx.append([start, end])
                 ligand_edge_idx.append([end, start])
-            ligand_edge_idx = torch.Tensor(ligand_edge_idx).long().T
+            ligand_edge_idx = torch.Tensor(ligand_edge_idx).long().permute(1, 0)
+            ligand_bond_features = []
             for start, end in ligand_edge_idx.T.tolist():
                 if (start, end) in bond_feature_dict:
                     ligand_bond_features.append(bond_feature_dict[(start, end)])
@@ -268,12 +264,16 @@ def tensorize_with_subgraphs(smiles_batch, metal, features=153):
             ligand_batch_idx = np.zeros((mol.GetNumAtoms()))
             ligand_batch_idx = torch.Tensor(ligand_batch_idx).long()
 
-            binding_atoms = None
             return ((fatoms, smiles_batch),(ligand_edge_idx, ligand_batch_idx),ligand_bond_features, minds)
         
         # organometallic compounds
         else:
-            oxidation_state = get_metal_oxidation_state(metal)
+            oxidation_states = {}
+            metals = metal.split('.')  # Split multiple metals
+            for m in metals:
+                metal_symbol = m.split(str(get_metal_oxidation_state(m)))[0]
+                oxidation_states[metal_symbol] = get_metal_oxidation_state(m)
+            
             # Collect all neighbors of all metal atoms
             metal_neighbor_indices_set = set()
             for midx in minds:
@@ -284,6 +284,7 @@ def tensorize_with_subgraphs(smiles_batch, metal, features=153):
 
             editable_mol = Chem.EditableMol(mol)
             # Remove all metal-ligand and metal-metal bonds
+            inds_bond_removed_metal = [] # edge index for metal-binding atoms
             for midx in minds:
                 metal_atom = mol.GetAtomWithIdx(midx)
                 for neighbor in metal_atom.GetNeighbors():
@@ -293,15 +294,19 @@ def tensorize_with_subgraphs(smiles_batch, metal, features=153):
 
             mol_modified = editable_mol.GetMol()
             mol_modified.UpdatePropertyCache(strict=False)
+            fatoms = []
             for i, atom in enumerate(mol_modified.GetAtoms()):
                 if atom.GetSymbol() in TM_LIST:
-                    fatoms.append(atom_features(atom, oxidation_state, features=features))
+                    # Get the corresponding oxidation state for this metal
+                    metal_oxidation_state = oxidation_states.get(atom.GetSymbol(), 0)
+                    fatoms.append(atom_features(atom, metal_oxidation_state, features=features))
                 else:
                     fatoms.append(atom_features(atom, features=features))
             fatoms = torch.stack(fatoms, 0)
             frag_indss = Chem.GetMolFrags(mol_modified, sanitizeFrags=False) #Finds the disconnected fragments from a molecule
             frag_idx_dict = dict(zip(range(len(frag_indss)), frag_indss))
             atoms = mol_modified.GetAtoms()
+            ligand_edge_idx = []
             for i, frag_inds in enumerate(frag_indss):
                 for frag_ind in frag_inds:
                     neis = atoms[frag_ind].GetNeighbors()
@@ -320,6 +325,7 @@ def tensorize_with_subgraphs(smiles_batch, metal, features=153):
                 end = bond.GetEndAtomIdx()
                 bond_feature_dict[(start, end)] = bond_feat
                 bond_feature_dict[(end, start)] = bond_feat
+            ligand_bond_features = []
             for start, end in ligand_edge_idx.T.tolist():
                 if (start, end) in bond_feature_dict:
                     ligand_bond_features.append(bond_feature_dict[(start, end)])
@@ -337,17 +343,8 @@ def tensorize_with_subgraphs(smiles_batch, metal, features=153):
             ligand_batch_idx = torch.Tensor(ligand_batch_idx).long()
 
             ### GNN2: binding atoms with ligands ###
-            # remove bonds atoms bonded to metal and its ligands atoms
-            # for nind_to_rmove in ninds_to_rmove:
-            #     print(nind_to_rmove)
-            #     for neighbor in mol.GetAtomWithIdx(nind_to_rmove).GetNeighbors():
-            #         if neighbor.GetIdx() not in minds:
-            #             inds_to_remove = [nind_to_rmove, neighbor.GetIdx()]
-            #             print(inds_to_remove)
-            #             inds_bond_removed_non_metal.append(inds_to_remove)
-            #             editable_mol.RemoveBond(*inds_to_remove)
-
             removed_bonds_set = set()
+            inds_bond_removed_non_metal = []
             for nind_to_rmove in ninds_to_rmove:
                 # print(nind_to_rmove)
                 for neighbor in mol.GetAtomWithIdx(nind_to_rmove).GetNeighbors():
@@ -364,6 +361,7 @@ def tensorize_with_subgraphs(smiles_batch, metal, features=153):
             frag_indss = Chem.GetMolFrags(mol_modified_2, sanitizeFrags=False) #Finds the disconnected fragments from a molecule
             frag_idx_dict = dict(zip(range(len(frag_indss)), frag_indss))
             atoms = mol_modified_2.GetAtoms()
+            intrafrag_edge_idx = []
             for i, frag_inds in enumerate(frag_indss):
                 for frag_ind in frag_inds:
                     neis = atoms[frag_ind].GetNeighbors()
@@ -387,6 +385,7 @@ def tensorize_with_subgraphs(smiles_batch, metal, features=153):
                 frag_ind_list += frag_inds
             intrafrag_batch_idx_dict = {atom_idx: intrafrag_batch_idx[atom_idx] for atom_idx in frag_ind_list}
             interfrag_batch_idx = np.zeros(len(set(intrafrag_batch_idx.tolist())))
+            interfrag_edge_idx = []
             for inds in inds_bond_removed_non_metal:
                 ind1, ind2 = inds # bond removed between "metal neighbors" and its "neighbors in ligands"
                 frag_idx1 = intrafrag_batch_idx_dict[ind1]
@@ -407,15 +406,6 @@ def tensorize_with_subgraphs(smiles_batch, metal, features=153):
                     interfrag_edge_idx.append([frag_nidx, frag_nidx])
             interfrag_edge_idx = torch.Tensor(interfrag_edge_idx).long().T if interfrag_edge_idx else torch.empty((2, 0)).long()
             
-            # edge_set = set()
-            # for inds in inds_bond_removed_non_metal:
-            #     ind1, ind2 = inds
-            #     frag_idx1 = intrafrag_batch_idx_dict[ind1]
-            #     frag_idx2 = intrafrag_batch_idx_dict[ind2]
-            #     edge_set.add((frag_idx1, frag_idx2))
-            #     edge_set.add((frag_idx2, frag_idx1))
-            # interfrag_edge_idx = torch.Tensor(list(edge_set)).long().T
-
             G = nx.Graph()
             G.add_edges_from(interfrag_edge_idx.t().tolist())
             connected_components = list(nx.connected_components(G))
@@ -425,11 +415,11 @@ def tensorize_with_subgraphs(smiles_batch, metal, features=153):
             interfrag_batch_idx = torch.Tensor(interfrag_batch_idx).long()
 
             # 建立 filtered_masks
-            intrafrag_ninds_to_rmove = []
+            intrafrag_ninds_to_rmove = []  # binding atoms in interfrag_batch_idx
             for nind in ninds_to_rmove:
                 for frag_id, atom_indices in frag_idx_dict.items():
                     if nind in atom_indices:
-                        intrafrag_ninds_to_rmove.append(frag_id)
+                        intrafrag_ninds_to_rmove.append(frag_id) 
                         break
             
             # 創建binding atom mask並根據interfrag_batch_idx分組
@@ -554,6 +544,7 @@ def tensorize_with_subgraphs(smiles_batch, metal, features=153):
             complex_batch_idx = torch.Tensor([0] * len(set(complex_edge_idx.flatten().tolist()))).long()
             
             # Handle metal-ligand and metal-metal bonds
+            complex_bond_features = []
             for bond in mol.GetBonds():
                 begin_idx = bond.GetBeginAtomIdx()
                 end_idx = bond.GetEndAtomIdx()
@@ -566,7 +557,6 @@ def tensorize_with_subgraphs(smiles_batch, metal, features=153):
                         bond_feat = bond_features(bond)  
                         complex_bond_features.append(bond_feat)
                         complex_bond_features.append(bond_feat)
-
             complex_bond_features = torch.stack(complex_bond_features) if complex_bond_features else torch.empty((0, 11))
 
             return ((fatoms, smiles_batch),

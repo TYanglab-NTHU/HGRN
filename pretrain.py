@@ -5,7 +5,6 @@ from torch_geometric.loader import DataLoader
 from optparse import OptionParser
 import os, sys
 
-sys.path.append('/work/u7069586/E-hGNN_f/')
 from models.pretrain_models import *
 from utils.trainutils_v2 import *
 from utils.chemutils import *
