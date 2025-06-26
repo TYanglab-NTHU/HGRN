@@ -8,16 +8,15 @@ import numpy as np # 需要 numpy
 from sklearn.cluster import KMeans # Import KMeans for clustering
 from sklearn.neighbors import NearestNeighbors # 重新導入 NearestNeighbors
 
-
 from model import *
 
-from datautils_mof       import *
-from periodic_chemutils  import *
+from datautils_MO          import *
+from metal_oxide_chemutils import *
 
 
 # 首先加載 config.json
 try:
-    with open( '/config.json', 'r') as f:
+    with open('/config.json', 'r') as f:
         config = json.load(f)
 except FileNotFoundError:
     print("錯誤：找不到 config.json 文件。將使用程式碼中的預設值。")
@@ -62,7 +61,7 @@ if __name__ == '__main__':
 
     opts, args = parser.parse_args()
 
-dataset = data_loader('./test_mof.csv', 1)
+dataset = data_loader('/work/u7069586/E-hGNN_f/zero-shot/metal_oxide/test_MO.csv', 1)
 loader = DataLoader(dataset, batch_size=1, shuffle=False)
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
@@ -76,6 +75,7 @@ if os.path.exists(model_path_):
     print(f"模型權重從 {model_path_} 加載成功。")
 else:
     print(f"警告：找不到模型權重文件 {model_path_}。模型將使用隨機初始化權重。")
+
 
 for batch in loader:
     batch = batch.to(device)
