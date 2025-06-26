@@ -77,13 +77,8 @@ for epoch in range(opts.num_epochs):
     train_accuracy_history.append(train_accuracy)
     test_accuracy_history.append(test_accuracy)
 
-    df_loss = pd.DataFrame({'train_loss': train_loss_history, 'test_loss': test_loss_history, 'train_reg_loss': train_reg_history, 'test_reg_loss': test_reg_history, 'train_cla_loss': train_cla_history, 'test_cla_loss': test_cla_history, 'train_cla_accuray':train_accuracy_history, 'test_cla_accuray':test_accuracy_history})
-    # df_loss = pd.DataFrame({'train_loss': train_loss_history, 'train_reg_loss': train_reg_history, 'train_cla_loss': train_cla_history, 'train_cla_accuray':train_accuracy_history})
-    df_loss.to_csv(os.path.join(os.getcwd(), "loss.csv"))
-
-# evaluate model
-OrganicMetal_potential.evaluate_model(model, train_loader, device, output_file="train_pred_true.csv")
-OrganicMetal_potential.evaluate_model(model, test_loader, device, output_file="valid_pred_true.csv")
+    # df_loss = pd.DataFrame({'train_loss': train_loss_history, 'test_loss': test_loss_history, 'train_reg_loss': train_reg_history, 'test_reg_loss': test_reg_history, 'train_cla_loss': train_cla_history, 'test_cla_loss': test_cla_history, 'train_cla_accuray':train_accuracy_history, 'test_cla_accuray':test_accuracy_history})
+    # df_loss.to_csv(os.path.join(os.getcwd(), "loss.csv"))
 
 # save model
 torch.save(model.state_dict(), os.path.join(os.getcwd(), "model.pkl"))
@@ -104,6 +99,3 @@ config = {
 }
 with open(os.path.join(os.getcwd(), "config.json"), 'w') as f:
     json.dump(config, f, indent=4)
-
-# parity plot
-OrganicMetal_potential.parity_plot("reg_train_pred_true.csv", "reg_valid_pred_true.csv")
