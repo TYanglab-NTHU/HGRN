@@ -1,0 +1,4 @@
+name,cif_path,metal,E12,RE
+UU100,./test_mof/4128311.cif,Co2,0.45,Hg/HgO
+MOF-74-Ni,./test_mof/MOF-74_Ni.cif,Ni2,0.45,Hg/HgO
+UV-11,./test_mof/QUQSAY.cif,Co1,0.45,Hg/HgO
