@@ -89,19 +89,13 @@ if __name__ == '__main__':
         test_accuracy_history.append(test_accuracy)
         
         scheduler.step(test_loss)
-
-        df_loss = pd.DataFrame({'train_loss': train_loss_history, 'test_loss': test_loss_history, 'train_reg_loss': train_reg_history, 'test_reg_loss': test_reg_history, 'train_cla_loss': train_cla_history, 'test_cla_loss': test_cla_history, 'train_cla_accuray':train_accuracy_history, 'test_cla_accuray':test_accuracy_history})
-        df_loss.to_csv(os.path.join(os.getcwd(), "loss.csv"))
-
+        
         if epoch >= 200:
             if test_loss < best_test_loss:
                 best_test_loss = test_loss
                 best_model_state = model.state_dict()
-                torch.save(best_model_state, os.path.join("best_model.pkl"))
+                torch.save(best_model_state, os.path.join("./checkpoint", "best_model.pkl"))
                 print(f"New best model saved at epoch {epoch} with test loss: {test_loss:.4f}")
-
-    OM.evaluate_model(model, train_loader, device, output_file=os.path.join(f"train_pred_true.csv"))
-    OM.evaluate_model(model, test_loader, device, output_file=os.path.join(f"valid_pred_true.csv"))
 
 
     os.makedirs("./checkpoint", exist_ok=True)
