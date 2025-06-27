@@ -34,14 +34,14 @@ if __name__ == '__main__':
     parser.add_option("--device", dest="device", type=str, default='cuda', help='使用的設備：cuda 或 cpu')
     opts, args = parser.parse_args()
 
-train_dataset_metal   = dataloader.load_data(opts.input_metal, opts.test_size, is_metal=True, features=opts.num_features,label_columns=['IE', 'EA', 'E12'])[0].dataset
-train_dataset_element = dataloader.load_data(opts.input_element, opts.test_size, is_metal=True, features=opts.num_features,label_columns=['IE', 'EA', 'E12'])[0].dataset
+# train_dataset_metal   = dataloader.load_data(opts.input_metal, opts.test_size, is_metal=True, features=opts.num_features,label_columns=['IE', 'EA', 'E12'])[0].dataset
+# train_dataset_element = dataloader.load_data(opts.input_element, opts.test_size, is_metal=True, features=opts.num_features,label_columns=['IE', 'EA', 'E12'])[0].dataset
 train_dataset_organic, test_dataset_organic = dataloader.load_data(opts.input_organic, opts.test_size, is_metal=False, features=opts.num_features,label_columns=['IE', 'EA', 'E12'])
 train_dataset_organic = train_dataset_organic.dataset
 # train_dataset_metal, _   = OrganicMetal_potential.data_loader(opts.input_metal, opts.test_size, is_metal=True, features=opts.num_features)
 # train_dataset_element, _ = OrganicMetal_potential.data_loader(opts.input_element, opts.test_size, is_metal=True, features=opts.num_features)
 # train_dataset_organic, test_dataset_organic = OrganicMetal_potential.data_loader(opts.input_organic, opts.test_size, is_metal=False, features=opts.num_features)
-train_dataset = train_dataset_metal + train_dataset_element + train_dataset_organic 
+train_dataset = train_dataset_organic 
 test_loader   = test_dataset_organic
 train_loader  = DataLoader(train_dataset, batch_size=opts.batch_size, shuffle=True)
 

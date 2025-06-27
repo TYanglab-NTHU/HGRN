@@ -28,150 +28,149 @@ class OrganicMetal_potential():
     def __init__(self):
         pass
 
+    # def data_loader(file_path, test_size=0.2, is_metal=False, features=153):
+    #     df = pd.read_csv(file_path)
 
-    def data_loader(file_path, test_size=0.2, is_metal=False, features=153):
-        df = pd.read_csv(file_path)
+    #     df['IE / eV']  = df['IE / eV'].apply(lambda x: list(map(float, x.split(',')))if isinstance(x, str) and ',' in x else ([float(x)] if isinstance(x, str) else ([x] if not isinstance(x, list) else x)))   
+    #     df['EA / eV']  = df["EA / eV"].apply(lambda x: list(map(float, x.split(',')))if isinstance(x, str) and ',' in x else ([float(x)] if isinstance(x, str) else ([x] if not isinstance(x, list) else x)))   
+    #     df['E12'] = df['E12'].apply(lambda x: list(map(float, x.split(',')))if isinstance(x, str) and ',' in x else ([float(x)] if isinstance(x, str) else ([x] if not isinstance(x, list) else x)))            
 
-        df['IE / eV']  = df['IE / eV'].apply(lambda x: list(map(float, x.split(',')))if isinstance(x, str) and ',' in x else ([float(x)] if isinstance(x, str) else ([x] if not isinstance(x, list) else x)))   
-        df['EA / eV']  = df["EA / eV"].apply(lambda x: list(map(float, x.split(',')))if isinstance(x, str) and ',' in x else ([float(x)] if isinstance(x, str) else ([x] if not isinstance(x, list) else x)))   
-        df['E12'] = df['E12'].apply(lambda x: list(map(float, x.split(',')))if isinstance(x, str) and ',' in x else ([float(x)] if isinstance(x, str) else ([x] if not isinstance(x, list) else x)))            
+    #     if is_metal:
+    #         train_data, test_data = df, None
+    #     else:
+    #         train_data, test_data = train_test_split(df, test_size=test_size, random_state=42)
 
-        if is_metal:
-            train_data, test_data = df, None
-        else:
-            train_data, test_data = train_test_split(df, test_size=test_size, random_state=42)
+    #     def tensorize_dataset(data, is_metal=False):
+    #         dataset = []
+    #         for _, row in data.iterrows():
+    #             try:
+    #                 if is_metal:
+    #                     fatoms, graphs, edge_features = metal_features(row["Metal"], features)
+    #                     fatoms = torch.unsqueeze(fatoms, dim=0)
+    #                     label_keys = ['IE', 'EA', 'E12']
+    #                     columns = ['IE / eV', 'EA / eV', 'E12']
+    #                     labels, reaction_info = {}, {}
+    #                     for key, col in zip(label_keys, columns):
+    #                         if pd.notna(row[col][0]):
+    #                             labels[key] = torch.Tensor(row[col])
+    #                             if key == 'IE':
+    #                                 reaction_info[key] = 'oxidation'
+    #                             elif key == 'EA':
+    #                                 reaction_info[key] = 'reduction'
+    #                             elif key == 'E12':
+    #                                 reaction_info[key] = row['Reaction']
+    #                         else:
+    #                             labels[key] = None
+    #                             reaction_info[key] = None
+    #                     name   = [row["Metal"]]
+    #                     solvent = row['Solvent'] if 'Solvent' in row else "None"
+    #                     data_item = Data(x=fatoms, edge_index=graphs, edge_attr=edge_features, ys=labels, solvent=solvent, name=name, reaction=reaction_info)
+    #                 else:
+    #                     if pd.notna(row["smiles"]):
+    #                         [fatoms, graphs, edge_features, midx] = tensorize_with_subgraphs([row["smiles"]], 'None', features)
+    #                     else:
+    #                         [fatoms, graphs, edge_features, midx] = tensorize_with_subgraphs([row["pubchem_smiles"]], 'None', features)
+    #                     label_keys = ['IE', 'EA', 'E12']
+    #                     columns = ['IE / eV', 'EA / eV', 'E12']
+    #                     labels, reaction_info = {},  {}
+    #                     for key, col in zip(label_keys, columns):
+    #                         if pd.notna(row[col][0]):
+    #                             labels[key] = torch.Tensor(row[col])
+    #                             if key == 'IE':
+    #                                 reaction_info[key] = 'oxidation'
+    #                             elif key == 'EA':
+    #                                 reaction_info[key] = 'reduction'
+    #                             elif key == 'E12':
+    #                                 reaction_info[key] = row['Reaction']
+    #                         else:
+    #                             labels[key] = None
+    #                             reaction_info[key] = None
+    #                     name    = fatoms[1]
+    #                     solvent = row['Solvent'] if 'Solvent' in row else "None"
+    #                     data_item = Data(x=fatoms[0], edge_index=graphs, edge_attr=edge_features, ys=labels,  solvent=solvent, name=name, reaction=reaction_info)                    
+    #                 dataset.append(data_item)
+    #             except Exception as e:
+    #                 print(f"Error processing row: {e}")
+    #                 continue
+    #         return dataset
 
-        def tensorize_dataset(data, is_metal=False):
-            dataset = []
-            for _, row in data.iterrows():
-                try:
-                    if is_metal:
-                        fatoms, graphs, edge_features = metal_features(row["Metal"], features)
-                        fatoms = torch.unsqueeze(fatoms, dim=0)
-                        label_keys = ['IE', 'EA', 'E12']
-                        columns = ['IE / eV', 'EA / eV', 'E12']
-                        labels, reaction_info = {}, {}
-                        for key, col in zip(label_keys, columns):
-                            if pd.notna(row[col][0]):
-                                labels[key] = torch.Tensor(row[col])
-                                if key == 'IE':
-                                    reaction_info[key] = 'oxidation'
-                                elif key == 'EA':
-                                    reaction_info[key] = 'reduction'
-                                elif key == 'E12':
-                                    reaction_info[key] = row['Reaction']
-                            else:
-                                labels[key] = None
-                                reaction_info[key] = None
-                        name   = [row["Metal"]]
-                        solvent = row['Solvent'] if 'Solvent' in row else "None"
-                        data_item = Data(x=fatoms, edge_index=graphs, edge_attr=edge_features, ys=labels, solvent=solvent, name=name, reaction=reaction_info)
-                    else:
-                        if pd.notna(row["smiles"]):
-                            [fatoms, graphs, edge_features, midx] = tensorize_with_subgraphs([row["smiles"]], 'None', features)
-                        else:
-                            [fatoms, graphs, edge_features, midx] = tensorize_with_subgraphs([row["pubchem_smiles"]], 'None', features)
-                        label_keys = ['IE', 'EA', 'E12']
-                        columns = ['IE / eV', 'EA / eV', 'E12']
-                        labels, reaction_info = {},  {}
-                        for key, col in zip(label_keys, columns):
-                            if pd.notna(row[col][0]):
-                                labels[key] = torch.Tensor(row[col])
-                                if key == 'IE':
-                                    reaction_info[key] = 'oxidation'
-                                elif key == 'EA':
-                                    reaction_info[key] = 'reduction'
-                                elif key == 'E12':
-                                    reaction_info[key] = row['Reaction']
-                            else:
-                                labels[key] = None
-                                reaction_info[key] = None
-                        name    = fatoms[1]
-                        solvent = row['Solvent'] if 'Solvent' in row else "None"
-                        data_item = Data(x=fatoms[0], edge_index=graphs, edge_attr=edge_features, ys=labels,  solvent=solvent, name=name, reaction=reaction_info)                    
-                    dataset.append(data_item)
-                except Exception as e:
-                    print(f"Error processing row: {e}")
-                    continue
-            return dataset
+    #     train_dataset = tensorize_dataset(train_data, is_metal=is_metal)
+    #     if is_metal:
+    #         test_dataset = None
+    #     else:
+    #         test_dataset = tensorize_dataset(test_data)
 
-        train_dataset = tensorize_dataset(train_data, is_metal=is_metal)
-        if is_metal:
-            test_dataset = None
-        else:
-            test_dataset = tensorize_dataset(test_data)
-
-        return train_dataset, test_dataset
+    #     return train_dataset, test_dataset
     
-    def sample_loader(file_path, is_metal=False, features=153, unlabeled=False):
-        df = pd.read_csv(file_path)
+    # def sample_loader(file_path, is_metal=False, features=153, unlabeled=False):
+    #     df = pd.read_csv(file_path)
 
-        df['IE / eV']  = df['IE / eV'].apply(lambda x: list(map(float, x.split(',')))if isinstance(x, str) and ',' in x else ([float(x)] if isinstance(x, str) else ([x] if not isinstance(x, list) else x)))   
-        df['EA / eV']  = df["EA / eV"].apply(lambda x: list(map(float, x.split(',')))if isinstance(x, str) and ',' in x else ([float(x)] if isinstance(x, str) else ([x] if not isinstance(x, list) else x)))   
-        df['E12'] = df['E12'].apply(lambda x: list(map(float, x.split(',')))if isinstance(x, str) and ',' in x else ([float(x)] if isinstance(x, str) else ([x] if not isinstance(x, list) else x)))            
+    #     df['IE / eV']  = df['IE / eV'].apply(lambda x: list(map(float, x.split(',')))if isinstance(x, str) and ',' in x else ([float(x)] if isinstance(x, str) else ([x] if not isinstance(x, list) else x)))   
+    #     df['EA / eV']  = df["EA / eV"].apply(lambda x: list(map(float, x.split(',')))if isinstance(x, str) and ',' in x else ([float(x)] if isinstance(x, str) else ([x] if not isinstance(x, list) else x)))   
+    #     df['E12'] = df['E12'].apply(lambda x: list(map(float, x.split(',')))if isinstance(x, str) and ',' in x else ([float(x)] if isinstance(x, str) else ([x] if not isinstance(x, list) else x)))            
 
-        data = df
+    #     data = df
 
-        def tensorize_dataset(data, is_metal=False, features=153):
-            dataset = []
-            for _, row in data.iterrows():
-                try:
-                    if is_metal:
-                        fatoms, graphs, edge_features = metal_features(row["Metal"], features)
-                        fatoms = torch.unsqueeze(fatoms, dim=0)
-                        label_keys = ['IE', 'EA', 'E12']
-                        columns = ['IE / eV', 'EA / eV', 'E12']
-                        labels, reaction_info = {}, {}
-                        for key, col in zip(label_keys, columns):
-                            if pd.notna(row[col][0]):
-                                labels[key] = torch.Tensor(row[col])
-                                if key == 'IE':
-                                    reaction_info[key] = 'oxidation'
-                                elif key == 'EA':
-                                    reaction_info[key] = 'reduction'
-                                elif key == 'E12':
-                                    reaction_info[key] = row['Reaction']
-                        name   = [row["Metal"]]
-                        solvent = row['Solvent']
-                        data_item = Data(x=fatoms, edge_index=graphs, edge_attr=edge_features, ys=labels, solvent=solvent, name=name, reaction=reaction_info)
-                    else:
-                        if pd.notna(row["smiles"]):
-                            [fatoms, graphs, edge_features, midx] = tensorize_with_subgraphs([row["smiles"]], 'None', features)
-                        else:
-                            [fatoms, graphs, edge_features, midx] = tensorize_with_subgraphs([row["pubchem_smiles"]], 'None', features)
-                        if unlabeled:
-                            name    = fatoms[1]
-                            solvent = row['Solvent']
-                            data_item = Data(x=fatoms[0], edge_index=graphs, edge_attr=edge_features, ys=labels,  solvent=solvent, name=name, reaction=reaction_info)                    
-                        else:
-                            label_keys = ['IE', 'EA', 'E12']
-                            columns = ['IE / eV', 'EA / eV', 'E12']
-                            labels, reaction_info = {},  {}
-                            for key, col in zip(label_keys, columns):
-                                if pd.notna(row[col][0]):
-                                    labels[key] = torch.Tensor(row[col])
-                                    if key == 'IE':
-                                        reaction_info[key] = 'oxidation'
-                                    elif key == 'EA':
-                                        reaction_info[key] = 'reduction'
-                                    elif key == 'E12':
-                                        reaction_info[key] = row['Reaction']
-                                else:
-                                    labels[key] = None
-                                    reaction_info[key] = None
-                            name    = fatoms[1]
-                            solvent = row['Solvent']
-                            data_item = Data(x=fatoms[0], edge_index=graphs, edge_attr=edge_features, ys=labels,  solvent=solvent, name=name, reaction=reaction_info)                    
-                        dataset.append(data_item)
-                except Exception as e:
-                    print(f"Error processing row: {e}")
-                    continue
-            return dataset
+    #     def tensorize_dataset(data, is_metal=False, features=153):
+    #         dataset = []
+    #         for _, row in data.iterrows():
+    #             try:
+    #                 if is_metal:
+    #                     fatoms, graphs, edge_features = metal_features(row["Metal"], features)
+    #                     fatoms = torch.unsqueeze(fatoms, dim=0)
+    #                     label_keys = ['IE', 'EA', 'E12']
+    #                     columns = ['IE / eV', 'EA / eV', 'E12']
+    #                     labels, reaction_info = {}, {}
+    #                     for key, col in zip(label_keys, columns):
+    #                         if pd.notna(row[col][0]):
+    #                             labels[key] = torch.Tensor(row[col])
+    #                             if key == 'IE':
+    #                                 reaction_info[key] = 'oxidation'
+    #                             elif key == 'EA':
+    #                                 reaction_info[key] = 'reduction'
+    #                             elif key == 'E12':
+    #                                 reaction_info[key] = row['Reaction']
+    #                     name   = [row["Metal"]]
+    #                     solvent = row['Solvent']
+    #                     data_item = Data(x=fatoms, edge_index=graphs, edge_attr=edge_features, ys=labels, solvent=solvent, name=name, reaction=reaction_info)
+    #                 else:
+    #                     if pd.notna(row["smiles"]):
+    #                         [fatoms, graphs, edge_features, midx] = tensorize_with_subgraphs([row["smiles"]], 'None', features)
+    #                     else:
+    #                         [fatoms, graphs, edge_features, midx] = tensorize_with_subgraphs([row["pubchem_smiles"]], 'None', features)
+    #                     if unlabeled:
+    #                         name    = fatoms[1]
+    #                         solvent = row['Solvent']
+    #                         data_item = Data(x=fatoms[0], edge_index=graphs, edge_attr=edge_features, ys=labels,  solvent=solvent, name=name, reaction=reaction_info)                    
+    #                     else:
+    #                         label_keys = ['IE', 'EA', 'E12']
+    #                         columns = ['IE / eV', 'EA / eV', 'E12']
+    #                         labels, reaction_info = {},  {}
+    #                         for key, col in zip(label_keys, columns):
+    #                             if pd.notna(row[col][0]):
+    #                                 labels[key] = torch.Tensor(row[col])
+    #                                 if key == 'IE':
+    #                                     reaction_info[key] = 'oxidation'
+    #                                 elif key == 'EA':
+    #                                     reaction_info[key] = 'reduction'
+    #                                 elif key == 'E12':
+    #                                     reaction_info[key] = row['Reaction']
+    #                             else:
+    #                                 labels[key] = None
+    #                                 reaction_info[key] = None
+    #                         name    = fatoms[1]
+    #                         solvent = row['Solvent']
+    #                         data_item = Data(x=fatoms[0], edge_index=graphs, edge_attr=edge_features, ys=labels,  solvent=solvent, name=name, reaction=reaction_info)                    
+    #                     dataset.append(data_item)
+    #             except Exception as e:
+    #                 print(f"Error processing row: {e}")
+    #                 continue
+    #         return dataset
 
-        dataset = tensorize_dataset(data, is_metal=is_metal, features=features)
-        loader = DataLoader(dataset, batch_size=1, shuffle=True)
+    #     dataset = tensorize_dataset(data, is_metal=is_metal, features=features)
+    #     loader = DataLoader(dataset, batch_size=1, shuffle=True)
 
-        return dataset, loader
+    #     return dataset, loader
 
     def evaluate_model(model, loader, device, output_file=""):
         model.eval()
@@ -407,50 +406,50 @@ class OM():
     def __init__(self):
         pass
 
-    def data_loader(file_path, test_size=0.2, is_metal=False, features=153, k_fold=False):
-        df = pd.read_csv(file_path)
-        df['E12'] = df['E12'].apply(lambda x: list(map(float, x.split(','))) if isinstance(x, str) and ',' in x else ([float(x)] if isinstance(x, str) else ([x] if not isinstance(x, list) else x)))
+    # def data_loader(file_path, test_size=0.2, is_metal=False, features=153, k_fold=False):
+    #     df = pd.read_csv(file_path)
+    #     df['E12'] = df['E12'].apply(lambda x: list(map(float, x.split(','))) if isinstance(x, str) and ',' in x else ([float(x)] if isinstance(x, str) else ([x] if not isinstance(x, list) else x)))
 
-        def tensorize_dataset(data, is_metal=False):
-            dataset = []
-            for _, row in data.iterrows():
-                try:
-                    [fatoms, graphs, edge_features, midx] = tensorize_with_subgraphs([row["smiles"]], row["Metal"])
-                    label = torch.Tensor(row['E12'])
-                    name = fatoms[1]
-                    redox_idxs = redox_each_num([row["smiles"]], row["Metal"], row["redox_site_smiles"])
-                    data_item = Data(x=fatoms[0], edge_index=graphs, edge_attr=edge_features, redox=redox_idxs, ys=label, name=name, reaction=row["Reaction"], oreder_site=row["redox_site_smiles"])
-                    data_item.midx = midx
-                    dataset.append(data_item)
-                except Exception as e:
-                    # print(f"Error processing row: {e}")
-                    continue
-            return dataset
+    #     def tensorize_dataset(data, is_metal=False):
+    #         dataset = []
+    #         for _, row in data.iterrows():
+    #             try:
+    #                 [fatoms, graphs, edge_features, midx] = tensorize_with_subgraphs([row["smiles"]], row["Metal"])
+    #                 label = torch.Tensor(row['E12'])
+    #                 name = fatoms[1]
+    #                 redox_idxs = redox_each_num([row["smiles"]], row["Metal"], row["redox_site_smiles"])
+    #                 data_item = Data(x=fatoms[0], edge_index=graphs, edge_attr=edge_features, redox=redox_idxs, ys=label, name=name, reaction=row["Reaction"], oreder_site=row["redox_site_smiles"])
+    #                 data_item.midx = midx
+    #                 dataset.append(data_item)
+    #             except Exception as e:
+    #                 # print(f"Error processing row: {e}")
+    #                 continue
+    #         return dataset
 
-        if k_fold:
-            loaders = []
-            Kfold = KFold(n_splits=5, shuffle=True, random_state=12)
-            for train_index, test_index in Kfold.split(df):
-                train_data = df.iloc[train_index]
-                test_data  = df.iloc[test_index]
+    #     if k_fold:
+    #         loaders = []
+    #         Kfold = KFold(n_splits=5, shuffle=True, random_state=12)
+    #         for train_index, test_index in Kfold.split(df):
+    #             train_data = df.iloc[train_index]
+    #             test_data  = df.iloc[test_index]
 
-                train_dataset = tensorize_dataset(train_data)
-                test_dataset  = tensorize_dataset(test_data)
-                train_loader  = DataLoader(train_dataset, batch_size=1, shuffle=False)
-                test_loader   = DataLoader(test_dataset,  batch_size=1, shuffle=False)
+    #             train_dataset = tensorize_dataset(train_data)
+    #             test_dataset  = tensorize_dataset(test_data)
+    #             train_loader  = DataLoader(train_dataset, batch_size=1, shuffle=False)
+    #             test_loader   = DataLoader(test_dataset,  batch_size=1, shuffle=False)
                 
-                loaders.append((train_loader, test_loader))
+    #             loaders.append((train_loader, test_loader))
 
-            return loaders
-        else:
-            train_data, test_data = train_test_split(df, test_size=test_size, random_state=42)
-            train_dataset = tensorize_dataset(train_data)
-            test_dataset  = tensorize_dataset(test_data)
+    #         return loaders
+    #     else:
+    #         train_data, test_data = train_test_split(df, test_size=test_size, random_state=42)
+    #         train_dataset = tensorize_dataset(train_data)
+    #         test_dataset  = tensorize_dataset(test_data)
 
-            train_loader  = DataLoader(train_dataset, batch_size=1, shuffle=False)
-            test_loader   = DataLoader(test_dataset,  batch_size=1, shuffle=False)
+    #         train_loader  = DataLoader(train_dataset, batch_size=1, shuffle=False)
+    #         test_loader   = DataLoader(test_dataset,  batch_size=1, shuffle=False)
 
-            return train_loader, test_loader
+    #         return train_loader, test_loader
 
     def evaluate_model(model, loader, device, output_file=""):
         model.eval()

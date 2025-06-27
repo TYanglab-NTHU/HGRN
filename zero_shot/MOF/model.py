@@ -6,6 +6,9 @@ from torch_geometric.nn   import MessagePassing, GCNConv,  Linear, BatchNorm, Gl
 
 import pandas as pd 
 
+import warnings
+warnings.filterwarnings("ignore")
+
 class BondMessagePassing(nn.Module):
     def __init__(self, node_features, bond_features, hidden_size, depth=3, dropout=0.3):
         super(BondMessagePassing, self).__init__()

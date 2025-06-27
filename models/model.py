@@ -48,6 +48,10 @@ class BondMessagePassing(nn.Module):
         H = self.dropout(H)
         return H             
 
+def boltzmann_distribution(potentials, t=1.0):
+    weights = torch.exp(-potentials / t)
+    return weights / weights.sum()
+
 class OMGNN_RNN(nn.Module):
     def __init__(self, node_dim, bond_dim, hidden_dim, output_dim, depth1=3, depth2=3, depth3=4,dropout=0.3):
         super(OMGNN_RNN, self).__init__()
@@ -145,18 +149,10 @@ class OMGNN_RNN(nn.Module):
         new_batch = batch2[batch1_2.long()]
 
         mapping_dict    = {val.item(): new_batch[batch1 == val].unique().item() for val in batch1.unique()}
-        # ordered_indices = [mapping_dict[k] for k in sorted(mapping_dict)]
         ordered_indices = torch.tensor([mapping_dict[k] for k in sorted(mapping_dict)], device=device)
         real_num_peaks = torch.tensor([graph.redox[i][1] for i in range(len(graph.redox))]).cuda()
-        # real_num_peaks = torch.tensor(
-        #             [v[1] for v in graph.redox.values()], device=device
-        # )
 
         redox_sites = [i for i, value in enumerate(real_num_peaks) for _ in range(int(value))]
-        # if redox_sites == []:
-        #     loss_cla    = nn.CrossEntropyLoss()(each_num_redox, real_num_peaks)
-        #     # loss_cla.backward(retain_graph=True)
-        #     total_loss += loss_cla
 
         E12s = []
         count = 0
@@ -201,7 +197,6 @@ class OMGNN_RNN(nn.Module):
                 redox_x_change[:,124:137] = new_tensor
             else:
                 redox_x_change = redox_subgraph1_result_ * self.gate_GCN1(redox_subgraph1_result_) + redox_x_
-                # redox_x_change =  redox_x_ * self.gate_GCN1( redox_x_) + redox_x_
 
             x_              = x.clone()
             x_[redox_x_idx] = redox_x_change
@@ -210,11 +205,10 @@ class OMGNN_RNN(nn.Module):
 
             # gat GCN2 with GCN3
             batch2_redox_idx = [mapping_dict.get(site) for site in unique_redox_sites]
-            # all_indices      = torch.arange(subgraph2_pooled.shape[0], device=device)
             updated_subgraph2_pooled  = subgraph2_pooled.clone()
 
             potentials_mapping = {}
-            # 創建電位映射
+            # potetential mapping
             for site_idx, potential in enumerate(lig_potentials):
                 if isinstance(batch2_redox_idx[site_idx], list):
                     for sub_idx in batch2_redox_idx[site_idx]:
@@ -223,7 +217,6 @@ class OMGNN_RNN(nn.Module):
                     potentials_mapping[batch2_redox_idx[site_idx]] = potential
 
             redox_sites_ = []
-            # 收集所有 redox sites
             for idx in batch2_redox_idx:
                 if isinstance(idx, list):
                     redox_sites_.extend(idx)
@@ -233,30 +226,15 @@ class OMGNN_RNN(nn.Module):
             redox_subgraph2_pooled  = subgraph2_pooled[redox_sites_]
             redox_subgraph3_result_ = subgraph3_result[redox_sites_]
 
-            # 根據映射獲取對應的電位
-            site_potentials = torch.stack([potentials_mapping[site] for site in redox_sites_])
-            
-            def boltzmann_distribution(potentials, t=1.0):
-                weights = torch.exp(-potentials / t)
-                return weights / weights.sum()
-
-            gate_weights = boltzmann_distribution(site_potentials)
+            site_potentials   = torch.stack([potentials_mapping[site] for site in redox_sites_])
+            gate_weights      = boltzmann_distribution(site_potentials)
             redox_site_change = redox_subgraph3_result_ * gate_weights + redox_subgraph2_pooled 
 
             updated_subgraph2_pooled[redox_sites_] = redox_site_change
             subgraph2_result_ = updated_subgraph2_pooled.clone()
 
-            # redox_site_change = redox_subgraph3_result_ * self.gate_GCN3(redox_subgraph3_result_) + redox_subgraph2_pooled
-            # redox_site_change = redox_subgraph2_pooled  * self.gate_GCN3(redox_subgraph2_pooled) + redox_subgraph2_pooled
-            # subgraph2_result_ = torch.cat([updated_subgraph2_pooled[:batch2_redox_idx], redox_site_change.unsqueeze(0), updated_subgraph2_pooled[batch2_redox_idx:]], dim=0)
-
             subgraph3_result, subgraph3_pooled = self.forward_subgraph(x=subgraph2_result_, edge_index=subgraph3_edge_index, batch=batch3, edge_attr=edge_attr[2], gcn=self.GCN3)
 
-            # redox_pos = [redox[redox_site_idx][0]]
-            # sites = [i for i in range(len(redox)) if redox[i][0] in redox_pos]
-            # for site in sites:
-            #     if site in redox_sites:
-            #         redox_sites.remove(site)
             redox_sites.remove(redox_site_idx)
 
             real_num_peaks = real_num_peaks.clone()  # ensure a separate copy
@@ -275,13 +253,21 @@ class OMGNN_RNN(nn.Module):
                 else:
                     loss_reg    = nn.MSELoss()(E12, real_E12[0])
                     total_loss += loss_reg
-                # loss_reg.backward(retain_graph=True)
+        if redox_sites == []:
+            if reaction == 'reduction':
+                each_num_redox = self.num_peaks_red(subgraph3_result[ordered_indices])
+                loss_cla    = nn.CrossEntropyLoss()(each_num_redox, real_num_peaks)
+                total_loss += loss_cla * 0.1
+            elif reaction == 'oxidation':
+                each_num_redox = self.num_peaks_ox(subgraph3_result[ordered_indices])
+                loss_cla    = nn.CrossEntropyLoss()(each_num_redox, real_num_peaks)
+                total_loss += loss_cla * 0.1
 
         return total_loss
 
     def sample(self, batch, device):
         for graph in batch.to_data_list():
-            x, edge_index, edge_attr, midx, reaction, redox = graph.x, graph.edge_index, graph.edge_attr, graph.midx, graph.reaction, graph.redox
+            x, edge_index, edge_attr, midx, reaction = graph.x, graph.edge_index, graph.edge_attr, graph.midx, graph.reaction
         
         subgraph1, batch1_2, subgraph2, subgraph3 = edge_index
         subgraph1_edge_index, batch1 = subgraph1
@@ -346,12 +332,10 @@ class OMGNN_RNN(nn.Module):
             subgraph2_result, subgraph2_pooled = self.forward_subgraph(x=subgraph1_result, edge_index=subgraph2_edge_index, batch=batch2, edge_attr=edge_attr[1], gcn=self.GCN2,pre_proc=lambda x: global_mean_pool(x, batch1_2))
 
             # gat GCN2 with GCN3
-            batch2_redox_idx = [mapping_dict.get(site.item()) for site in redox_indices]
-            # batch2_redox_idx = mapping_dict.get(redox_site_idx)
-            all_indices      = torch.arange(subgraph2_pooled.shape[0], device=device)
+            batch2_redox_idx = [mapping_dict.get(site.item()) for site in redox_indices]            
             updated_subgraph2_pooled  = subgraph2_pooled.clone()
+
             potentials_mapping = {}
-            # 創建電位映射
             for site_idx, potential in enumerate(E12s_redox):
                 if isinstance(batch2_redox_idx[site_idx], list):
                     for sub_idx in batch2_redox_idx[site_idx]:
@@ -360,7 +344,6 @@ class OMGNN_RNN(nn.Module):
                     potentials_mapping[batch2_redox_idx[site_idx]] = potential
 
             redox_sites_ = []
-            # 收集所有 redox sites
             for idx in batch2_redox_idx:
                 if isinstance(idx, list):
                     redox_sites_.extend(idx)
@@ -370,379 +353,127 @@ class OMGNN_RNN(nn.Module):
             redox_subgraph2_pooled  = subgraph2_pooled[redox_sites_]
             redox_subgraph3_result_ = subgraph3_result[redox_sites_]
 
-            # 根據映射獲取對應的電位
-            site_potentials = torch.stack([potentials_mapping[site] for site in redox_sites_])
-            
-            def boltzmann_distribution(potentials, temperature=1.0):
-                weights = torch.exp(-potentials / temperature)
-                return weights / weights.sum()
-
-            gate_weights = boltzmann_distribution(site_potentials)
+            site_potentials   = torch.stack([potentials_mapping[site] for site in redox_sites_])
+            gate_weights      = boltzmann_distribution(site_potentials)
             redox_site_change = redox_subgraph3_result_ * gate_weights.unsqueeze(-1) + redox_subgraph2_pooled
             
             updated_subgraph2_pooled[redox_sites_] = redox_site_change
             subgraph2_result_ = updated_subgraph2_pooled.clone()
-            # redox_site_change = redox_subgraph3_result_ * self.gate_GCN3(redox_subgraph3_result_) + redox_subgraph2_pooled
-            # redox_site_change = redox_subgraph2_pooled  * self.gate_GCN3(redox_subgraph2_pooled) + redox_subgraph2_pooled
-            # subgraph2_result_ = torch.cat([updated_subgraph2_pooled[:batch2_redox_idx], redox_site_change.unsqueeze(0), updated_subgraph2_pooled[batch2_redox_idx:]], dim=0)
-
 
             subgraph3_result, subgraph3_pooled = self.forward_subgraph(x=subgraph2_result_, edge_index=subgraph3_edge_index, batch=batch3, edge_attr=edge_attr[2], gcn=self.GCN3)
 
             pred_E12s = torch.cat((pred_E12s, E12.unsqueeze(0)), 0)
-
-            # redox_pos = [redox[redox_site_idx][0]]
-            # sites = [i for i in range(len(redox)) if redox[i][0] in redox_pos]
 
             num_redox_[redox_site_idx] = num_redox_[redox_site_idx] - 1
             
         return num_redox_all, pred_num_redox_, pred_E12s
     
     def sample_no_reaction(self, batch, device):
-        # --- Initial Graph Processing (Common for both Red/Ox) ---
         for graph in batch.to_data_list():
             x, edge_index, edge_attr, midx = graph.x, graph.edge_index, graph.edge_attr, graph.midx
-            # Assuming redox site info might be needed later, grab it here if available
-            # redox = graph.redox # Example, adjust if attribute name is different
 
         subgraph1, batch1_2, subgraph2, subgraph3 = edge_index
         subgraph1_edge_index, batch1 = subgraph1
         subgraph2_edge_index, batch2, filtered_mask = subgraph2
         subgraph3_edge_index, batch3 = subgraph3
 
-        # --- Initial Forward Pass (Common for both Red/Ox) ---
+        # --- initial forward ---
         subgraph1_result, subgraph1_pooled = self.forward_subgraph(x=x, edge_index=subgraph1_edge_index, batch=batch1, edge_attr=edge_attr[0], gcn=self.GCN1)
-        subgraph2_result, subgraph2_pooled = self.forward_subgraph(x=subgraph1_result, edge_index=subgraph2_edge_index, batch=batch2, edge_attr=edge_attr[1], gcn=self.GCN2,pre_proc=lambda x: global_mean_pool(x, batch1_2))
-        # Note: The original code had a potential issue applying transform_edge_attr only here. Assuming it's correct.
+        subgraph2_result, subgraph2_pooled = self.forward_subgraph(x=subgraph1_result, edge_index=subgraph2_edge_index, batch=batch2, edge_attr=edge_attr[1], gcn=self.GCN2, pre_proc=lambda x: global_mean_pool(x, batch1_2))
         subgraph3_result, subgraph3_pooled = self.forward_subgraph(x=subgraph2_pooled, edge_index=subgraph3_edge_index, batch=batch3, edge_attr=edge_attr[2], gcn=self.GCN3)
 
-        # --- Batch Mapping (Common) ---
         m_batch1  = batch1[midx[0]]
         new_batch = batch2[batch1_2.long()]
         mapping_dict    = {val.item(): new_batch[batch1 == val].unique().item() for val in batch1.unique()}
-        ordered_indices = torch.tensor([mapping_dict[k] for k in sorted(mapping_dict)], device=device) # Use specified device
+        ordered_indices = torch.tensor([mapping_dict[k] for k in sorted(mapping_dict)], device=device)
 
-        # --- Initial Peak Predictions ---
+        # --- reduction ---
         batch1_subgraph3_result = subgraph3_result[ordered_indices]
         num_redox_all_red = self.num_peaks_red(batch1_subgraph3_result)
-        num_redox_all_ox  = self.num_peaks_ox(batch1_subgraph3_result)
-
         num_redox_red_ = torch.argmax(num_redox_all_red, dim=1)
-        num_redox_ox_  = torch.argmax(num_redox_all_ox, dim=1)
-
         pred_num_redox_red = num_redox_red_.clone()
-        pred_num_redox_ox  = num_redox_ox_.clone()
-
         pred_E12s_red = torch.tensor([], device=device)
-        pred_E12s_ox  = torch.tensor([], device=device)
-
-        # --- Reduction Prediction Loop ---
         x_red = x.clone()
         subgraph1_result_red = subgraph1_result.clone()
         subgraph2_pooled_red = subgraph2_pooled.clone()
         subgraph3_result_red = subgraph3_result.clone()
-        num_redox_red_loop = num_redox_red_.clone() # Use a separate counter for the loop
+        num_redox_red_loop = num_redox_red_.clone()
 
-        while num_redox_red_loop.sum() > 0: # Check against zero
+        while num_redox_red_loop.sum() > 0:
             current_batch1_subgraph3_result = subgraph3_result_red[ordered_indices]
             E12s_red = self.E12_reg_red(current_batch1_subgraph3_result).squeeze()
-
             redox_mask_red    = num_redox_red_loop > 0
             redox_indices_red = torch.nonzero(redox_mask_red, as_tuple=False).flatten()
-
-            if redox_indices_red.numel() == 0: break # Exit if no sites left
-
+            if redox_indices_red.numel() == 0: break
             E12s_redox_red = E12s_red[redox_mask_red]
-
-            # Handle case where E12s_redox_red might be empty if mask is all False
             if E12s_redox_red.numel() == 0: break
-
             E12_red, filtered_idx_red = torch.max(E12s_redox_red, dim=0)
             redox_site_idx_red = redox_indices_red[filtered_idx_red].item()
-
-            # --- Update State for Reduction ---
-            redox_x_idx_red = (batch1 == redox_site_idx_red).nonzero(as_tuple=False).flatten() # More robust way to get indices
+            redox_x_idx_red = (batch1 == redox_site_idx_red).nonzero(as_tuple=False).flatten()
             redox_x_red = x_red[redox_x_idx_red]
-
-            # Apply reduction change to atom features (assuming indices 124:137 are correct)
-            # Ensure redox_x_red is not empty before indexing
-            if redox_x_red.numel() > 0 and redox_x_red.shape[1] > 136: # Check dimensions
-                 # Check if this indexing is still relevant and correct for your features
+            if redox_x_red.numel() > 0 and redox_x_red.shape[1] > 136:
                 if 124 < redox_x_red.shape[1] and 137 <= redox_x_red.shape[1]:
-                    new_tensor_red = torch.roll(redox_x_red[:, 124:137], shifts=-1, dims=-1) # Use last dim for features
+                    new_tensor_red = torch.roll(redox_x_red[:, 124:137], shifts=-1, dims=-1)
                     x_red[redox_x_idx_red, 124:137] = new_tensor_red
-                else:
-                    print(f"Warning: Feature dimension mismatch for reduction update at site {redox_site_idx_red}. Skipping feature update.")
-                    # Handle the case where features are not as expected - maybe skip update or log error
-
-            else:
-                 # Handle case where no atoms found for the site or feature dim too small
-                 print(f"Warning: Could not find atoms or features for reduction site {redox_site_idx_red}. Skipping feature update.")
-
-
-            # --- Recalculate Forward Pass for Reduction ---
             subgraph1_result_red, subgraph1_pooled_red = self.forward_subgraph(x=x_red, edge_index=subgraph1_edge_index, batch=batch1, edge_attr=edge_attr[0], gcn=self.GCN1)
-            subgraph2_result_red, subgraph2_pooled_red = self.forward_subgraph(x=subgraph1_result_red, edge_index=subgraph2_edge_index, batch=batch2, edge_attr=edge_attr[1], gcn=self.GCN2,pre_proc=lambda x: global_mean_pool(x, batch1_2))
-
-            # Apply GCN3 Gate Update (carefully replicating original logic for reduction)
+            subgraph2_result_red, subgraph2_pooled_red = self.forward_subgraph(x=subgraph1_result_red, edge_index=subgraph2_edge_index, batch=batch2, edge_attr=edge_attr[1], gcn=self.GCN2, pre_proc=lambda x: global_mean_pool(x, batch1_2))
             batch2_redox_idx_red = mapping_dict.get(redox_site_idx_red)
-            if batch2_redox_idx_red is not None: # Check if site exists in batch2
+            if batch2_redox_idx_red is not None:
                 redox_subgraph2_pooled_red = subgraph2_pooled_red[batch2_redox_idx_red]
-                # Original code used subgraph3_result - assume that's the intended input for gating
-                redox_subgraph3_result_for_gate = subgraph3_result_red[batch2_redox_idx_red] # Use the state BEFORE GCN3 recalculation for gating? Check logic.
-                # Or maybe use the new subgraph3_result_red? Let's assume previous state based on original code.
-                # **This gating logic might need careful review based on your self's intention**
-                redox_site_change_red = redox_subgraph3_result_for_gate * self.gate_GCN3(redox_subgraph3_result_for_gate) + redox_subgraph2_pooled_red # Gating applied
-
-                # Create updated pooled result for GCN3 input
+                redox_subgraph3_result_for_gate = subgraph3_result_red[batch2_redox_idx_red]
+                redox_site_change_red = redox_subgraph3_result_for_gate * self.gate_GCN3(redox_subgraph3_result_for_gate) + redox_subgraph2_pooled_red
                 subgraph2_pooled_updated_red = subgraph2_pooled_red.clone()
-                subgraph2_pooled_updated_red[batch2_redox_idx_red] = redox_site_change_red # Update the specific site
+                subgraph2_pooled_updated_red[batch2_redox_idx_red] = redox_site_change_red
             else:
-                # Site not found in batch2, use original pooled result
                 subgraph2_pooled_updated_red = subgraph2_pooled_red
-
-            subgraph3_result_red, subgraph3_pooled_red = self.forward_subgraph(x=subgraph2_pooled_updated_red, edge_index=subgraph3_edge_index, batch=batch3, edge_attr=edge_attr[2], gcn=self.GCN3,transform_edge_attr=lambda attr: torch.stack(attr, dim=0))
-
-            # --- Store Result and Decrement Count ---
+            subgraph3_result_red, subgraph3_pooled_red = self.forward_subgraph(x=subgraph2_pooled_updated_red, edge_index=subgraph3_edge_index, batch=batch3, edge_attr=edge_attr[2], gcn=self.GCN3)
             pred_E12s_red = torch.cat((pred_E12s_red, E12_red.unsqueeze(0)), 0)
-
-            # Decrement count for the site (and potentially related sites if needed)
-            # Assuming only the selected site's count decreases by 1
-            # If 'redox' structure is needed:
-            # redox_pos = [r[0] for r_idx, r in enumerate(redox) if r_idx == redox_site_idx_red] # Get position info if needed
-            # sites_to_decrement = [i for i, r in enumerate(redox) if r[0] in redox_pos]
-            # num_redox_red_loop[sites_to_decrement] -= 1
-            # Simplified: Decrement only the selected site index
             if redox_site_idx_red < len(num_redox_red_loop):
-                 num_redox_red_loop[redox_site_idx_red] -= 1
-            else:
-                 print(f"Warning: redox_site_idx_red {redox_site_idx_red} out of bounds for num_redox_red_loop.")
+                num_redox_red_loop[redox_site_idx_red] -= 1
 
-
-        # --- Oxidation Prediction Loop ---
+        # --- oxidation ---
+        batch1_subgraph3_result = subgraph3_result[ordered_indices]
+        num_redox_all_ox = self.num_peaks_ox(batch1_subgraph3_result)
+        num_redox_ox_ = torch.argmax(num_redox_all_ox, dim=1)
+        pred_num_redox_ox = num_redox_ox_.clone()
+        pred_E12s_ox = torch.tensor([], device=device)
         x_ox = x.clone()
         subgraph1_result_ox = subgraph1_result.clone()
         subgraph2_pooled_ox = subgraph2_pooled.clone()
         subgraph3_result_ox = subgraph3_result.clone()
-        num_redox_ox_loop = num_redox_ox_.clone() # Use a separate counter
+        num_redox_ox_loop = num_redox_ox_.clone()
 
-        while num_redox_ox_loop.sum() > 0: # Check against zero
+        while num_redox_ox_loop.sum() > 0:
             current_batch1_subgraph3_result = subgraph3_result_ox[ordered_indices]
             E12s_ox = self.E12_reg_ox(current_batch1_subgraph3_result).squeeze()
-
             redox_mask_ox    = num_redox_ox_loop > 0
             redox_indices_ox = torch.nonzero(redox_mask_ox, as_tuple=False).flatten()
-
-            if redox_indices_ox.numel() == 0: break # Exit if no sites left
-
+            if redox_indices_ox.numel() == 0: break
             E12s_redox_ox = E12s_ox[redox_mask_ox]
-
             if E12s_redox_ox.numel() == 0: break
-
-            E12_ox, filtered_idx_ox = torch.min(E12s_redox_ox, dim=0) # Use min for oxidation
+            E12_ox, filtered_idx_ox = torch.min(E12s_redox_ox, dim=0)
             redox_site_idx_ox = redox_indices_ox[filtered_idx_ox].item()
-
-            # --- Update State for Oxidation ---
             redox_x_idx_ox = (batch1 == redox_site_idx_ox).nonzero(as_tuple=False).flatten()
             redox_x_ox = x_ox[redox_x_idx_ox]
-
-            # Apply oxidation change to atom features
             if redox_x_ox.numel() > 0 and redox_x_ox.shape[1] > 136:
                 if 124 < redox_x_ox.shape[1] and 137 <= redox_x_ox.shape[1]:
-                    new_tensor_ox = torch.roll(redox_x_ox[:, 124:137], shifts=1, dims=-1) # Use shift=1 for oxidation
+                    new_tensor_ox = torch.roll(redox_x_ox[:, 124:137], shifts=1, dims=-1)
                     x_ox[redox_x_idx_ox, 124:137] = new_tensor_ox
-                else:
-                    print(f"Warning: Feature dimension mismatch for oxidation update at site {redox_site_idx_ox}. Skipping feature update.")
-            else:
-                print(f"Warning: Could not find atoms or features for oxidation site {redox_site_idx_ox}. Skipping feature update.")
-
-
-            # --- Recalculate Forward Pass for Oxidation ---
             subgraph1_result_ox, subgraph1_pooled_ox = self.forward_subgraph(x=x_ox, edge_index=subgraph1_edge_index, batch=batch1, edge_attr=edge_attr[0], gcn=self.GCN1)
-            subgraph2_result_ox, subgraph2_pooled_ox = self.forward_subgraph(x=subgraph1_result_ox, edge_index=subgraph2_edge_index, batch=batch2, edge_attr=edge_attr[1], gcn=self.GCN2,pre_proc=lambda x: global_mean_pool(x, batch1_2))
-
-            # Apply GCN3 Gate Update for Oxidation
+            subgraph2_result_ox, subgraph2_pooled_ox = self.forward_subgraph(x=subgraph1_result_ox, edge_index=subgraph2_edge_index, batch=batch2, edge_attr=edge_attr[1], gcn=self.GCN2, pre_proc=lambda x: global_mean_pool(x, batch1_2))
             batch2_redox_idx_ox = mapping_dict.get(redox_site_idx_ox)
             if batch2_redox_idx_ox is not None:
                 redox_subgraph2_pooled_ox = subgraph2_pooled_ox[batch2_redox_idx_ox]
-                redox_subgraph3_result_for_gate_ox = subgraph3_result_ox[batch2_redox_idx_ox] # Check if this state is correct for gating
+                redox_subgraph3_result_for_gate_ox = subgraph3_result_ox[batch2_redox_idx_ox]
                 redox_site_change_ox = redox_subgraph3_result_for_gate_ox * self.gate_GCN3(redox_subgraph3_result_for_gate_ox) + redox_subgraph2_pooled_ox
                 subgraph2_pooled_updated_ox = subgraph2_pooled_ox.clone()
                 subgraph2_pooled_updated_ox[batch2_redox_idx_ox] = redox_site_change_ox
             else:
                 subgraph2_pooled_updated_ox = subgraph2_pooled_ox
-
             subgraph3_result_ox, subgraph3_pooled_ox = self.forward_subgraph(x=subgraph2_pooled_updated_ox, edge_index=subgraph3_edge_index, batch=batch3, edge_attr=edge_attr[2], gcn=self.GCN3)
-
-            # --- Store Result and Decrement Count ---
             pred_E12s_ox = torch.cat((pred_E12s_ox, E12_ox.unsqueeze(0)), 0)
-
-            # Decrement count for the site
             if redox_site_idx_ox < len(num_redox_ox_loop):
                 num_redox_ox_loop[redox_site_idx_ox] -= 1
-            else:
-                 print(f"Warning: redox_site_idx_ox {redox_site_idx_ox} out of bounds for num_redox_ox_loop.")
 
-
-        # --- Return Results ---
         return (num_redox_all_red, pred_num_redox_red, pred_E12s_red,
                 num_redox_all_ox, pred_num_redox_ox, pred_E12s_ox)
-
-
-    def compute_grad_cam(self, batch, device):
-        """計算所有節點的 Grad-CAM，不進行任何遮罩
-        
-        Args:
-            batch: 輸入批次數據
-            device: 計算設備
-            
-        Returns:
-            atom_grad_cam: 原子層級的重要性分數
-            ligand_grad_cam: 配體層級的重要性分數
-            complex_grad_cam: 複合物層級的重要性分數
-        """
-        # 前向傳播
-        for graph in batch.to_data_list():
-            x, edge_index, edge_attr, midx, real_E12, reaction, redox = graph.x, graph.edge_index, graph.edge_attr, graph.midx, graph.ys, graph.reaction, graph.redox
-        
-        subgraph1, batch1_2, subgraph2, subgraph3 = edge_index
-        subgraph1_edge_index, batch1 = subgraph1
-        subgraph2_edge_index, batch2 = subgraph2
-        subgraph3_edge_index, batch3 = subgraph3
-
-        # 保存中間結果並啟用梯度計算
-        with torch.set_grad_enabled(True):
-            # 確保所有中間結果都保留梯度
-            subgraph1_result, subgraph1_pooled = self.forward_subgraph(x=x, edge_index=subgraph1_edge_index, batch=batch1, edge_attr=edge_attr[0], gcn=self.GCN1)
-            subgraph1_result.retain_grad()
-            
-            subgraph2_result, subgraph2_pooled = self.forward_subgraph(x=subgraph1_result, edge_index=subgraph2_edge_index, batch=batch2, edge_attr=edge_attr[1], gcn=self.GCN2,pre_proc=lambda x: global_mean_pool(x, batch1_2))
-            subgraph2_result.retain_grad()
-            
-            subgraph3_result, subgraph3_pooled = self.forward_subgraph(x=subgraph2_pooled, edge_index=subgraph3_edge_index, batch=batch3, edge_attr=edge_attr[2], gcn=self.GCN3)
-            subgraph3_result.retain_grad()
-            
-            # 計算 E12 預測
-            if reaction == 'reduction':
-                E12 = self.E12_reg_red(subgraph3_result)
-                E12_scalar = torch.max(E12)
-            else:
-                E12 = self.E12_reg_ox(subgraph3_result)
-                E12_scalar = torch.min(E12)
-
-            # 清除之前的梯度
-            if subgraph3_result.grad is not None:
-                subgraph3_result.grad.zero_()
-            if subgraph2_result.grad is not None:
-                subgraph2_result.grad.zero_()
-            if subgraph1_result.grad is not None:
-                subgraph1_result.grad.zero_()
-            
-            # 計算梯度
-            E12_scalar.backward(retain_graph=True)
-            
-            # 計算所有節點的 Grad-CAM
-            # 1. 複合物層級
-            gradients3 = subgraph3_result.grad
-            features3 = subgraph3_result
-            weights3 = torch.mean(gradients3, dim=1, keepdim=True)
-            complex_grad_cam = torch.sum(weights3 * features3, dim=1)
-            complex_grad_cam = torch.relu(complex_grad_cam)
-            complex_grad_cam = complex_grad_cam / (torch.max(complex_grad_cam) + 1e-8)
-            
-            # 2. 配體層級
-            gradients2 = subgraph2_result.grad
-            features2 = subgraph2_result
-            weights2 = torch.mean(gradients2, dim=1, keepdim=True)
-            ligand_grad_cam = torch.sum(weights2 * features2, dim=1)
-            ligand_grad_cam = torch.relu(ligand_grad_cam)
-            ligand_grad_cam = ligand_grad_cam / (torch.max(ligand_grad_cam) + 1e-8)
-            
-            # 3. 原子層級
-            gradients1 = subgraph1_result.grad
-            features1 = subgraph1_result
-            weights1 = torch.mean(gradients1, dim=1, keepdim=True)
-            atom_grad_cam = torch.sum(weights1 * features1, dim=1)
-            atom_grad_cam = torch.relu(atom_grad_cam)
-            atom_grad_cam = atom_grad_cam / (torch.max(atom_grad_cam) + 1e-8)
-            
-            return atom_grad_cam, ligand_grad_cam, complex_grad_cam
-
-
-
-class MultiTargetGNN(nn.Module):
-    def __init__(self, node_dim, bond_dim, hidden_dim, output_dims, depth1=3, depth2=3, depth3=4, dropout=0.3):
-        super(MultiTargetGNN, self).__init__()
-        self.GCN1 = BondMessagePassing(node_dim, bond_dim, hidden_dim, depth=depth1, dropout=dropout)
-        self.GCN2 = BondMessagePassing(node_dim, bond_dim, hidden_dim, depth=depth2, dropout=dropout)
-        self.GCN3 = BondMessagePassing(node_dim, bond_dim, hidden_dim, depth=depth3, dropout=dropout)
-        
-        self.pool = global_mean_pool
-        
-        # 為每個目標創建一個預測器
-        self.predictors = nn.ModuleDict({
-            name: nn.Sequential(
-                nn.Linear(hidden_dim, 512),
-                nn.ReLU(),
-                nn.Dropout(dropout),
-                nn.Linear(512, 128),
-                nn.ReLU(),
-                nn.Dropout(dropout),
-                nn.Linear(128, 1)
-            ) for name in output_dims
-        })
-
-    def forward_subgraph(self, x, edge_index, batch, edge_attr, gcn, pre_proc=None):
-        if pre_proc is not None:
-            x = pre_proc(x)
-
-        rev_edge_index = self._rev_edge_index(edge_index)
-        data = Data(x=x, edge_index=edge_index, rev_edge_index=rev_edge_index, edge_attr=edge_attr)
-        result = gcn(data)
-        result_pooled = self.pool(result, batch)
-        return result, result_pooled
-
-    @staticmethod
-    def _rev_edge_index(edge_index):
-        edge_to_index = {(edge_index[0, i].item(), edge_index[1, i].item()): i for i in range(edge_index.shape[1])}
-        rev_edge_index = torch.full((edge_index.shape[1],), -1, dtype=torch.long)
-        for i in range(edge_index.shape[1]):
-            u, v = edge_index[0, i].item(), edge_index[1, i].item()
-            if (v, u) in edge_to_index:
-                rev_edge_index[i] = edge_to_index[(v, u)]
-        return rev_edge_index
-
-    def forward(self, batch, device):
-        x, edge_index, edge_attr = batch.x, batch.edge_index, batch.edge_attr
-        
-        subgraph1, batch1_2, subgraph2, subgraph3 = edge_index
-        subgraph1_edge_index, batch1 = subgraph1
-        subgraph2_edge_index, batch2, filtered_mask = subgraph2
-        subgraph3_edge_index, batch3 = subgraph3
-
-        # Forward pass through GCN layers
-        subgraph1_result, subgraph1_pooled = self.forward_subgraph(x=x, edge_index=subgraph1_edge_index, batch=batch1, edge_attr=edge_attr[0], gcn=self.GCN1)
-        subgraph2_result, subgraph2_pooled = self.forward_subgraph(x=subgraph1_result, edge_index=subgraph2_edge_index, batch=batch2, edge_attr=edge_attr[1], gcn=self.GCN2, pre_proc=lambda x: global_mean_pool(x, batch1_2))
-        subgraph3_result, subgraph3_pooled = self.forward_subgraph(x=subgraph2_pooled, edge_index=subgraph3_edge_index, batch=batch3, edge_attr=edge_attr[2], gcn=self.GCN3)
-
-        # 對每個目標進行預測
-        predictions = {}
-        total_loss = 0
-        criterion = nn.MSELoss()
-
-        # 計算每個目標的預測值和損失
-        for name, predictor in self.predictors.items():
-            pred = predictor(subgraph3_pooled)
-            predictions[name] = pred
-            
-            # 獲取目標值
-            target = batch.ys[name].to(device)
-            
-            # 計算損失
-            loss = criterion(pred, target)
-            total_loss += loss
-
-        if self.training:
-            return total_loss
-        else:
-            return predictions

@@ -3,29 +3,28 @@ import torch
 import torch.optim.lr_scheduler as lr_scheduler
 from torch_geometric.loader import DataLoader
 from optparse   import OptionParser
-import torch.nn.functional as F # 引入 functional 以計算距離
-import numpy as np # 需要 numpy
-from sklearn.cluster import KMeans # Import KMeans for clustering
-from sklearn.neighbors import NearestNeighbors # 重新導入 NearestNeighbors
+import torch.nn.functional as F
+import numpy as np 
+from sklearn.cluster import KMeans 
+from sklearn.neighbors import NearestNeighbors 
 
-from model import *
+from models import *
 
 from datautils_MO          import *
 from metal_oxide_chemutils import *
 
 
-# 首先加載 config.json
 try:
     with open('/config.json', 'r') as f:
         config = json.load(f)
 except FileNotFoundError:
-    print("錯誤：找不到 config.json 文件。將使用程式碼中的預設值。")
-    config = {} # 提供一個空的字典，以防文件不存在
+    print("Error: config.json file not found. Using default values.")
+    config = {}
 
 if __name__ == '__main__':
     parser = OptionParser()
 
-    # 使用 config 中的值作為預設值，如果 config 中沒有，則使用原來的硬編碼值作為備份
+    # use config.json as default value, if not in config, use the hardcoded value as backup
     parser.add_option("-i", "--input", dest="input",
                       default=config.get('input', '/work/u7069586/E-hGNN/data/old_organo_rp_site_raw1.csv'))
     parser.add_option("--pretrain_path", dest="pretrain_path",
@@ -61,20 +60,20 @@ if __name__ == '__main__':
 
     opts, args = parser.parse_args()
 
-dataset = data_loader('/work/u7069586/E-hGNN_f/zero-shot/metal_oxide/test_MO.csv', 1)
+dataset = data_loader('test_MO.csv', 1)
 loader = DataLoader(dataset, batch_size=1, shuffle=False)
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 model = OMGNN_RNN(node_dim=opts.num_features, bond_dim=11, hidden_dim=opts.num_features, output_dim=opts.output_size, depth1=opts.depth1, depth2=opts.depth2, depth3=opts.depth3, dropout=opts.dropout).to(device)
 
-model_path_ = './model.pkl' # 或者從 opts 或 config 獲取
+model_path_ = './model.pkl'
 if os.path.exists(model_path_):
-    checkpoint = torch.load(model_path_, map_location=device) # 直接加載到目標 device
+    checkpoint = torch.load(model_path_, map_location=device) 
     model.load_state_dict(checkpoint)
     model.eval()
-    print(f"模型權重從 {model_path_} 加載成功。")
+    print(f"Model weights loaded from {model_path_}.")
 else:
-    print(f"警告：找不到模型權重文件 {model_path_}。模型將使用隨機初始化權重。")
+    print(f"Warning: Model weights file {model_path_} not found. Model will use randomly initialized weights.")
 
 
 for batch in loader:

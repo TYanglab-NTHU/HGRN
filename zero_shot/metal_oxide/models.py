@@ -5,6 +5,8 @@ from torch_geometric.nn   import global_mean_pool, global_max_pool
 from torch_geometric.nn   import MessagePassing, GCNConv,  Linear, BatchNorm, GlobalAttention, GATConv
 
 import pandas as pd 
+import warnings
+warnings.filterwarnings("ignore")
 
 class BondMessagePassing(nn.Module):
     def __init__(self, node_features, bond_features, hidden_size, depth=3, dropout=0.3):

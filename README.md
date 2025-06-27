@@ -28,12 +28,12 @@ Note for machines with GPUs: You may need to manually install a GPU-enabled vers
 ## Pretrain Organic Compounds
 
 ```
-python pretrain.py -i ./../data/organic.csv 
+python pretrain.py --i_organic "<organic_compound.csv>"
 ```
 
 ## Training Organometallic Compounds
 ```
-python train.py -i ./../data/organo_E12.csv
+python train.py -i "<organo_compound.csv>"
 ```
 
 ## Zero shot

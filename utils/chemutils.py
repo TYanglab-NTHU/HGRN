@@ -7,7 +7,6 @@ import networkx as nx
 from rdkit import Chem
 from collections import defaultdict
 
-# !TODO Check ELEM_LIST
 elem_list = [
     'H', 'He', 'Li', 'Be', 'B', 'C', 'N', 'O', 'F', 'Ne', 'Na', 'Mg', 'Al', 'Si', 'P', 'S', 'Cl', 'Ar', 'K', 'Ca', 'Sc', 'Ti', 'V', 'Cr', 'Mn', 'Fe', 'Co', 'Ni', 'Cu', 'Zn', 'Ga', 'Ge', 'As', 'Se', 'Br', 'Kr', 
     'Rb', 'Sr', 'Y', 'Zr', 'Nb', 'Mo', 'Tc', 'Ru', 'Rh', 'Pd', 'Ag', 'Cd', 'In', 'Sn', 'Sb', 'Te', 'I', 'Xe', 'Cs', 'Ba', 'La', 'Ce', 'Pr', 'Nd', 'Pm', 'Sm', 'Eu', 'Gd', 'Tb', 'Dy', 'Ho', 'Er', 'Tm', 'Yb', 'Lu', 'Hf', 'Ta', 'W', 'Re', 'Os', 'Ir', 'Pt', 'Au', 'Hg', 
@@ -23,131 +22,6 @@ VE_DICT.update({'Cs': 1, 'Ba': 2, 'La': 3, 'Ce': 4, 'Pr': 5, 'Nd': 6, 'Pm': 7, '
 VE_DICT.update({'Hf': 4, 'Ta': 5, 'W': 6, 'Re': 7, 'Os': 8, 'Ir': 9, 'Pt': 10, 'Au': 11, 'Hg': 2, 'Tl': 3, 'Pb': 4, 'Bi': 5, 'Po': 6, 'At': 7, 'Rn': 8})
 VE_DICT.update({'Fr': 1, 'Ra': 2, 'Ac': 3, 'Th': 4, 'Pa': 5, 'U': 6, 'Np': 7, 'Pu': 8, 'Am': 9, 'Cm': 10, 'Bk': 11, 'Cf': 12, 'Es': 13, 'Fm': 14, 'Md': 15, 'No': 16, 'Lr': 17})
 VE_DICT.update({'Rf': 4, 'Db': 5, 'Sg': 6, 'Bh': 21, 'Hs': 22, 'Mt': 23, 'Ds': 24, 'Rg': 25, 'Cn': 26, 'Nh': 27, 'Fl': 28, 'Mc': 29, 'Lv': 30, 'Ts': 31, 'Og': 32})
-
-# atom_eff_charge_dict = {'H': 0.1, 'He': 0.16875, 'Li': 0.12792, 'Be': 0.1912, 'B': 0.24214000000000002, 'C': 0.31358, 'N': 0.3834, 'O': 0.44532, 'F': 0.51, 'Ne': 0.57584, 'Na': 0.2507400000000001, 'Mg': 0.3307500000000001, 'Al': 0.40656000000000003, 'Si': 0.42852, 'P': 0.48864, 'S': 0.54819, 'Cl': 0.61161, 'Ar': 0.6764100000000002, 'K': 0.34952000000000005, 'Ca': 0.43979999999999997, 'Sc': 0.4632400000000001, 'Ti': 0.4816800000000001, 'V': 0.4981200000000001, 'Cr': 0.5133200000000002, 'Mn': 0.5283200000000001, 'Fe': 0.5434000000000001, 'Co': 0.55764, 'Ni': 0.5710799999999999, 'Cu': 0.5842399999999998, 'Zn': 0.5965199999999999, 'Ga': 0.6221599999999999, 'Ge': 0.6780400000000001, 'As': 0.7449200000000001, 'Se': 0.8287199999999999, 'Br': 0.9027999999999999, 'Kr': 0.9769199999999998, 'Rb': 0.4984499999999997, 'Sr': 0.60705, 'Y': 0.6256, 'Zr': 0.6445499999999996, 'Nb': 0.5921, 'Mo': 0.6106000000000003, 'Tc': 0.7226500000000002, 'Ru': 0.6484499999999997, 'Rh': 0.6639499999999998, 'Pd': 1.3617599999999996, 'Ag': 0.6755499999999999, 'Cd': 0.8192, 'In': 0.847, 'Sn': 0.9102000000000005, 'Sb': 0.9994500000000003, 'Te': 1.0808500000000003, 'I': 1.16115, 'Xe': 1.2424500000000003, 'Cs': 0.6363, 'Ba': 0.7575000000000003, 'Pr': 0.7746600000000001, 'Nd': 0.9306600000000004, 'Pm': 0.9395400000000003, 'Sm': 0.8011800000000001, 'Eu': 0.8121600000000001, 'Tb': 0.8300399999999997, 'Dy': 0.8343600000000002, 'Ho': 0.8439000000000001, 'Er': 0.8476199999999999, 'Tm': 0.8584200000000003, 'Yb': 0.8593199999999996, 'Lu': 0.8804400000000001, 'Hf': 0.9164400000000001, 'Ta': 0.9524999999999999, 'W': 0.9854399999999999, 'Re': 1.0116, 'Os': 1.0323000000000009, 'Ir': 1.0566599999999995, 'Pt': 1.0751400000000004, 'Au': 1.0938000000000003, 'Hg': 1.1153400000000004, 'Tl': 1.22538, 'Pb': 1.2393, 'Bi': 1.3339799999999997, 'Po': 1.4220600000000005, 'At': 1.5163200000000003, 'Rn': 1.6075800000000002}
-
-
-def get_electron_config(Z, charge=0):
-    orbitals = [
-        (1, 's'), (2, 's'), (2, 'p'), (3, 's'), (3, 'p'),
-        (4, 's'), (3, 'd'), (4, 'p'), (5, 's'), (4, 'd'),
-        (5, 'p'), (6, 's'), (4, 'f'), (5, 'd'), (6, 'p'),
-        (7, 's'), (5, 'f'), (6, 'd'), (7, 'p')
-    ]
-    max_electrons = {'s': 2, 'p': 6, 'd': 10, 'f': 14}
-
-    config = []
-    remaining = Z
-
-    # Step 1: Fill orbitals for neutral atom
-    for n, l in orbitals:
-        cap = max_electrons[l]
-        if remaining >= cap:
-            config.append(((n, l), cap))
-            remaining -= cap
-        else:
-            if remaining > 0:
-                config.append(((n, l), remaining))
-                remaining = 0
-            break
-
-    # Step 2: Stability fix (only for neutral atoms)
-    if Z in [24, 29, 42, 47, 79]:  # Cr, Cu, Mo, Ag, Au
-        # These prefer (n-1)d^5 or ^10 and ns^1
-        # e.g., Cu: from 3d9 4s2 → 3d10 4s1
-        for i in range(len(config)):
-            if config[i][0] == (4, 's') and config[i][1] == 2:
-                config[i] = ((4, 's'), 1)
-                # find 3d and increase by 1
-                for j in range(len(config)):
-                    if config[j][0] == (3, 'd') and config[j][1] == 9:
-                        config[j] = ((3, 'd'), 10)
-                    elif config[j][0] == (3, 'd') and config[j][1] == 4:
-                        config[j] = ((3, 'd'), 5)
-                        break
-                break
-
-    # Step 3: Ionization
-    if charge > 0:
-            # Electrons are removed from highest *n* first,
-            # and within same n: remove from s > p > d > f (reverse of filling)
-            remove_priority = {'s': 3, 'p': 2, 'd': 1, 'f': 0}
-            config = sorted(config, key=lambda x: (x[0][0], remove_priority[x[0][1]]), reverse=True)
-
-            for i in range(len(config)):
-                if charge <= 0:
-                    break
-                (n, l), count = config[i]
-                to_remove = min(count, charge)
-                config[i] = ((n, l), count - to_remove)
-                charge -= to_remove
-
-            # Remove empty orbitals
-            config = [c for c in config if c[1] > 0]
-            # Sort back to filling order
-            config.sort(key=lambda x: orbitals.index(x[0]))
-
-    # Step 4: Output
-    return ' '.join(f"{n}{l}^{e}" for ((n, l), e) in config)
-
-
-def calculate_effective_nuclear_charge(element, charge=0):
-    Z = Chem.GetPeriodicTable().GetAtomicNumber(element)
-    electron_config = get_electron_config(Z, charge)
-
-    def slater_S_from_valence(electron_config):
-        # Step 1: 找出最後一個有電子的軌域，視為 valence
-        config = []
-        matches = re.findall(r'(\d)([spdf])(\d+)', electron_config)
-        for n, l, count in matches:
-            config.append(((int(n), l), int(count)))
-        reversed_config = list(reversed(config))
-        valence_shells = []
-
-        for ((n, l), count) in reversed_config:
-            if count > 0:
-                valence_nl = (n, l)
-                break
-
-        S = 0
-        for ((n, l), count) in config:
-            if (n, l) == valence_nl:
-                # 同軌域
-                if n == 1 and l == 's':
-                    S += 0.30 * (count - 1)
-                else:
-                    S += 0.35 * (count - 1)
-            else:
-                if l in ['d', 'f'] and valence_nl[1] in ['d', 'f']:
-                    if (n < valence_nl[0]) or (n == valence_nl[0] and l != valence_nl[1]):
-                        S += 1.00 * count
-                        print(count)
-                if  n == valence_nl[0] and l != valence_nl[1]:
-                    S += 0.85 * count
-                    print(count)
-                elif n == valence_nl[0] - 1:
-                    S += 0.85 * count
-                    print(count)
-                elif n < valence_nl[0] - 1:
-                    S += 1.00 * count
-                    print(count)
-        return S
-
-    S    = slater_S_from_valence(electron_config)
-    Zeff = Z - S
-
-    return Zeff
-
-# print(calculate_effective_nuclear_charge('Fe', 3))
-# print(calculate_effective_nuclear_charge('Mn', 4))
-
-# for atom_sym in elem_list:
-#     try:
-#         # Calculate the effective charge (0.1 * last Zeff Clementi value)
-#         eff_charge = 0.1 * zeff.elem_data(atom_sym)["Zeff Clementi"].iloc[-1]
-#         atom_eff_charge_dict[atom_sym] = eff_charge
-#     except Exception as e:
-#         print(f"Error processing element {atom_sym}: {e}")
 
 def get_metal_oxidation_state(metal):
     oxidation_states = ''.join(filter(str.isdigit, metal))
@@ -170,12 +44,8 @@ def onek_encoding_unk(value, allowable_set):
 
 def atom_features(atom, oxidation_state=None, features=153):
     atom_symbol_encoding = onek_encoding_unk(atom.GetSymbol(), elem_list)  # 118
-    atom_sym = atom.GetSymbol()
-    # atom_eff_charge = [atom_eff_charge_dict.get(atom_sym, 0.1)]   #default 0.1 
-    # atom_eff_charge = [0.1 * zeff.elem_data(atom_sym)["Zeff Clementi"].iloc[-1]]
     atom_degree_encoding = onek_encoding_unk(atom.GetDegree(), [0, 1, 2, 3, 4, 5])  # 6
     formal_charge = atom.GetFormalCharge() if oxidation_state is None else oxidation_state
-    atom_eff_charge = [calculate_effective_nuclear_charge(atom_sym, charge=formal_charge)] 
     formal_charge_encoding = onek_encoding_unk(formal_charge, [-4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8])  # 13
     chiral_tag_encoding = onek_encoding_unk(int(atom.GetChiralTag()), [0, 1, 2, 3])  # 4
     num_h_encoding = onek_encoding_unk(atom.GetTotalNumHs(), [0, 1, 2, 3, 4])  # 5
@@ -184,29 +54,16 @@ def atom_features(atom, oxidation_state=None, features=153):
         [0, 1, 2, 3, 4, 5]  # Example encoding: [S, SP, SP2, SP3, SP3D, SP3D2]
     )  # 6
     is_aromatic = [atom.GetIsAromatic()]  # 1
-    atomic_mass = [0.01 * atom.GetMass()]  # 1
 
-    if features == 37:
-        return torch.Tensor(
-            atom_eff_charge +
-            atom_degree_encoding +
-            formal_charge_encoding +
-            chiral_tag_encoding +
-            num_h_encoding +
-            hybridization_encoding +
-            is_aromatic +
-            atomic_mass
-        )      # 37
-    elif features == 153:
-        return torch.Tensor(
-            atom_symbol_encoding +
-            atom_degree_encoding +
-            formal_charge_encoding+
-            chiral_tag_encoding +
-            num_h_encoding +
-            hybridization_encoding +
-            is_aromatic
-            ) # 118+13 
+    return torch.Tensor(
+        atom_symbol_encoding +
+        atom_degree_encoding +
+        formal_charge_encoding+
+        chiral_tag_encoding +
+        num_h_encoding +
+        hybridization_encoding +
+        is_aromatic
+        ) # 118+13 
 
 def metal_features(metal, features=153):
     oxidation_state = get_metal_oxidation_state(metal)
@@ -414,7 +271,7 @@ def tensorize_with_subgraphs(smiles_batch, metal, features=153):
                     interfrag_batch_idx[atom] = fragment_id
             interfrag_batch_idx = torch.Tensor(interfrag_batch_idx).long()
 
-            # 建立 filtered_masks
+            # filtered_masks
             intrafrag_ninds_to_rmove = []  # binding atoms in interfrag_batch_idx
             for nind in ninds_to_rmove:
                 for frag_id, atom_indices in frag_idx_dict.items():
@@ -422,13 +279,13 @@ def tensorize_with_subgraphs(smiles_batch, metal, features=153):
                         intrafrag_ninds_to_rmove.append(frag_id) 
                         break
             
-            # 創建binding atom mask並根據interfrag_batch_idx分組
+            # create binding atom mask and group by interfrag_batch_idx
             binding_atom_mask = torch.zeros_like(interfrag_batch_idx)
             for idx in range(len(interfrag_batch_idx)):
                 if idx in intrafrag_ninds_to_rmove:
                     binding_atom_mask[idx] = 1
 
-            # 創建group到binding atom mask的映射
+            # group to mask
             group_to_mask = {}
             for idx in range(len(interfrag_batch_idx)):
                 group = interfrag_batch_idx[idx].item()
@@ -436,7 +293,7 @@ def tensorize_with_subgraphs(smiles_batch, metal, features=153):
                     group_to_mask[group] = []
                 group_to_mask[group].append(binding_atom_mask[idx].item())
 
-            # 將每個group的mask分離成單獨的字典
+            # separate each group's mask into a separate dictionary
             separated_masks = []
             for group, masks in group_to_mask.items():
                 one_positions = [i for i, x in enumerate(masks) if x == 1]
@@ -445,13 +302,13 @@ def tensorize_with_subgraphs(smiles_batch, metal, features=153):
                     new_mask[pos] = 1
                     separated_masks.append({group: new_mask})
 
-            # 計算每個key出現的次數
+            # calculate the number of times each key appears
             key_counts = {}
             for mask_dict in separated_masks:
                 for key in mask_dict:
                     key_counts[key] = key_counts.get(key, 0) + 1
 
-            # 只保留出現多次的key
+            # only keep keys that appear more than once
             filtered_masks = [mask for mask in separated_masks if list(mask.keys())[0] in [k for k, v in key_counts.items() if v > 1]]
 
             # get intrafrag bonds
