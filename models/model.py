@@ -477,3 +477,164 @@ class OMGNN_RNN(nn.Module):
 
         return (num_redox_all_red, pred_num_redox_red, pred_E12s_red,
                 num_redox_all_ox, pred_num_redox_ox, pred_E12s_ox)
+
+
+class complex_HGRN(nn.Module):
+    def __init__(self, node_dim, bond_dim, hidden_dim, cla_output_dim, depth1=3, depth2=3, depth3=4,dropout=0.3):
+        super(complex_HGRN, self).__init__()
+        self.GCN1 = BondMessagePassing(node_dim, bond_dim, hidden_dim, depth=depth1, dropout=0.3)
+        self.GCN2 = BondMessagePassing(node_dim, bond_dim, hidden_dim, depth=depth2, dropout=0.3)
+        self.GCN3 = BondMessagePassing(node_dim, bond_dim, hidden_dim, depth=depth3, dropout=0.3)
+
+        self.pool = global_mean_pool
+        self.regressor = nn.Sequential(
+            nn.Linear(hidden_dim, 512),
+            nn.ReLU(),
+            nn.Dropout(dropout),
+            nn.Linear(512, 128),
+            nn.ReLU(),
+            nn.Dropout(dropout),
+            nn.Linear(128, 1))
+        self.classifier = nn.Sequential(
+            nn.Linear(hidden_dim, 512),
+            nn.ReLU(),
+            nn.Dropout(dropout),
+            nn.Linear(512, 128),
+            nn.ReLU(),
+            nn.Dropout(dropout),
+            nn.Linear(128, cla_output_dim))
+        
+        self.gate_GCN1 = nn.Sequential(
+            nn.Linear(hidden_dim, hidden_dim),
+            nn.Tanh())
+        self.gate_GCN3 = nn.Sequential(
+            nn.Linear(hidden_dim, hidden_dim),
+            nn.Tanh())
+
+
+    @staticmethod
+    def _rev_edge_index(edge_index):
+        edge_to_index = {(edge_index[0, i].item(), edge_index[1, i].item()): i for i in range(edge_index.shape[1])}
+        rev_edge_index = torch.full((edge_index.shape[1],), -1, dtype=torch.long)
+        for i in range(edge_index.shape[1]):
+            u, v = edge_index[0, i].item(), edge_index[1, i].item()
+            if (v, u) in edge_to_index:
+                rev_edge_index[i] = edge_to_index[(v, u)]
+        return rev_edge_index
+
+    def forward_subgraph(self, x, edge_index, batch, edge_attr, gcn, pre_proc=None, transform_edge_attr=None):
+        if pre_proc is not None:
+            x = pre_proc(x)
+
+        rev_edge_index = self._rev_edge_index(edge_index)
+
+        if transform_edge_attr is not None:
+            edge_attr = transform_edge_attr(edge_attr)
+
+        data = Data(x=x, edge_index=edge_index, rev_edge_index=rev_edge_index, edge_attr=edge_attr)
+
+        if isinstance(gcn, GATConv):
+            result = gcn(x, edge_index, edge_attr) 
+        else:
+            result = gcn(data) 
+
+        result_pooled = self.pool(result, batch)
+        return result, result_pooled
+
+    def forward(self, batch, device):
+        for graph in batch.to_data_list():
+            x, edge_index, edge_attr, midx, true_vals, sites = graph.x, graph.edge_index, graph.edge_attr, graph.midx, graph.ys, graph.redox
+        
+        subgraph1, batch1_2, subgraph2, subgraph3 = edge_index
+        subgraph1_edge_index, batch1 = subgraph1
+        subgraph2_edge_index, batch2, filtered_mask = subgraph2
+        subgraph3_edge_index, batch3 = subgraph3
+
+        #"results after GCN and result_ after global pooling"
+        subgraph1_result, subgraph1_pooled = self.forward_subgraph(x=x, edge_index=subgraph1_edge_index, batch=batch1, edge_attr=edge_attr[0], gcn=self.GCN1)
+        subgraph2_result, subgraph2_pooled = self.forward_subgraph(x=subgraph1_result, edge_index=subgraph2_edge_index, batch=batch2, edge_attr=edge_attr[1], gcn=self.GCN2,pre_proc=lambda x: global_mean_pool(x, batch1_2))
+        subgraph3_result, subgraph3_pooled = self.forward_subgraph(x=subgraph2_pooled, edge_index=subgraph3_edge_index, batch=batch3, edge_attr=edge_attr[2], gcn=self.GCN3)
+
+        m_batch1  = batch1[midx[0]]
+        new_batch = batch2[batch1_2.long()]
+
+        mapping_dict    = {val.item(): new_batch[batch1 == val].unique().item() for val in batch1.unique()}
+        ordered_indices = torch.tensor([mapping_dict[k] for k in sorted(mapping_dict)], device=device)
+        real_num_peaks  = torch.tensor([sites[i][1] for i in range(len(sites))]).cuda()
+
+        reaction_sites = [i for i, value in enumerate(real_num_peaks) for _ in range(int(value))]
+ 
+        total_loss = 0 
+        while reaction_sites:
+            count +=1 
+            batch1_subgraph3_result = subgraph3_result[ordered_indices]
+
+            each_nums = self.classifier(batch1_subgraph3_result)
+            
+            unique_reaction_sites = list(set(reaction_sites))
+            preds     = self.regressor(batch1_subgraph3_result[unique_reaction_sites])
+            pred, idx = preds.min(dim=0)
+
+            loss_cla = nn.CrossEntropyLoss()(each_nums.to(device), real_num_peaks.to(device))
+            loss_reg = nn.MSELoss()(pred, true_vals[0].unsqueeze(0).to(device))
+
+            total_loss += loss_cla + loss_reg
+
+            true_vals = true_vals[1:]
+            reaction_sites_idx = unique_reaction_sites[idx]
+
+            reaction_x_idx = [i for i, idx in enumerate(batch1) if idx == reaction_sites_idx]
+            reaction_x_    = x[reaction_x_idx]
+            reaction_subgraph1_result_  = subgraph1_result[reaction_x_idx]
+            if reaction_sites_idx == m_batch1:
+                reaction_x_change = reaction_subgraph1_result_ * self.gate_GCN1(reaction_subgraph1_result_) + reaction_x_
+
+            x_              = x.clone()
+            x_[reaction_x_idx] = reaction_x_change
+            subgraph1_result, subgraph1_pooled = self.forward_subgraph(x=x_, edge_index=subgraph1_edge_index, batch=batch1, edge_attr=edge_attr[0], gcn=self.GCN1)
+            subgraph2_result, subgraph2_pooled = self.forward_subgraph(x=subgraph1_result, edge_index=subgraph2_edge_index, batch=batch2, edge_attr=edge_attr[1], gcn=self.GCN2,pre_proc=lambda x: global_mean_pool(x, batch1_2))
+
+            # gat GCN2 with GCN3
+            batch2_reaction_idx = [mapping_dict.get(site) for site in unique_reaction_sites]
+            updated_subgraph2_pooled  = subgraph2_pooled.clone()
+
+            potentials_mapping = {}
+            # potetential mapping
+            for site_idx, potential in enumerate(preds):
+                if isinstance(batch2_reaction_idx[site_idx], list):
+                    for sub_idx in batch2_reaction_idx[site_idx]:
+                        potentials_mapping[sub_idx] = potential
+                else:
+                    potentials_mapping[batch2_redox_idx[site_idx]] = potential
+
+            redox_sites_ = []
+            for idx in batch2_redox_idx:
+                if isinstance(idx, list):
+                    redox_sites_.extend(idx)
+                else:
+                    redox_sites_.append(idx)
+            
+            redox_subgraph2_pooled  = subgraph2_pooled[redox_sites_]
+            redox_subgraph3_result_ = subgraph3_result[redox_sites_]
+
+            site_potentials   = torch.stack([potentials_mapping[site] for site in redox_sites_])
+            gate_weights      = boltzmann_distribution(site_potentials)
+            redox_site_change = redox_subgraph3_result_ * gate_weights + redox_subgraph2_pooled 
+
+            updated_subgraph2_pooled[redox_sites_] = redox_site_change
+            subgraph2_result_ = updated_subgraph2_pooled.clone()
+
+            subgraph3_result, subgraph3_pooled = self.forward_subgraph(x=subgraph2_result_, edge_index=subgraph3_edge_index, batch=batch3, edge_attr=edge_attr[2], gcn=self.GCN3)
+
+            redox_sites.remove(redox_site_idx)
+
+            real_num_peaks = real_num_peaks.clone()  # ensure a separate copy
+            real_num_peaks[redox_site_idx] = real_num_peaks[redox_site_idx] - 1
+
+
+        return total_loss
+
+
+
+
+

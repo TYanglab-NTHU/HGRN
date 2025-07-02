@@ -472,3 +472,94 @@ class OGNN_RNN_allmask(nn.Module):
                     subgraph1_result_e12, subgraph1_pooled_e12 = self.forward_subgraph1(update_nodes, subgraph1_edge_index, batch1, edge_attr)
         
         return clas, potentials
+    
+class Organic_GRN(nn.Module):
+    def __init__(self, node_dim, bond_dim, hidden_dim, cla_dim, depth=3, dropout=0.3):
+        super(Organic_GRN, self).__init__()
+        self.GCN1 = DMPNN(node_dim, bond_dim, hidden_dim, depth=depth, dropout=0.3)
+        self.pool = global_mean_pool
+        self.gate_GCN1 = nn.Sequential(
+            nn.Linear(hidden_dim, hidden_dim),
+            nn.Tanh())
+        
+        self.predictor = nn.Sequential(
+            nn.Linear(hidden_dim, 512),
+            nn.ReLU(),
+            nn.Dropout(dropout),
+            nn.Linear(512, 128),
+            nn.ReLU(),
+            nn.Dropout(dropout),
+            nn.Linear(128, 1))
+        
+        self.classifier = nn.Sequential(
+            nn.Linear(hidden_dim, 512),
+            nn.ReLU(),
+            nn.Dropout(dropout),
+            nn.Linear(512, 128),
+            nn.ReLU(),
+            nn.Dropout(dropout),
+            nn.Linear(128, cla_dim))
+        
+    @staticmethod
+    def _rev_edge_index(edge_index):
+        edge_to_index = {(edge_index[0, i].item(), edge_index[1, i].item()): i for i in range(edge_index.shape[1])}
+        rev_edge_index = torch.full((edge_index.shape[1],), -1, dtype=torch.long)
+        for i in range(edge_index.shape[1]):
+            u, v = edge_index[0, i].item(), edge_index[1, i].item()
+            if (v, u) in edge_to_index:
+                rev_edge_index[i] = edge_to_index[(v, u)]
+        return rev_edge_index
+    def forward_subgraph1(self, x, subgraph1_edge_index, batch1, edge_attr):
+        subgraph1_rev_edge_index = self._rev_edge_index(subgraph1_edge_index)
+        subgraph1_batch   = Data(x=x, edge_index=subgraph1_edge_index, rev_edge_index=subgraph1_rev_edge_index, edge_attr=edge_attr)
+        subgraph1_result  = self.GCN1(subgraph1_batch)
+        subgraph1_result_ = self.pool(subgraph1_result, batch1)
+        return subgraph1_result, subgraph1_result_
+    def forward(self, batch, device):
+        for graph in batch.to_data_list():
+            x, edge_index, edge_attr, true_vals = graph.x, graph.edge_index, graph.edge_attr, graph.ys 
+        subgraph1_edge_index, batch1 = edge_index
+   
+        subgraph1_result, subgraph1_pooled = self.forward_subgraph1(x, subgraph1_edge_index, batch1, edge_attr)
+        numbers = len(true_vals)
+          
+        total_loss = 0
+        for i, true in enumerate(true_vals):
+            pred_reg = self.predictor(subgraph1_pooled) 
+            pred_cla = self.classifier(subgraph1_pooled)
+            
+            # 確保張量尺寸匹配
+            true_tensor = true.view(-1, 1) if true.dim() == 0 else true.view(-1, 1)
+            loss_reg = nn.MSELoss()(pred_reg, true_tensor)
+            
+            # 轉換 numbers 為張量
+            numbers_tensor = torch.tensor([numbers], dtype=torch.long, device=pred_cla.device)
+            loss_cla = nn.CrossEntropyLoss()(pred_cla, numbers_tensor)
+            
+            loss = loss_reg + loss_cla
+            total_loss += loss
+            # update ligand node features (after redox)
+            x_ = x.clone()
+            subgraph1_result_ = subgraph1_result.clone()
+            update_nodes      = subgraph1_result_ * self.gate_GCN1(subgraph1_result_) + x_
+            subgraph1_result, subgraph1_pooled = self.forward_subgraph1(update_nodes, subgraph1_edge_index, batch1, edge_attr)
+            numbers -= 1
+        return total_loss
+    def sample(self,batch, device):
+        for graph in batch.to_data_list():
+            x, edge_index, edge_attr = graph.x, graph.edge_index, graph.edge_attr
+        subgraph1_edge_index, batch1 = edge_index
+
+        subgraph1_result, subgraph1_pooled = self.forward_subgraph1(x, subgraph1_edge_index, batch1, edge_attr)
+        pred_cla = self.classifier(subgraph1_pooled)
+        times = torch.argmax(pred_cla, dim=1).item()
+        preds = []
+        for i in range(times):
+            pred_reg = self.predictor(subgraph1_pooled)
+            preds.append(pred_reg)
+            # update ligand node features (after redox)
+            x_ = x.clone()
+            subgraph1_result_ = subgraph1_result.clone()
+            update_nodes      = subgraph1_result_ * self.gate_GCN1(subgraph1_result_) + x_
+            subgraph1_result, subgraph1_pooled = self.forward_subgraph1(update_nodes, subgraph1_edge_index, batch1, edge_attr)
+        return preds, pred_cla

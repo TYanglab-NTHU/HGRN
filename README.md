@@ -25,18 +25,18 @@ Note for machines with GPUs: You may need to manually install a GPU-enabled vers
 
 ## Usage
 
-## Pretrain Organic Compounds
+## Pretrain Organic Compounds for E1/2 prediction
 
 ```
 python pretrain.py --i_organic "<organic_compound.csv>"
 ```
 
-## Training Organometallic Compounds
+## Training Organometallic Compounds for E1/2 prediction
 ```
 python train.py -i "<organo_compound.csv>"
 ```
 
-## Zero shot
+## Zero shot for E1/2 prediction
 
 Before predicting E₁/₂ for metal oxides and MOFs, we preprocess their CIF files using the **Chic** (https://github.com/tcnicholas/chic) and **pymatgen** libraries.  
 Make sure both packages are installed and that your structure files can be parsed by them:
@@ -48,7 +48,11 @@ python sample_MO.py
 ```
 python sample_mof.py
 ```
-
+## Train Sequential values prediction for organic compounds 
+Input data format one column for SMILE and one column for target values and use "val1,val2,val3..." to depart each value.
+```
+python organic_train_self.py  --label_column <target_column>
+```
 
 ## License
 License details can be found in the LICENSE file.
