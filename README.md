@@ -49,7 +49,19 @@ python sample_MO.py
 python sample_mof.py
 ```
 ## Train Sequential values prediction for organic compounds 
-Input data format one column for SMILE and one column for target values and use "val1,val2,val3..." to depart each value.
+Dataset should be a two-column file (CSV, TSV, etc.) with:
+
+| **SMILES**         | **Targets**            |
+| ------------------ | ---------------------- |
+| `CCO`              | `"0.12,0.34,0.56"`       |
+| `c1ccccc1O`        | `"1.23,4.56,7.89"`       |
+| `CC(N)C(=O)O`      | `"2.5,3.0"`              |
+
+- **SMILES**: the molecular string.
+- **Targets**: one or more numerical values separated by commas, e.g.  
+  ```text
+  "val1,val2,val3,..."
+
 ```
 python organic_train_self.py  --i_organic <organic_data.csv> --label_column <target_column>
 ```
