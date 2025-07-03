@@ -1,10 +1,10 @@
-import os,sys
 import json
 import torch
+import os,sys
 import torch.optim.lr_scheduler as lr_scheduler
-from torch_geometric.loader import DataLoader 
+from torch_geometric.loader   import DataLoader 
 from torch.optim.lr_scheduler import ReduceLROnPlateau
-from optparse   import OptionParser
+from optparse import OptionParser
 
 from models.pretrain_models import *
 from models.model import *
@@ -19,7 +19,6 @@ from utils.datautils import *
 if __name__ == '__main__':
     parser = OptionParser()
     parser.add_option("-i", "--input", dest="input", default='./data/organo_rp_site_raw1.csv')
-    parser.add_option("--reaction", dest="reaction", default='reduction')
     parser.add_option("-t", "--test_size", dest="test_size", type=float, default=0.2)
     parser.add_option("--num_features", "--num_features", dest="num_features", default=153)
     parser.add_option("--output_size", dest="output_size", default=1)
@@ -43,13 +42,12 @@ if __name__ == '__main__':
     optimizer = torch.optim.Adam(model.parameters(), lr=opts.lr)
     scheduler = ReduceLROnPlateau(optimizer, mode='min', factor=opts.anneal_rate, patience=10, verbose=True)
 
-
     "Load Pretrain GCN1 model"
     if opts.pretrain:
         pretrained_model      = OGNN_RNN_allmask(node_dim=opts.num_features, bond_dim=11, hidden_dim=opts.num_features, output_dim=opts.output_size,dropout=opts.dropout).to(device)
         pretrained_checkpoint = torch.load('./checkpoint/model_pretrain_gcn1-1-500.pkl', map_location='cpu')
         
-        # 只載入 GCN1 相關的參數
+        # load GCN1 model
         gcn1_state_dict = {k: v for k, v in pretrained_checkpoint.items() if 'GCN1' in k}
         pretrained_model.load_state_dict(gcn1_state_dict, strict=False)
         pretrained_model.eval()
@@ -77,8 +75,8 @@ if __name__ == '__main__':
         train_loss = (total_loss / count)
         print(f"Epoch {epoch}, Train RMSE Loss: {train_loss:.4f}")
 
-        train_loss , train_reg_loss, train_cla_loss, train_accuracy = OM.evaluate_model(model, train_loader, device, output_file=None)
-        test_loss  , test_reg_loss , test_cla_loss , test_accuracy  = OM.evaluate_model(model, test_loader, device,  output_file=None)
+        train_loss, train_reg_loss, train_cla_loss, train_accuracy = OM.evaluate_model(model, train_loader, device, output_file=None)
+        test_loss,  test_reg_loss , test_cla_loss , test_accuracy  = OM.evaluate_model(model, test_loader, device,  output_file=None)
         train_loss_history.append(train_loss)
         train_reg_history.append(train_reg_loss)
         train_cla_history.append(train_cla_loss)

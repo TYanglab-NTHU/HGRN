@@ -1,10 +1,10 @@
+import json
+import os, sys
+
 import torch
 from   torch_geometric.loader import DataLoader
 from   optparse   import OptionParser
 
-import json
-import os, sys
-sys.path.append('/work/u7069586/E-hGNN_f/')
 from utils.datautils import *
 from utils.trainutils_v2 import *
 from utils.chemutils  import *
@@ -25,8 +25,6 @@ if __name__ == '__main__':
     # use config value as default, if not, use the hardcoded value as backup
     parser.add_option("-i", "--input", dest="input",
                       default=config.get('input', './data/organo_rp_site_raw1.csv'))
-    parser.add_option("--reaction", dest="reaction",
-                      default=config.get('reaction', 'reduction'))
     parser.add_option("-t", "--test_size", dest="test_size", type=float,
                       default=float(config.get('test_size', 0.2))) 
     parser.add_option("--num_features", dest="num_features", type=int, 
@@ -44,7 +42,7 @@ if __name__ == '__main__':
     parser.add_option("--depth1", dest="depth1", type=int,
                       default=int(config.get('depth1', 3)))
     parser.add_option("--depth2", dest="depth2", type=int,
-                      default=int(config.get('depth2', 1)))
+                      default=int(config.get('depth2', 2)))
     parser.add_option("--depth3", dest="depth3", type=int,
                       default=int(config.get('depth3', 2)))
     parser.add_option("--anneal_rate", dest="anneal_rate", type=float,

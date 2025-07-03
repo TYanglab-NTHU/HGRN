@@ -1,0 +1,9 @@
+smiles,target
+Cc1ncc(C[n+]2csc(CCO)c2C)c(N)n1,4.79
+[O-][N+](=O)c1cc2cccnc2c3ncccc13,3.22
+Oc1c(Br)cc(Br)c2cccnc12,"2.6, 7.3"
+N[C@@H](Cc1ccccc1)C(O)=O,"2.18, 9.09"
+Nc1cccc(c1)C(O)=O,"3.14, 4.55"
+NCCCC[C@H](NC(=O)[C@@H](N)CCCNC(N)=N)C(=O)N[C@H](CC(O)=O)C(O)=O,"2.71, 4.12, 7.42, 10.55"
+C[C@H](NC(=O)[C@H](C)NC(=O)[C@@H](N)CC(O)=O)C(=O)N[C@@H](CC(O)=O)C(O)=O,"3.12, 3.26, 4.64, 8.0"
+C[C@H](N)C(=O)N[C@@H](CC(O)=O)C(=O)N[C@@H](C)C(=O)N[C@@H](CC(O)=O)C(O)=O,"3.14, 3.47, 4.63, 8.28"

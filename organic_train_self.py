@@ -17,7 +17,7 @@ from utils.datautils import *
 if __name__ == '__main__':
     parser = OptionParser()
     parser.add_option("-i", "--input", dest="input", default='')
-    parser.add_option("--i_organic", dest="input_organic", default='data/pka_data.csv')
+    parser.add_option("--i_organic", dest="input_organic", default='data/example_data.csv')
     parser.add_option("--reaction", dest="reaction", default='reduction')
     parser.add_option("-t", "--test_size", dest="test_size", type=float, default=0.2)
     parser.add_option("--num_features", dest="num_features", type=int, default=153) 
@@ -30,7 +30,7 @@ if __name__ == '__main__':
     parser.add_option("--anneal_rate", dest="anneal_rate", type=float, default=0.9)
     parser.add_option("--model_type", dest="model_type", type=str, default='DMPNN')
     parser.add_option("--device", dest="device", type=str, default='cuda', help='使用的設備：cuda 或 cpu')
-    parser.add_option("--label_column", dest="label_column", type=str, default='pka_values', help='標籤欄位名稱')
+    parser.add_option("--label_column", dest="label_column", type=str, default='target', help='標籤欄位名稱')
     opts, args = parser.parse_args()
 
     print(f"Loading data from: {opts.input_organic}")

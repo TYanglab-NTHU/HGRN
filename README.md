@@ -51,7 +51,7 @@ python sample_mof.py
 ## Train Sequential values prediction for organic compounds 
 Input data format one column for SMILE and one column for target values and use "val1,val2,val3..." to depart each value.
 ```
-python organic_train_self.py  --label_column <target_column>
+python organic_train_self.py  --i_organic <organic_data.csv> --label_column <target_column>
 ```
 
 ## License

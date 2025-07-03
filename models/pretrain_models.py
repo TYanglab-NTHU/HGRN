@@ -8,6 +8,9 @@ from torch_geometric.data import Data
 from torch_geometric.nn   import global_mean_pool
 from torch_geometric.nn   import MessagePassing, GCNConv,  Linear, BatchNorm, GlobalAttention, GATConv
 
+import warnings
+warnings.filterwarnings("ignore")
+
 #dielectric constant, refractive index
 solvent_dict = {'ACN': [36.6*0.01, 1.3441*0.1],   
                 'DMF': [36.7*0.01, 1.4305*0.1],

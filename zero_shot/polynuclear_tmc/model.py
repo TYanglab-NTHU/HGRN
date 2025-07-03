@@ -417,9 +417,3 @@ class OMGNN_RNN(nn.Module):
         
         return (num_redox_all_red, pred_num_redox_red, pred_E12s_red,
                 num_redox_all_ox, pred_num_redox_ox, pred_E12s_ox)
-
-
-# with torch.set_grad_enabled(True):      
-    # subgraph1_result, subgraph1_pooled = self.forward_subgraph(x=x, edge_index=subgraph1_edge_index, batch=batch1, edge_attr=edge_attr[0], gcn=self.GCN1)
-    # subgraph2_result, subgraph2_pooled = self.forward_subgraph(x=subgraph1_result, edge_index=subgraph2_edge_index, batch=batch2, edge_attr=edge_attr[1], gcn=model.GCN2,pre_proc=lambda x: global_mean_pool(x, batch1_2))
-    # subgraph3_result, subgraph3_pooled = model.forward_subgraph(x=subgraph2_pooled, edge_index=subgraph3_edge_index, batch=batch3, edge_attr=edge_attr[2], gcn=model.GCN3,transform_edge_attr=lambda attr: torch.stack(attr, dim=0))
