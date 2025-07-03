@@ -5,13 +5,10 @@ from torch_geometric.loader import DataLoader
 from optparse import OptionParser
 import os, sys
 
-import sys
-from datautils import *
-
-sys.path.append('../')
 from models.pretrain_models import *
 from utils.trainutils_v2 import *
 from utils.chemutils import *
+from utils.datautils import *
 
 
 # ============================== #
@@ -20,15 +17,14 @@ from utils.chemutils import *
 if __name__ == '__main__':
     parser = OptionParser()
     parser.add_option("-i", "--input", dest="input", default='')
-    parser.add_option("--i_organic", dest="input_organic", default='pka_data.csv')
+    parser.add_option("--i_organic", dest="input_organic", default='data/pka_data.csv')
     parser.add_option("--reaction", dest="reaction", default='reduction')
-    parser.add_option("--type", dest="type", default="multiple")  # single or multiple 
     parser.add_option("-t", "--test_size", dest="test_size", type=float, default=0.2)
-    parser.add_option("--num_features", dest="num_features", type=int, default=153)   #37- effective charge #131
+    parser.add_option("--num_features", dest="num_features", type=int, default=153) 
     parser.add_option("--output_size", dest="output_size", type=int, default=10)
     parser.add_option("--dropout", dest="dropout", type=float, default=0.3)
     parser.add_option("--batch_size", dest="batch_size", type=int, default=1)
-    parser.add_option("-e","--num_epochs", dest="num_epochs", type=int, default=300)
+    parser.add_option("-e","--num_epochs", dest="num_epochs", type=int, default=200)
     parser.add_option("--lr", dest="lr", type=float, default=0.001)
     parser.add_option("--depth", dest="depth", type=int, default=3)
     parser.add_option("--anneal_rate", dest="anneal_rate", type=float, default=0.9)
@@ -102,26 +98,8 @@ if __name__ == '__main__':
             except Exception as e:
                 print(f"✗ Error in test batch {i+1}: {e}")
 
-        predictions, targets = collect_matched_predictions_and_targets(model, test_loader, device)
-        
-        print(f"Collected {len(predictions)} predictions and {len(targets)} targets")
-        
-        # 繪製parity plot
-        print("Creating parity plot...")
-        r2, rmse, mae = plot_parity(predictions, targets, "pKa 預測 Parity Plot", "pka_parity_plot.png")
-        
-        # 繪製殘差圖
-        print("Creating residuals plot...")
-        plot_residuals(predictions, targets, "pka_residuals_plot.png")
-        
-        print(f"✓ 圖表已保存！")
-        print(f"  R² = {r2:.4f}")
-        print(f"  RMSE = {rmse:.4f}")
-        print(f"  MAE = {mae:.4f}")
-
-
     # save model
-    torch.save(model.state_dict(), os.path.join("../checkpoint", "pretrain_model.pkl"))
+    torch.save(model.state_dict(), os.path.join("checkpoint", "pretrain_model.pkl"))
     print("Model saved!")
 
     # save config

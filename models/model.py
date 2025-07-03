@@ -605,31 +605,31 @@ class complex_HGRN(nn.Module):
                     for sub_idx in batch2_reaction_idx[site_idx]:
                         potentials_mapping[sub_idx] = potential
                 else:
-                    potentials_mapping[batch2_redox_idx[site_idx]] = potential
+                    potentials_mapping[batch2_reaction_idx[site_idx]] = potential
 
-            redox_sites_ = []
-            for idx in batch2_redox_idx:
+            reaction_sites_ = []
+            for idx in batch2_reaction_idx:
                 if isinstance(idx, list):
-                    redox_sites_.extend(idx)
+                    reaction_sites_.extend(idx)
                 else:
-                    redox_sites_.append(idx)
+                    reaction_sites_.append(idx)
             
-            redox_subgraph2_pooled  = subgraph2_pooled[redox_sites_]
-            redox_subgraph3_result_ = subgraph3_result[redox_sites_]
+            reaction_subgraph2_pooled  = subgraph2_pooled[reaction_sites_]
+            reaction_subgraph3_result_ = subgraph3_result[reaction_sites_]
 
-            site_potentials   = torch.stack([potentials_mapping[site] for site in redox_sites_])
+            site_potentials   = torch.stack([potentials_mapping[site] for site in reaction_sites_])
             gate_weights      = boltzmann_distribution(site_potentials)
-            redox_site_change = redox_subgraph3_result_ * gate_weights + redox_subgraph2_pooled 
+            reaction_site_change = reaction_subgraph3_result_ * gate_weights + reaction_subgraph2_pooled 
 
-            updated_subgraph2_pooled[redox_sites_] = redox_site_change
+            updated_subgraph2_pooled[reaction_sites_] = reaction_site_change
             subgraph2_result_ = updated_subgraph2_pooled.clone()
 
             subgraph3_result, subgraph3_pooled = self.forward_subgraph(x=subgraph2_result_, edge_index=subgraph3_edge_index, batch=batch3, edge_attr=edge_attr[2], gcn=self.GCN3)
 
-            redox_sites.remove(redox_site_idx)
+            reaction_sites.remove(reaction_sites_idx)
 
             real_num_peaks = real_num_peaks.clone()  # ensure a separate copy
-            real_num_peaks[redox_site_idx] = real_num_peaks[redox_site_idx] - 1
+            real_num_peaks[reaction_sites_idx] = real_num_peaks[reaction_sites_idx] - 1
 
 
         return total_loss
