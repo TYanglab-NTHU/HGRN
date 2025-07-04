@@ -1,0 +1,13 @@
+Complex,E12,smiles,split
+CAXTUR,1.14,Cl[Mn+2]123(Cl)n4c5CN1(C)Cc1cccc(CN2(C)Cc4ccc5)n31,test
+CAXVAZ,0.96,F[Mn+2]123(F)n4c5CN1(C)Cc1cccc(CN2(C)Cc4ccc5)n31,train
+MAPSEC,0.73,COC(=O)C1=CC2=C(C=C1C(=O)OC)C1=C(c3ccccc3)C3=N4C(=C(c5ccccc5)C5=C6C=C(C(=O)OC)C(=CC6=C6N5[Fe+2]54(N1C2=C(c1ccccc1)C1=N5C(=C6c2ccccc2)C2=C1C=C(C(=O)OC)C(=C2)C(=O)OC)(n1ccccc1)n1ccccc1)C(=O)OC)C1=C3C=C(C(=O)OC)C(=C1)C(=O)OC,train
+MIKKEX,1.66,Cl[Mn+2]123(Cl)n4ccccc4CN1(Cc1ccccn21)Cc1ccccn31,train
+ADEGIB,0.63,C[OH][Co+3]1234Oc5c(CN1(Cc1cc(cc(c1O2)C(C)(C)C)C(C)(C)C)c1ccccc1N3=Cc1cc(cc(c1O4)C(C)(C)C)C(C)(C)C)cc(cc5C(C)(C)C)C(C)(C)C,train
+AQODAL,0.95,CC(C)(C)c1cc2N3c4cccc5cccn(c45)[Mn+4]453(Oc2c(c1)C(C)(C)C)Oc1c(cc(cc1C(C)(C)C)C(C)(C)C)N4c1cccc2cccn5c12,train
+BUJGOD,0.773,Cl[Fe+3]1234Oc5ccccc5C[NH]1CC(C)(C[NH]2Cc1ccccc1O3)c1ccccn41,train
+CEBMUS,1.014,Cl[Fe+3]123(Cl)[NH](CC(C)[NH]1Cc1ccccn21)Cc1ccccn31,train
+CIBDIB,1.06,COc1cccc2C=O[Co+2]34(Oc12)(Oc1c(OC)cccc1C=O3)n1ccccc1c1ccccn41,train
+FAQFIP,0.94,[cH]1cc(ccn1[Cu+2]12(n3[cH]cc(cc3)C(=O)N(C(C)C)C(C)C)(O[N](=O)O1)(O[N](=O)O2)([OH2])[O])C(=O)N(C(C)C)C(C)C,test
+BOFQOC,0.24,C1CCC2=C(C1)SC(S2)=C(C=C1SC2=C(SCCS2)S1)c12c3c4c5c1[Fe+]16782345c2c1c6c7(c82)C(C=C1SC2=C(SCCS2)S1)=C1SC2=C(CCCC2)S1,test
+BOFZIF,0.78,O=CC(=C1Sc2ccccc2S1)c12c3c4c5c1[Fe+]16782345c2c1c6c7(c82)C(C=O)=C1Sc2ccccc2S1,train

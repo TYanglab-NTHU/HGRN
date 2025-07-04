@@ -91,7 +91,6 @@ def tensorize_with_subgraphs(smiles_batch, metal, features=153):
             if atom.GetSymbol() in TM_LIST:
                 minds.append(i)  # Collect all metal indices
 
-        ### GNN1: ligands ###
         #organic compound
         fatoms = []
         if not minds: # No metal atoms found
@@ -123,7 +122,7 @@ def tensorize_with_subgraphs(smiles_batch, metal, features=153):
 
             return ((fatoms, smiles_batch),(ligand_edge_idx, ligand_batch_idx),ligand_bond_features, minds)
         
-        # organometallic compounds
+        # complex
         else:
             oxidation_states = {}
             metals = metal.split('.')  # Split multiple metals
