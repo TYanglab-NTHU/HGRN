@@ -24,6 +24,25 @@ from matplotlib           import ticker
 from matplotlib.offsetbox import OffsetImage, AnnotationBbox
 from matplotlib.gridspec  import GridSpec, GridSpecFromSubplotSpec
 from ast import literal_eval
+
+
+def process_e12_value(x):
+    if isinstance(x, str):
+        if x.startswith('[') and x.endswith(']'):
+            content = x[1:-1] 
+            if ',' in content:
+                return [float(val.strip()) for val in content.split(',')]
+            else:
+                return [float(content.strip())]
+        elif ',' in x:
+            return [float(val.strip()) for val in x.split(',')]
+        else:
+            return [float(x.strip())]
+    elif isinstance(x, list):
+        return [float(val) for val in x]
+    else:
+        return [float(x)]
+
 class dataloader_v2:
     @staticmethod
     def process_numeric_lists(x):
@@ -504,3 +523,52 @@ def alldata_loader(file_path, tensorize_fn):
 
     all_data = tensorize_dataset(df)
     return all_data
+
+
+def load_traintest_dataset(file_path, tensorize_fn, batch_size=1):
+    df = pd.read_csv(file_path)
+    
+    print("使用原始 split 列進行分割...")
+    train_data = df[df['split'] == 'train']
+    test_data = df[df['split'] == 'test']
+    print(f"原始分割結果: 訓練 {len(train_data)}, 測試 {len(test_data)}")
+
+    def tensorize_dataset(data):
+        dataset = []
+        for _, row in data.iterrows():
+            try:
+                [fatoms, graphs, edge_features, midx, binding_atoms] = tensorize_fn([row["smiles"]], row["Metal"])
+                # 確保所有 E12 值都被轉換為張量
+                e12_values = row['E12']
+                if not isinstance(e12_values, list):
+                    e12_values = [e12_values]
+                # 強制轉成 float
+                e12_values = process_e12_value(row['E12'])
+                label = torch.tensor(e12_values, dtype=torch.float32)
+                
+                name = fatoms[1]
+                redox_idxs = redox_each_num([row["smiles"]], row["Metal"], row["redox_site_smiles"])
+                
+                data_item = Data(
+                    x=fatoms[0],
+                    edge_index=graphs,
+                    edge_attr=edge_features,
+                    redox=redox_idxs,
+                    ys=label,  
+                    name=name,
+                    reaction=row["Reaction"],
+                    oreder_site=row["redox_site_smiles"],
+                    binding_atoms=binding_atoms
+                )
+                data_item.midx = midx
+                dataset.append(data_item)
+            except Exception as e:
+                # print(f"Error processing row: {e}")
+                continue
+        return dataset
+
+    train_dataset = tensorize_dataset(train_data)
+    test_dataset = tensorize_dataset(test_data)
+    
+    test_loader = DataLoader(test_dataset, batch_size=batch_size, shuffle=False)
+    return train_dataset, test_loader
