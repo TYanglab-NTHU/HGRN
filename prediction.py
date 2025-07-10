@@ -9,7 +9,8 @@ from utils.datautils import *
 from utils.trainutils_v2 import *
 from utils.chemutils  import *
 
-from models.model import *
+# from models.model import *
+from models.model_softmax import *
 
 # load config.json
 try:
