@@ -1,4 +1,4 @@
 name,cif_path,metal,E12,RE
-MnO2,/work/u7069586/E-hGNN_f/zero-shot/metal_oxide/test_MO/MnO2.cif,Mn4,
-Mn2O3,/work/u7069586/E-hGNN_f/zero-shot/metal_oxide/test_MO/Mn2O3.cif,Mn3,
-RuO2,/work/u7069586/E-hGNN_f/zero-shot/metal_oxide/test_MO/RuO2.cif,Ru2,
+Mn2O3,test_MO/Mn2O3.cif,Mn3
+RuO2,test_MO/RuO2.cif,Ru2
+Cr2O3,test_MO/Cr2O3.cif,Cr3

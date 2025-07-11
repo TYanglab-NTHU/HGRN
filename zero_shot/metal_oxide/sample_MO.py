@@ -8,7 +8,7 @@ import numpy as np
 from sklearn.cluster import KMeans 
 from sklearn.neighbors import NearestNeighbors 
 
-from models import *
+from model import *
 
 from datautils_MO          import *
 from metal_oxide_chemutils import *

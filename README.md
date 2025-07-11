@@ -42,7 +42,7 @@ Make sure both packages are installed and that your structure files can be parse
 ### Polynuclear TMCs
 ```
 cd zero_shot/polynuclear_tmc
-python sample_polynulclear.py
+python sample_polynuclear.py
 ```
 ### Metal Oxide 
 ```

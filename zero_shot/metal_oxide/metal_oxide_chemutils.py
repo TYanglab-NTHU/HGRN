@@ -10,6 +10,9 @@ from chic import Structure as ChIC_Structure #process mof to metal node and link
 from pymatgen.core import Structure            # for loading crystal structures :contentReference[oaicite:1]{index=1}
 from pymatgen.analysis.local_env import CrystalNN, NearNeighbors  # or any NearNeighbor class :contentReference[oaicite:2]{index=2}
 from pymatgen.analysis.graphs import StructureGraph  # for creating periodic graphs :contentReference[oaicite:3]{index=3}
+from pymatgen.transformations.standard_transformations import SupercellTransformation
+from pymatgen.core import Molecule
+from pymatgen.io.xyz import XYZ
 
 from openbabel import openbabel, pybel
 
@@ -92,28 +95,160 @@ def bond_features(bond):
     fstereo = onek_encoding_unk(stereo, [0,1,2,3,4,5])
     return torch.Tensor(fbond + fstereo)
 
-def MO_tensorize_with_subgraphs(cif_file, metal):
-    # cif_file = '/work/u7069586/E-hGNN_f/zero-shot/metal_oxide/Y2O3.cif'
+# def MO_tensorize_with_subgraphs(cif_file, metal):
+#     # cif_file = '/work/u7069586/E-hGNN_f/zero-shot/metal_oxide/test_MO/MnO2.cif'
 
+#     structure = Structure.from_file(cif_file)
+
+#     sc_mat = [[2, 0, 0],
+#             [0, 2, 0],
+#             [0, 0, 2]]
+#     transform = SupercellTransformation(sc_mat)
+#     supercell = transform.apply_transformation(structure)
+
+#     nn = CrystalNN()
+#     sg = StructureGraph.with_local_env_strategy(supercell, nn, weights=False)
+
+#     supercell = transform.apply_transformation(structure)
+#     sg = StructureGraph.with_local_env_strategy(supercell, CrystalNN(), weights=False)
+
+#     metal_symbol = metal_symbol = ''.join(c for c in metal if c.isalpha())
+#     metal_idxs = [i for i, site in enumerate(supercell) if site.specie.symbol == metal_symbol]
+
+#     center_frac = np.array([0.5, 0.5, 0.5])
+
+#     metal_fracs = np.vstack([supercell.frac_coords[i] for i in metal_idxs])
+#     central_idx = metal_idxs[np.argmin(np.linalg.norm(metal_fracs - center_frac, axis=1))]
+
+#     first_shell_O = []
+#     for nbr in sg.get_connected_sites(central_idx):
+#         if nbr.site.specie.symbol == "O":
+#             target = nbr.site.coords
+#             dists = np.linalg.norm(supercell.cart_coords - target, axis=1)
+#             o_idx = int(np.argmin(dists))
+#             if dists[o_idx] < 1e-3:
+#                 first_shell_O.append(o_idx)
+
+#     second_shell_M = set()
+#     for o_idx in first_shell_O:
+#         for nbr in sg.get_connected_sites(o_idx):
+#             if nbr.site.specie.symbol == metal_symbol:
+#                 target = nbr.site.coords
+#                 dists = np.linalg.norm(supercell.cart_coords - target, axis=1)
+#                 m_idx = int(np.argmin(dists))
+#                 if dists[m_idx] < 1e-3:
+#                     second_shell_M.add(m_idx)
+#     second_shell_M = list(second_shell_M)
+
+#     first_shell_edges = [(central_idx, o_idx) for o_idx in first_shell_O]
+
+#     second_shell_edges = []
+#     for o_idx in first_shell_O:
+#         for nbr in sg.get_connected_sites(o_idx):
+#             if nbr.site.specie.symbol == metal_symbol:
+#                 target = nbr.site.coords
+#                 dists = np.linalg.norm(supercell.cart_coords - target, axis=1)
+#                 m_idx = int(np.argmin(dists))
+#                 if dists[m_idx] < 1e-3:
+#                     second_shell_edges.append((o_idx, m_idx))
+
+
+#     mapping = {}
+#     mapping[central_idx] = 0
+
+#     fitst_shell_idx = []
+#     for new_idx, o in enumerate(first_shell_O, start=1):
+#         mapping[o] = new_idx
+#         fitst_shell_idx.append(new_idx)
+
+#     ninds_to_rmove = fitst_shell_idx 
+
+#     second_shell_idx = []
+#     second_metals = [m for m in second_shell_M if m != central_idx]
+#     for new_idx, m in enumerate(second_metals, start=1+len(first_shell_O)):
+#         mapping[m] = new_idx
+#         second_shell_idx.append(new_idx)
+
+#     all_idx = [0] + fitst_shell_idx + second_shell_idx
+
+#     all_edges = first_shell_edges + second_shell_edges
+#     u_list = [mapping[u] for u, v in all_edges]
+#     v_list = [mapping[v] for u, v in all_edges]
+
+#     sub_edges = [u_list, v_list]
+
+#     minds = list(second_shell_M)
+
+#     metal_idx = [mapping[i] for i in minds]
+
+#     ox_state = get_metal_oxidation_state(metal)
+
+#     midx = metal_idx[0]
+
+#     fatoms = []
+#     for i in all_idx:
+#         if i in metal_idx:
+#             mol_m = Chem.MolFromSmiles(f'[{metal_symbol}{ox_state:+d}]')
+#             atom_m = mol_m.GetAtomWithIdx(0)
+#             fatoms.append(atom_features(atom_m, ox_state))
+#         else:
+#             mol_o = Chem.MolFromSmiles('[O-2]')
+#             atom_o = mol_o.GetAtomWithIdx(0)
+#             fatoms.append(atom_features(atom_o))
+#     fatoms = torch.stack(fatoms, dim=0)
+
+#     idx = torch.tensor(all_idx, dtype=torch.long)
+#     ligand_edge_idx = torch.stack([idx, idx], dim=0)   # shape [2, n_atoms]
+#     ligand_batch_idx = torch.tensor(all_idx, dtype=torch.long)
+
+#     ligand_bond_features = []
+#     for start, end in ligand_edge_idx.T.tolist():
+#         ligand_bond_features.append(torch.zeros((1, 11)))
+
+#     intrafrag_batch_idx  = ligand_batch_idx.clone()
+
+#     intrafrag_edge_idx = []
+#     intrafrag_edge_idx = torch.stack([idx, idx], dim=0) 
+#     interfrag_batch_idx = torch.tensor(all_idx, dtype=torch.long)
+
+#     filtered_masks = []
+#     intrafrag_edge_idx = ligand_edge_idx.clone()
+#     interfrag_edge_idx = intrafrag_edge_idx.clone()
+#     interfrag_bond_features = []
+#     for start, end in interfrag_edge_idx.T.tolist():
+#         interfrag_bond_features.append(torch.zeros((1, 11)))
+
+#     complex_edge_idx = torch.tensor(sub_edges)
+#     complex_batch_idx = torch.zeros(len(all_idx), dtype=torch.long)
+
+#     complex_bond_features = []
+#     print(complex_edge_idx.T.tolist())
+#     for start, end in complex_edge_idx.T.tolist():
+#         f = torch.tensor([1,0,0,0,0,1,0,0,0,0,0], dtype=torch.float).unsqueeze(0)  # [1,11]
+#         complex_bond_features.append(f)
+
+#     ligand_bond_features = torch.cat(ligand_bond_features, dim=0)     
+#     interfrag_bond_features = torch.cat(interfrag_bond_features, dim=0) 
+#     complex_bond_features = torch.cat(complex_bond_features, dim=0)   
+#     print(complex_bond_features.shape)
+
+#     return ((fatoms),
+#         ((ligand_edge_idx, ligand_batch_idx), (intrafrag_batch_idx), (interfrag_edge_idx, interfrag_batch_idx, filtered_masks), (complex_edge_idx, complex_batch_idx)),
+#         (ligand_bond_features, interfrag_bond_features, complex_bond_features), midx, ninds_to_rmove)
+
+def MO_tensorize_with_subgraphs(cif_file, metal):
     structure = Structure.from_file(cif_file) #pymatgen
     nn_strategy = CrystalNN() 
     sg = StructureGraph.with_local_env_strategy(structure, nn_strategy, weights=False)
-    
-    # 使用元素符號找到金屬原子
+
+
     metal_symbol = ''.join(c for c in metal if c.isalpha())
     structure_metal_idx = [i for i, site in enumerate(structure) if site.specie.symbol == metal_symbol]
     metal_idx = structure_metal_idx[0]
     
-    # 獲取鄰近原子的 index
-    neighbor_atom_idx = [i.index for i in sg.get_connected_sites(metal_idx)]
+    neighbor_atom_idx = list(set([i.index for i in sg.get_connected_sites(metal_idx)]))
 
-    # next_neighbor_atom_idx = []
-    # for nei in neighbor_atom_idx:
-    #     next_neighbor_atom_idx.extend([i.index for i in sg.get_connected_sites(nei)])
-    # # 移除重複的索引並排除已經在neighbor_atom_idx中的索引
-    # next_neighbor_atom_idx = list(set(next_neighbor_atom_idx) - set(neighbor_atom_idx) - {metal_idx})
 
-    # 收集所有原子資訊
     structure_to_all_atoms_idx = {}
     all_atoms = []
     count = 0
@@ -124,22 +259,11 @@ def MO_tensorize_with_subgraphs(cif_file, metal):
         if elem != 'H':
             structure_to_all_atoms_idx[nei] = count
             count += 1
-    # for nei in next_neighbor_atom_idx:
-    #     elem = structure[nei].specie.name
-    #     coord = structure[nei].coords
-    #     all_atoms.append((elem, coord[0], coord[1], coord[2]))
-    #     if elem != 'H':
-    #         structure_to_all_atoms_idx[nei] = count
-    #         count += 1
 
-    # 加入 metal atom
     metal_structure_idx = metal_idx
     all_atoms.append((''.join(c for c in metal if c.isalpha()), structure.cart_coords[metal_structure_idx][0], structure.cart_coords[metal_structure_idx][1], structure.cart_coords[metal_structure_idx][2]))
     structure_to_all_atoms_idx[metal_idx] = count
     neighbor_atom_idx = [structure_to_all_atoms_idx[i] for i in neighbor_atom_idx]
-    # next_neighbor_atom_idx = [structure_to_all_atoms_idx[i] for i in next_neighbor_atom_idx]
-
-    # 組合成 xyz 字串
     xyz_string = f"{len(all_atoms)}\n"
     xyz_string += "generated by script\n"  # 第二行註解
     for elem, x, y, z in all_atoms:
@@ -234,6 +358,7 @@ def MO_tensorize_with_subgraphs(cif_file, metal):
     atoms = mol_modified_2.GetAtoms()
     for i, frag_inds in enumerate(frag_indss):
         for frag_ind in frag_inds:
+            # print(frag_ind)
             neis = atoms[frag_ind].GetNeighbors()
             if len(neis) == 0:
                 intrafrag_edge_idx.append(torch.Tensor([frag_ind, frag_ind]).long()) # metal and neighbors and ligands neighbors bonds broken
@@ -247,11 +372,13 @@ def MO_tensorize_with_subgraphs(cif_file, metal):
     G = nx.Graph()
     G.add_edges_from(intrafrag_edge_idx.t().tolist())
     for fragment_id, component in frag_idx_dict.items():
+        # print(fragment_id, component)
         for atom in component:
             intrafrag_batch_idx[atom] = fragment_id
     intrafrag_batch_idx = torch.Tensor(intrafrag_batch_idx).long()
     frag_ind_list = []
     for frag_inds in frag_indss:
+        # print(frag_inds)
         frag_ind_list += frag_inds
     intrafrag_batch_idx_dict = {atom_idx: intrafrag_batch_idx[atom_idx] for atom_idx in frag_ind_list}
     interfrag_batch_idx = np.zeros(len(set(intrafrag_batch_idx.tolist())))
@@ -309,13 +436,11 @@ def MO_tensorize_with_subgraphs(cif_file, metal):
             new_mask[pos] = 1
             separated_masks.append({group: new_mask})
 
-    # 計算每個key出現的次數
     key_counts = {}
     for mask_dict in separated_masks:
         for key in mask_dict:
             key_counts[key] = key_counts.get(key, 0) + 1
 
-    # 只保留出現多次的key
     filtered_masks = [mask for mask in separated_masks if list(mask.keys())[0] in [k for k, v in key_counts.items() if v > 1]]
 
     # get intrafrag bonds
