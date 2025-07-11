@@ -33,19 +33,25 @@ python pretrain.py --i_organic "<organic_compound.csv>"
 
 ## Training Organometallic Compounds for E1/2 prediction
 ```
-python train.py -i "<organo_compound.csv>"
+python train.py -i "<1st_TMCs_E12.csv>"
 ```
 
 ## Zero shot for E1/2 prediction
-
 Before predicting E₁/₂ for metal oxides and MOFs, we preprocess their CIF files using the **Chic** (https://github.com/tcnicholas/chic) and **pymatgen** libraries.  
 Make sure both packages are installed and that your structure files can be parsed by them:
+### Polynuclear TMCs
+```
+cd zero_shot/polynuclear_tmc
+python sample_MO.py
+```
 ### Metal Oxide 
 ```
+cd zero_shot/metal_oxide
 python sample_MO.py
 ```
 ### MOF 
 ```
+cd zero_shot/MOF
 python sample_mof.py
 ```
 ## Train Sequential values prediction for organic compounds 
@@ -63,6 +69,7 @@ Dataset should be a two-column file (CSV, TSV, etc.) with:
   "val1,val2,val3,..."
 
 ```
+cd EGNN-main/
 python organic_train_self.py  --i_organic <organic_data.csv> --label_column <target_column>
 ```
 

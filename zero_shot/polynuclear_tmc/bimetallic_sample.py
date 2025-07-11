@@ -9,9 +9,6 @@ from sklearn.cluster import KMeans
 from sklearn.neighbors import NearestNeighbors 
 
 from model import *
-
-import os, sys
-sys.path.append('../')
 from trainutils import *
 from chemutils  import *
 
@@ -72,16 +69,15 @@ else:
     print(f"warning: model weight file {model_path_} not found")
 
 
-dataset, loader = OM.unlabeled_sample_loader(file_path="/work/u7069586/E-hGNN_f/data/organo_dimetal_rp.csv", batch_size=opts.batch_size)
+dataset, loader = OM.unlabeled_sample_loader(file_path="dimetal.csv", batch_size=opts.batch_size)
 
 count = 0
 for data in loader:
     count += 1
     data = data.to(device)
-    print(data.name[0][0])
     try:
         result = model.sample_no_reaction(data, device)
         print(result)
     except Exception as e:
-        print(f"錯誤：{e}")
+        print(f"error: {e}")
         continue

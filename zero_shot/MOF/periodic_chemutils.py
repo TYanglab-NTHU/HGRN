@@ -43,7 +43,6 @@ def get_metal_oxidation_state(metal):
             return -1
     return 0
 
-
 def onek_encoding_unk(value, allowable_set):
     if value in allowable_set:
         return [1 if v == value else 0 for v in allowable_set]
@@ -95,8 +94,6 @@ def bond_features(bond):
 
 
 def MOF_tensorize_with_subgraphs(cif_file, metal):
-    # cif_file = '/work/u7069586/E-hGNN_f/zero-shot/MOF/test_mof/4128311.cif'
-
     mof = ChIC_Structure.from_cif(cif_file)  # loads the crystal 
     mof.get_neighbours_crystalnn()
     mof.find_atomic_clusters()
@@ -105,20 +102,16 @@ def MOF_tensorize_with_subgraphs(cif_file, metal):
     nn_strategy = CrystalNN() 
     sg = StructureGraph.with_local_env_strategy(structure, nn_strategy, weights=False)
     
-    # 使用元素符號找到金屬原子
     metal_symbol = ''.join(c for c in metal if c.isalpha())
     structure_metal_idx = [i for i, site in enumerate(structure) if site.specie.symbol == metal_symbol]
     metal_idx = structure_metal_idx[0]
     
-    # 獲取金屬原子的座標
     metal_coord = structure[metal_idx].coords
     
-    # 在 mof 中找到對應的金屬原子 index
     mof_metal_idx = None
     for i, site in enumerate(mof.sites):
         if site.specie.symbol == metal_symbol:
             site_coord = site.coords
-            # 檢查座標是否相近（考慮浮點數誤差）
             if np.allclose(site_coord, metal_coord, atol=1e-3):
                 mof_metal_idx = i
                 break
@@ -126,16 +119,13 @@ def MOF_tensorize_with_subgraphs(cif_file, metal):
     if mof_metal_idx is None:
         raise ValueError(f"Cannot find metal atom {metal_symbol} in MOF structure")
 
-    # 獲取鄰近原子的 index
     neighbor_atom_idx = [i.index for i in sg.get_connected_sites(metal_idx)]
     
-    # 將 pymatgen structure 中的鄰近原子座標轉換到 mof 中的 index
     mof_neighbor_idx = []
     for idx in neighbor_atom_idx:
         neighbor_coord = structure[idx].coords
         neighbor_elem = structure[idx].specie.symbol
         
-        # 在 mof 中找到對應的原子
         for i, site in enumerate(mof.sites):
             if site.specie.symbol == neighbor_elem:
                 site_coord = site.coords
@@ -154,7 +144,6 @@ def MOF_tensorize_with_subgraphs(cif_file, metal):
                     used_clusters.add(key)
                 break
 
-    # 收集所有原子資訊，按簇分組
     structure_to_all_atoms_idx = {}
     all_atoms_by_cluster = {}
     count = 0
@@ -237,24 +226,9 @@ def MOF_tensorize_with_subgraphs(cif_file, metal):
             if atom.GetSymbol() in TM_LIST:
                 minds.append(i)  # Collect all metal indices
         midx = minds[0]
-        # Collect all neighbors of all metal atoms
         ninds_to_rmove = neighbor_atom_idx
-        # metal_neighbor_indices_set = set()
-        # for midx in minds:
-        #     atom = mol.GetAtomWithIdx(midx)
-        #     for nei in atom.GetNeighbors():
-        #         metal_neighbor_indices_set.add(nei.GetIdx())
-        # ninds_to_rmove = list(metal_neighbor_indices_set)
 
         editable_mol = Chem.EditableMol(mol)
-        # Remove all metal-ligand and metal-metal bonds
-        # inds_bond_removed_metal = []
-        # for midx in minds:
-        #     metal_atom = mol.GetAtomWithIdx(midx)
-        #     for neighbor in metal_atom.GetNeighbors():
-        #         inds_to_remove = [midx, neighbor.GetIdx()]
-        #         inds_bond_removed_metal.append(inds_to_remove)
-        #         editable_mol.RemoveBond(*inds_to_remove)
 
         mol_modified = editable_mol.GetMol()
         mol_modified.UpdatePropertyCache(strict=False)
@@ -629,7 +603,6 @@ def MOF_tensorize_with_subgraphs(cif_file, metal):
             interfrag_edge_idx.append([frag_idx1, frag_idx2])
             interfrag_edge_idx.append([frag_idx2, frag_idx1])
         
-        # Add self-loops for all metal atoms
         for midx in minds:
             if midx in intrafrag_batch_idx_dict:
                 frag_midx = intrafrag_batch_idx_dict[midx]
@@ -650,7 +623,6 @@ def MOF_tensorize_with_subgraphs(cif_file, metal):
                 interfrag_batch_idx[atom] = fragment_id
         interfrag_batch_idx = torch.Tensor(interfrag_batch_idx).long()
 
-        # 建立 filtered_masks
         intrafrag_ninds_to_rmove = []  # binding atoms in interfrag_batch_idx
         for nind in ninds_to_rmove:
             for frag_id, atom_indices in frag_idx_dict.items():
@@ -658,13 +630,11 @@ def MOF_tensorize_with_subgraphs(cif_file, metal):
                     intrafrag_ninds_to_rmove.append(frag_id) 
                     break
         
-        # 創建binding atom mask並根據interfrag_batch_idx分組
         binding_atom_mask = torch.zeros_like(interfrag_batch_idx)
         for idx in range(len(interfrag_batch_idx)):
             if idx in intrafrag_ninds_to_rmove:
                 binding_atom_mask[idx] = 1
 
-        # 創建group到binding atom mask的映射
         group_to_mask = {}
         for idx in range(len(interfrag_batch_idx)):
             group = interfrag_batch_idx[idx].item()
@@ -672,7 +642,6 @@ def MOF_tensorize_with_subgraphs(cif_file, metal):
                 group_to_mask[group] = []
             group_to_mask[group].append(binding_atom_mask[idx].item())
 
-        # 將每個group的mask分離成單獨的字典
         separated_masks = []
         for group, masks in group_to_mask.items():
             one_positions = [i for i, x in enumerate(masks) if x == 1]
@@ -681,13 +650,11 @@ def MOF_tensorize_with_subgraphs(cif_file, metal):
                 new_mask[pos] = 1
                 separated_masks.append({group: new_mask})
 
-        # 計算每個key出現的次數
         key_counts = {}
         for mask_dict in separated_masks:
             for key in mask_dict:
                 key_counts[key] = key_counts.get(key, 0) + 1
 
-        # 只保留出現多次的key
         filtered_masks = [mask for mask in separated_masks if list(mask.keys())[0] in [k for k, v in key_counts.items() if v > 1]]
 
         # get intrafrag bonds

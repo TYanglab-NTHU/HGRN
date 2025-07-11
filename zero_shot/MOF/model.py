@@ -5,9 +5,11 @@ from torch_geometric.nn   import global_mean_pool, global_max_pool
 from torch_geometric.nn   import MessagePassing, GCNConv,  Linear, BatchNorm, GlobalAttention, GATConv
 
 import pandas as pd 
-
-import warnings
-warnings.filterwarnings("ignore")
+import numpy as np
+from sklearn.manifold import TSNE
+import matplotlib.pyplot as plt
+from sklearn.decomposition import PCA
+from torch.nn import functional as F
 
 class BondMessagePassing(nn.Module):
     def __init__(self, node_features, bond_features, hidden_size, depth=3, dropout=0.3):
@@ -99,7 +101,6 @@ class OMGNN_RNN(nn.Module):
             nn.Linear(hidden_dim, hidden_dim),
             nn.Tanh())
 
-
     @staticmethod
     def _rev_edge_index(edge_index):
         edge_to_index = {(edge_index[0, i].item(), edge_index[1, i].item()): i for i in range(edge_index.shape[1])}
@@ -131,7 +132,7 @@ class OMGNN_RNN(nn.Module):
 
     def forward(self, batch, device):
         for graph in batch.to_data_list():
-            x, edge_index, edge_attr, midx, real_E12, reaction, redox = graph.x, graph.edge_index, graph.edge_attr, graph.midx, graph.ys, graph.reaction, graph.redox
+            x, edge_index, edge_attr, midx, real_E12, reaction = graph.x, graph.edge_index, graph.edge_attr, graph.midx, graph.ys, graph.reaction
         
         subgraph1, batch1_2, subgraph2, subgraph3 = edge_index
         subgraph1_edge_index, batch1 = subgraph1
@@ -151,14 +152,11 @@ class OMGNN_RNN(nn.Module):
         mapping_dict    = {val.item(): new_batch[batch1 == val].unique().item() for val in batch1.unique()}
         ordered_indices = torch.tensor([mapping_dict[k] for k in sorted(mapping_dict)], device=device)
 
-        real_num_peaks = torch.tensor([graph.redox[i][1] for i in range(len(graph.redox))]).cuda()
+        real_num_peaks  = torch.tensor([graph.redox[i][1] for i in range(len(graph.redox))]).to(device)
 
         redox_sites = [i for i, value in enumerate(real_num_peaks) for _ in range(int(value))]
-        # if redox_sites == []:
-        #     loss_cla    = nn.CrossEntropyLoss()(each_num_redox, real_num_peaks)
-        #     # loss_cla.backward(retain_graph=True)
-        #     total_loss += loss_cla
 
+        delocalized_potential_indices_t_1 = list(set(redox_sites))
         E12s = []
         count = 0
         while redox_sites:
@@ -170,53 +168,113 @@ class OMGNN_RNN(nn.Module):
                 each_num_redox = self.num_peaks_red(batch1_subgraph3_result)
             elif reaction == 'oxidation':
                 each_num_redox = self.num_peaks_ox(batch1_subgraph3_result)
-            
+  
             unique_redox_sites = list(set(redox_sites))
             if   reaction == 'reduction':
-                lig_potentials = self.E12_reg_red(batch1_subgraph3_result[unique_redox_sites])
+                all_potentials = self.E12_reg_red(batch1_subgraph3_result)
+                lig_potentials = all_potentials[unique_redox_sites]
                 E12, idx = lig_potentials.max(dim=0)
             elif reaction == 'oxidation':
-                lig_potentials = self.E12_reg_ox(batch1_subgraph3_result[unique_redox_sites])
+                all_potentials = self.E12_reg_ox(batch1_subgraph3_result)
+                lig_potentials = all_potentials[unique_redox_sites]
                 E12, idx = lig_potentials.min(dim=0)
             E12s.append(E12)
-        
-            loss_cla    = nn.CrossEntropyLoss()(each_num_redox, real_num_peaks)
+
+            redox_site_idx = unique_redox_sites[idx]
+
+            if reaction == 'reduction':
+                redox_potentials = all_potentials[delocalized_potential_indices_t_1]
+                potential_p = torch.softmax(redox_potentials, dim=0)
+                potential_P = potential_p * len(all_potentials)
+                delocalized_potential_indices = torch.where(potential_P > 0.96)[0]
+                if delocalized_potential_indices.numel() == 1:
+                    delocalized_potential_indices = torch.tensor([redox_site_idx], device=device)
+            elif reaction == 'oxidation':
+                redox_potentials = all_potentials[delocalized_potential_indices_t_1]
+                potential_p = torch.softmax(-redox_potentials, dim=0)
+                potential_P = potential_p * len(redox_potentials)
+                delocalized_potential_indices = torch.where(potential_P > 0.96)[0]
+                if delocalized_potential_indices.numel() == 1:
+                    delocalized_potential_indices = torch.tensor([redox_site_idx], device=device)
+
+
+            all_redox_x_idx = []
+            same_idx_tensor = torch.tensor(delocalized_potential_indices, device=real_num_peaks.device)
+            if same_idx_tensor.numel() != 1:
+                mapped_indices = [delocalized_potential_indices_t_1[i] for i in delocalized_potential_indices.tolist()]
+                delocalized_potential_indices = list(set(mapped_indices + delocalized_potential_indices_t_1))
+                for site_idx in delocalized_potential_indices:
+                    site_indices = [i for i, idx in enumerate(batch1) if idx == site_idx]
+                    all_redox_x_idx.extend(site_indices)
+                        
+                real_num_peaks_ = real_num_peaks.clone()
+            else:
+                site_indices = [i for i, idx in enumerate(batch1) if idx == redox_site_idx]
+                all_redox_x_idx.extend(site_indices)
+                real_num_peaks_ = real_num_peaks.clone()
+            
+
+
+            loss_mask = torch.ones_like(real_num_peaks_, dtype=torch.bool)
+            if len(delocalized_potential_indices_t_1) > 1:
+                delocalized_peaks = real_num_peaks_[delocalized_potential_indices_t_1]
+
+                if delocalized_peaks.max() != delocalized_peaks.min():
+                    min_peaks = delocalized_peaks.min()
+                    min_indices = [delocalized_potential_indices_t_1[i] for i, peaks in enumerate(delocalized_peaks) if peaks == min_peaks]
+                    
+                    for idx in min_indices:
+                        loss_mask[idx] = False
+            
+            loss_per_sample = nn.CrossEntropyLoss(reduction='none')(each_num_redox, real_num_peaks_)
+            loss_cla = (loss_per_sample * loss_mask.float()).sum() / (loss_mask.sum().float() + 1e-8)
+            # loss_cla    = nn.CrossEntropyLoss()(each_num_redox, real_num_peaks_)
             loss_reg    = nn.MSELoss()(E12, real_E12[0])
             loss        = loss_cla + loss_reg
             total_loss += loss
-            # loss.backward(retain_graph=True)
 
             real_E12       = real_E12[1:]
-            redox_site_idx = unique_redox_sites[idx]
+
+            if count == 1:
+                x_t_1 = x.clone()
 
             # gat x with GCN1
-            redox_x_idx = [i for i, idx in enumerate(batch1) if idx == redox_site_idx]
-            redox_x_    = x[redox_x_idx]
-            redox_subgraph1_result_  = subgraph1_result[redox_x_idx]
-            if redox_site_idx == m_batch1:
+            if midx[0] in all_redox_x_idx:
+                redox_x_metal  = x_t_1[midx]
+                redox_x_    = x_t_1[all_redox_x_idx]
+                redox_subgraph1_result_ = subgraph1_result[all_redox_x_idx]
                 if reaction == 'reduction':
-                    new_tensor =  torch.roll(redox_x_[:,124:137], shifts=-1, dims=1)
+                    new_tensor =  torch.roll(redox_x_metal[:,124:137], shifts=-1, dims=1)
                 if reaction == 'oxidation':
-                    new_tensor =  torch.roll(redox_x_[:,124:137], shifts=1, dims=1)
-                redox_x_change = redox_x_.clone()
-                redox_x_change[:,124:137] = new_tensor
-            else:
-                redox_x_change = redox_subgraph1_result_ * self.gate_GCN1(redox_subgraph1_result_) + redox_x_
-                # redox_x_change =  redox_x_ * self.gate_GCN1( redox_x_) + redox_x_
+                    new_tensor =  torch.roll(redox_x_metal[:,124:137], shifts=1, dims=1)
+                redox_x_metal_change = redox_x_metal.clone()
+                redox_x_metal_change[:,124:137] = new_tensor
 
-            x_              = x.clone()
-            x_[redox_x_idx] = redox_x_change
-            subgraph1_result, subgraph1_pooled = self.forward_subgraph(x=x_, edge_index=subgraph1_edge_index, batch=batch1, edge_attr=edge_attr[0], gcn=self.GCN1)
+                redox_x_change = redox_subgraph1_result_ * self.gate_GCN1(redox_subgraph1_result_) + redox_x_
+
+                x_t_1[all_redox_x_idx] = redox_x_change
+                x_t_1[midx[0]] = redox_x_metal_change
+            else:
+                redox_x_    = x_t_1[all_redox_x_idx]
+                redox_subgraph1_result_ = subgraph1_result[all_redox_x_idx]
+                redox_x_change = redox_subgraph1_result_ * self.gate_GCN1(redox_subgraph1_result_) + redox_x_
+
+                x_t_1[all_redox_x_idx] = redox_x_change
+
+            subgraph1_result, subgraph1_pooled = self.forward_subgraph(x=x_t_1, edge_index=subgraph1_edge_index, batch=batch1, edge_attr=edge_attr[0], gcn=self.GCN1)
             subgraph2_result, subgraph2_pooled = self.forward_subgraph(x=subgraph1_result, edge_index=subgraph2_edge_index, batch=batch2, edge_attr=edge_attr[1], gcn=self.GCN2,pre_proc=lambda x: global_mean_pool(x, batch1_2))
 
-            # gat GCN2 with GCN3
-            batch2_redox_idx = [mapping_dict.get(site) for site in unique_redox_sites]
+
+            all_redox_site_idx = unique_redox_sites + [idx for idx in delocalized_potential_indices if idx not in unique_redox_sites]
+            batch2_redox_idx = [mapping_dict.get(site) for site in all_redox_site_idx]
             all_indices      = torch.arange(subgraph2_pooled.shape[0], device=device)
             updated_subgraph2_pooled  = subgraph2_pooled.clone()
 
+            all_redox_site_idx_tensor = torch.tensor(all_redox_site_idx, device=device)
+            same_potentials = all_potentials[all_redox_site_idx_tensor]
+
             potentials_mapping = {}
-            # 創建電位映射
-            for site_idx, potential in enumerate(lig_potentials):
+            for site_idx, potential in enumerate(same_potentials):
                 if isinstance(batch2_redox_idx[site_idx], list):
                     for sub_idx in batch2_redox_idx[site_idx]:
                         potentials_mapping[sub_idx] = potential
@@ -224,7 +282,6 @@ class OMGNN_RNN(nn.Module):
                     potentials_mapping[batch2_redox_idx[site_idx]] = potential
 
             redox_sites_ = []
-            # 收集所有 redox sites
             for idx in batch2_redox_idx:
                 if isinstance(idx, list):
                     redox_sites_.extend(idx)
@@ -237,32 +294,33 @@ class OMGNN_RNN(nn.Module):
             # 根據映射獲取對應的電位
             site_potentials = torch.stack([potentials_mapping[site] for site in redox_sites_])
             
-            def boltzmann_distribution(potentials, temperature=1.0):
-                weights = torch.exp(-potentials / temperature)
-                return weights / weights.sum()
-
+            def boltzmann_distribution(potentials):
+                if reaction == 'reduction':
+                    potential_p = torch.softmax(potentials, dim=0)
+                    potential_P = potential_p * len(potentials)
+                    potential_p = torch.where(potential_P > 0.96, potential_p, torch.tensor(0.0, device=potential_p.device))
+                elif reaction == 'oxidation':
+                    potential_p = torch.softmax(-potentials, dim=0)
+                    potential_P = potential_p * len(potentials)
+                    potential_p = torch.where(potential_P > 0.96, potential_p, torch.tensor(0.0, device=potential_p.device))
+                potential_p = F.normalize(potential_p, p=1, dim=0)
+                return potential_p
+            
             gate_weights = boltzmann_distribution(site_potentials)
-            redox_site_change = redox_subgraph3_result_ * gate_weights + redox_subgraph2_pooled 
 
+            redox_site_change = redox_subgraph3_result_ * (1 - gate_weights) + redox_subgraph2_pooled * gate_weights 
             updated_subgraph2_pooled[redox_sites_] = redox_site_change
             subgraph2_result_ = updated_subgraph2_pooled.clone()
 
-            # redox_site_change = redox_subgraph3_result_ * self.gate_GCN3(redox_subgraph3_result_) + redox_subgraph2_pooled
-            # redox_site_change = redox_subgraph2_pooled  * self.gate_GCN3(redox_subgraph2_pooled) + redox_subgraph2_pooled
-            # subgraph2_result_ = torch.cat([updated_subgraph2_pooled[:batch2_redox_idx], redox_site_change.unsqueeze(0), updated_subgraph2_pooled[batch2_redox_idx:]], dim=0)
+            delocalized_potential_indices_t_1 = delocalized_potential_indices
 
             subgraph3_result, subgraph3_pooled = self.forward_subgraph(x=subgraph2_result_, edge_index=subgraph3_edge_index, batch=batch3, edge_attr=edge_attr[2], gcn=self.GCN3)
 
-            # redox_pos = [redox[redox_site_idx][0]]
-            # sites = [i for i in range(len(redox)) if redox[i][0] in redox_pos]
-            # for site in sites:
-            #     if site in redox_sites:
-            #         redox_sites.remove(site)
-            redox_sites.remove(redox_site_idx)
-
-            real_num_peaks = real_num_peaks.clone()  # ensure a separate copy
+            real_num_peaks = real_num_peaks.clone() 
+            
             real_num_peaks[redox_site_idx] = real_num_peaks[redox_site_idx] - 1
-
+            redox_sites.remove(redox_site_idx)
+            
         if redox_sites != []:
             if E12s == []:
                 subgraph3_pooled = self.pool(subgraph3_result, batch3)
@@ -273,11 +331,19 @@ class OMGNN_RNN(nn.Module):
                 E12s.append(E12)
                 loss_reg    = nn.MSELoss()(E12, real_E12[0])
                 total_loss += loss_reg
-                # loss_reg.backward(retain_graph=True)
+        if redox_sites == []:
+            if reaction == 'reduction':
+                each_num_redox = self.num_peaks_red(subgraph3_result[ordered_indices])
+                loss_cla    = nn.CrossEntropyLoss()(each_num_redox, real_num_peaks)
+                total_loss += loss_cla * 0.1
+            elif reaction == 'oxidation':
+                each_num_redox = self.num_peaks_ox(subgraph3_result[ordered_indices])
+                loss_cla    = nn.CrossEntropyLoss()(each_num_redox, real_num_peaks)
+                total_loss += loss_cla * 0.1
 
         return total_loss
 
-    def sample(self, batch, device):
+    def sample(self, batch, device, warmup=False):
         for graph in batch.to_data_list():
             x, edge_index, edge_attr, midx, reaction = graph.x, graph.edge_index, graph.edge_attr, graph.midx, graph.reaction
         
@@ -296,7 +362,7 @@ class OMGNN_RNN(nn.Module):
         new_batch = batch2[batch1_2.long()]
 
         mapping_dict    = {val.item(): new_batch[batch1 == val].unique().item() for val in batch1.unique()}
-        ordered_indices = torch.tensor([mapping_dict[k] for k in sorted(mapping_dict)]).to(device)
+        ordered_indices = torch.tensor([mapping_dict[k] for k in sorted(mapping_dict)], device=device)
 
         batch1_subgraph3_result = subgraph3_result[ordered_indices]
         if   reaction == 'reduction':
@@ -308,7 +374,13 @@ class OMGNN_RNN(nn.Module):
         pred_num_redox_ = num_redox_.clone()
         pred_E12s  = torch.tensor([], device=device)
 
+        redox_mask    = num_redox_ > 0
+        redox_indices = torch.nonzero(redox_mask, as_tuple=False).flatten()
+        delocalized_potential_indices_t_1 = list(set([i.item() for i in redox_indices]))
+
+        count = 0
         while num_redox_.sum() != 0:
+            count += 1
             batch1_subgraph3_result = subgraph3_result[ordered_indices]
             if   reaction == 'reduction':
                 E12s          = self.E12_reg_red(batch1_subgraph3_result)
@@ -324,33 +396,76 @@ class OMGNN_RNN(nn.Module):
                 E12, filtered_idx = torch.min(E12s_redox, dim=0)
 
             redox_site_idx = redox_indices[filtered_idx].item()
-            # gat x with GCN1
-            redox_x_idx = [i for i, idx in enumerate(batch1) if idx == redox_site_idx]
-            redox_x_    = x[redox_x_idx]
-            redox_subgraph1_result_ = subgraph1_result[redox_x_idx]
-            if redox_site_idx == m_batch1:
-                if reaction == 'reduction':
-                    new_tensor =  torch.roll(redox_x_[:,124:137], shifts=-1, dims=1)
-                if reaction == 'oxidation':
-                    new_tensor =  torch.roll(redox_x_[:,124:137], shifts=1, dims=1)
-                redox_x_change = redox_x_.clone()
-                redox_x_change[:,124:137] = new_tensor
-            else:
-                redox_x_change          = redox_subgraph1_result_ * self.gate_GCN1(redox_subgraph1_result_) + redox_x_
 
-            x_              = x.clone()
-            x_[redox_x_idx] = redox_x_change
-            subgraph1_result, subgraph1_pooled = self.forward_subgraph(x=x_, edge_index=subgraph1_edge_index, batch=batch1, edge_attr=edge_attr[0], gcn=self.GCN1)
+            if reaction == 'reduction':
+                redox_potentials = E12s[delocalized_potential_indices_t_1]
+                potential_p = torch.softmax(redox_potentials, dim=0)
+                potential_P = potential_p * len(redox_potentials)
+                delocalized_potential_indices = torch.where(potential_P > 0.96)[0]
+                if delocalized_potential_indices.numel() == 1:
+                    delocalized_potential_indices = torch.tensor([], device=device)
+            elif reaction == 'oxidation':
+                redox_potentials = E12s[delocalized_potential_indices_t_1]
+                potential_p = torch.softmax(-redox_potentials, dim=0)
+                potential_P = potential_p * len(redox_potentials)
+                delocalized_potential_indices = torch.where(potential_P > 0.96)[0]
+                if delocalized_potential_indices.numel() == 1:
+                    delocalized_potential_indices = torch.tensor([], device=device)
+
+            # # 找到所有 delocalized_potential_indices 在 batch1 中對應的索引
+            all_redox_x_idx = []
+            same_idx_tensor = torch.tensor(delocalized_potential_indices, device=device)
+            if same_idx_tensor.numel() != 0:
+                mapped_indices = [delocalized_potential_indices_t_1[i] for i in delocalized_potential_indices.tolist()]
+                delocalized_potential_indices = list(set(mapped_indices + delocalized_potential_indices_t_1))
+                for site_idx in delocalized_potential_indices:
+                    site_indices = [i for i, idx in enumerate(batch1) if idx == site_idx]
+                    all_redox_x_idx.extend(site_indices)
+
+            else:
+                site_indices = [i for i, idx in enumerate(batch1) if idx == redox_site_idx]
+                all_redox_x_idx.extend(site_indices)
+            
+
+            if count == 1:
+                x_t_1 = x.clone()
+
+            # gat x with GCN1
+            if midx[0] in all_redox_x_idx:
+                redox_x_metal    = x_t_1[midx]
+                redox_x_    = x_t_1[all_redox_x_idx]
+                redox_subgraph1_result_ = subgraph1_result[all_redox_x_idx]
+                if reaction == 'reduction':
+                    new_tensor =  torch.roll(redox_x_metal[:,124:137], shifts=-1, dims=1)
+                if reaction == 'oxidation':
+                    new_tensor =  torch.roll(redox_x_metal[:,124:137], shifts=1, dims=1)
+                redox_x_metal_change = redox_x_metal.clone()
+                redox_x_metal_change[:,124:137] = new_tensor
+
+                redox_x_change = redox_subgraph1_result_ * self.gate_GCN1(redox_subgraph1_result_) + redox_x_
+
+                x_t_1[all_redox_x_idx] = redox_x_change
+                x_t_1[midx] = redox_x_metal_change
+            else:
+                redox_x_    = x_t_1[all_redox_x_idx]
+                redox_subgraph1_result_ = subgraph1_result[all_redox_x_idx]
+                redox_x_change = redox_subgraph1_result_ * self.gate_GCN1(redox_subgraph1_result_) + redox_x_
+
+                x_t_1[all_redox_x_idx] = redox_x_change
+
+            subgraph1_result, subgraph1_pooled = self.forward_subgraph(x=x_t_1, edge_index=subgraph1_edge_index, batch=batch1, edge_attr=edge_attr[0], gcn=self.GCN1)
             subgraph2_result, subgraph2_pooled = self.forward_subgraph(x=subgraph1_result, edge_index=subgraph2_edge_index, batch=batch2, edge_attr=edge_attr[1], gcn=self.GCN2,pre_proc=lambda x: global_mean_pool(x, batch1_2))
 
-            # gat GCN2 with GCN3
-            batch2_redox_idx = [mapping_dict.get(site.item()) for site in redox_indices]
-            # batch2_redox_idx = mapping_dict.get(redox_site_idx)
+            all_redox_site_idx = redox_indices.tolist() + [idx for idx in delocalized_potential_indices if idx not in redox_indices.tolist()]
+            batch2_redox_idx = [mapping_dict.get(site) for site in all_redox_site_idx]
             all_indices      = torch.arange(subgraph2_pooled.shape[0], device=device)
             updated_subgraph2_pooled  = subgraph2_pooled.clone()
+
+            all_redox_site_idx_tensor = torch.tensor(all_redox_site_idx, device=device)
+            same_potentials = E12s[all_redox_site_idx_tensor]
+
             potentials_mapping = {}
-            # 創建電位映射
-            for site_idx, potential in enumerate(E12s_redox):
+            for site_idx, potential in enumerate(same_potentials):
                 if isinstance(batch2_redox_idx[site_idx], list):
                     for sub_idx in batch2_redox_idx[site_idx]:
                         potentials_mapping[sub_idx] = potential
@@ -358,7 +473,6 @@ class OMGNN_RNN(nn.Module):
                     potentials_mapping[batch2_redox_idx[site_idx]] = potential
 
             redox_sites_ = []
-            # 收集所有 redox sites
             for idx in batch2_redox_idx:
                 if isinstance(idx, list):
                     redox_sites_.extend(idx)
@@ -368,21 +482,28 @@ class OMGNN_RNN(nn.Module):
             redox_subgraph2_pooled  = subgraph2_pooled[redox_sites_]
             redox_subgraph3_result_ = subgraph3_result[redox_sites_]
 
-            # 根據映射獲取對應的電位
             site_potentials = torch.stack([potentials_mapping[site] for site in redox_sites_])
             
-            def boltzmann_distribution(potentials, temperature=1.0):
-                weights = torch.exp(-potentials / temperature)
-                return weights / weights.sum()
+            def boltzmann_distribution(potentials):
+                if reaction == 'reduction':
+                    potential_p = torch.softmax(potentials, dim=0)
+                    potential_P = potential_p * len(potentials)
+                    potential_p = torch.where(potential_P > 0.96, potential_p, torch.tensor(0.0, device=potential_p.device))
+                elif reaction == 'oxidation':
+                    potential_p = torch.softmax(-potentials, dim=0)
+                    potential_P = potential_p * len(potentials)
+                    potential_p = torch.where(potential_P > 0.96, potential_p, torch.tensor(0.0, device=potential_p.device))
+                potential_p = F.normalize(potential_p, p=1, dim=0)
+                return potential_p
 
             gate_weights = boltzmann_distribution(site_potentials)
-            redox_site_change = redox_subgraph3_result_ * gate_weights.unsqueeze(-1) + redox_subgraph2_pooled
-            
+
+            gate_weights = gate_weights.unsqueeze(-1)  
+            redox_site_change = redox_subgraph3_result_ * (1 - gate_weights) + redox_subgraph2_pooled * gate_weights
             updated_subgraph2_pooled[redox_sites_] = redox_site_change
             subgraph2_result_ = updated_subgraph2_pooled.clone()
-            # redox_site_change = redox_subgraph3_result_ * self.gate_GCN3(redox_subgraph3_result_) + redox_subgraph2_pooled
-            # redox_site_change = redox_subgraph2_pooled  * self.gate_GCN3(redox_subgraph2_pooled) + redox_subgraph2_pooled
-            # subgraph2_result_ = torch.cat([updated_subgraph2_pooled[:batch2_redox_idx], redox_site_change.unsqueeze(0), updated_subgraph2_pooled[batch2_redox_idx:]], dim=0)
+
+            delocalized_potential_indices_t_1 = list(delocalized_potential_indices)
 
             subgraph3_result, subgraph3_pooled = self.forward_subgraph(x=subgraph2_result_, edge_index=subgraph3_edge_index, batch=batch3, edge_attr=edge_attr[2], gcn=self.GCN3)
 
@@ -415,14 +536,9 @@ class OMGNN_RNN(nn.Module):
         oxidation_batch = Batch.from_data_list(data_list_ox)
             
         # 分別調用 sample 函數進行預測
-        num_redox_all_red, pred_num_redox_red, pred_E12s_red = self.sample(reduction_batch, device)
-        num_redox_all_ox, pred_num_redox_ox, pred_E12s_ox = self.sample(oxidation_batch, device)
+        num_redox_all_red, pred_num_redox_red, pred_E12s_red = self.sample(reduction_batch, device, warmup=True)
+        num_redox_all_ox, pred_num_redox_ox, pred_E12s_ox = self.sample(oxidation_batch, device, warmup=True)
         
         return (num_redox_all_red, pred_num_redox_red, pred_E12s_red,
                 num_redox_all_ox, pred_num_redox_ox, pred_E12s_ox)
-
-
-# with torch.set_grad_enabled(True):      
-    # subgraph1_result, subgraph1_pooled = self.forward_subgraph(x=x, edge_index=subgraph1_edge_index, batch=batch1, edge_attr=edge_attr[0], gcn=self.GCN1)
-    # subgraph2_result, subgraph2_pooled = self.forward_subgraph(x=subgraph1_result, edge_index=subgraph2_edge_index, batch=batch2, edge_attr=edge_attr[1], gcn=model.GCN2,pre_proc=lambda x: global_mean_pool(x, batch1_2))
-    # subgraph3_result, subgraph3_pooled = model.forward_subgraph(x=subgraph2_pooled, edge_index=subgraph3_edge_index, batch=batch3, edge_attr=edge_attr[2], gcn=model.GCN3,transform_edge_attr=lambda attr: torch.stack(attr, dim=0))
+  

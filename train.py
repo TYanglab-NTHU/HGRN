@@ -7,7 +7,7 @@ from torch.optim.lr_scheduler import ReduceLROnPlateau
 from optparse import OptionParser
 from torch.optim.lr_scheduler import ReduceLROnPlateau
 
-from models.model_softmax import *
+from models.model import *
 from models.pretrain_models import *
 
 from utils.trainutils_v2 import *
@@ -25,7 +25,7 @@ if __name__ == '__main__':
     parser.add_option("--output_size", dest="output_size", default=1)
     parser.add_option("--dropout", dest="dropout", type=float, default=0.2)
     parser.add_option("--batch_size", dest="batch_size", type=int, default=1)
-    parser.add_option("--num_epochs", dest="num_epochs", type=int, default=250)
+    parser.add_option("--num_epochs", dest="num_epochs", type=int, default=200)
     parser.add_option("--lr", dest="lr", type=float, default=0.001)
     parser.add_option("--depth1", dest="depth1", type=int, default='3')
     parser.add_option("--depth2", dest="depth2", type=int, default='2')
@@ -42,8 +42,7 @@ if __name__ == '__main__':
     model  = OMGNN_RNN(node_dim=opts.num_features, bond_dim=11, hidden_dim=opts.num_features, output_dim=opts.output_size, depth1=opts.depth1, depth2=opts.depth2, depth3=opts.depth3, dropout=opts.dropout).to(device)
 
     optimizer = torch.optim.Adam(model.parameters(), lr=opts.lr)
-    # scheduler = lr_scheduler.StepLR(optimizer, step_size=1, gamma=opts.anneal_rate)
-    scheduler = ReduceLROnPlateau(optimizer, mode='min', factor=opts.anneal_rate, patience=10, verbose=True)
+    scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=opts.num_epochs, eta_min=1e-4)
 
     # Load Pretrain GCN1 model
     if opts.pretrain:
@@ -90,11 +89,10 @@ if __name__ == '__main__':
         train_accuracy_history.append(train_accuracy)
         test_accuracy_history.append(test_accuracy)
         
-        scheduler.step(test_loss)
-        # scheduler.step()
+        scheduler.step()
 
         # Save best model after 200 epochs
-        if epoch >= 200:
+        if epoch >= 150:
             if test_loss < best_test_loss:
                 best_test_loss = test_loss
                 best_model_state = model.state_dict()

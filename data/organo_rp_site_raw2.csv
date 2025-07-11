@@ -1,8 +1,0 @@
-Complex,Metal,Solvent,E12,smiles,Ox_site,Reaction,redox_sites,redox_site_smiles
-GOCMOB,Ru2,ACN,"-1.52,-1.73",CC1=NN(C(=C1)C)c1cc2n3c(c1)c1ccccn1[Ru+2]143(n3ccccc23)n2ccccc2c2cc(cc(n12)c1ccccn41)N1N=C(C)C=C1C,ligand,reduction,,"CC1=CC(C)=NN1c1cc(c2ccccn2)nc(c2ccccn2)c1/CC1=CC(C)=NN1c1cc(c2ccccn2)nc(c2ccccn2)c1"
-CANZOI,Ru2,9:1 ACN/DCM,0.79,COc1ccc(cc1)c1cccc2cc3n(cc12)[Ru+2]124(n5cc6c(cccc6c6ccc(OC)cc6)cc5c5cccc3n15)n1cc3c(cccc3c3ccc(OC)cc3)cc1c1cccc(n21)c1cc2cccc(c3ccc(OC)cc3)c2cn41,metal,oxidation,,"[Ru+2]"
-GOCMOB,Ru2,ACN,0.93,CC1=NN(C(=C1)C)c1cc2n3c(c1)c1ccccn1[Ru+2]143(n3ccccc23)n2ccccc2c2cc(cc(n12)c1ccccn41)N1N=C(C)C=C1C,metal,oxidation,,"[Ru+2]"
-FAQSEY,Ag1,ACN,0.14,[cH]1cccc2C(=[O][Ag+]3(n12)(n1[cH]cccc1C(=O)N(C(C)C)C(C)C)O[N](=O)O3)N(C(C)C)C(C)C,metal,reduction,,"[Ag+]"
-PIMSUZ,Pt3,DCM,"-0.32",N#CC1=C(S[Pt+3]2(S1)SC(=C(S2)C#N)C#N)C#N,metal,reduction,,"[Pt+3]"
-PIMSUZ,Pt3,DCM,"0.59",N#CC1=C(S[Pt+3]2(S1)SC(=C(S2)C#N)C#N)C#N,ligand,oxidation,,"N#CC(S)=C(S)C#N"
-FAQSEY,Ag,ACN,0.14,[cH]1cccc2C(=[O][Ag+2]3(n12)(n1[cH]cccc1C(=O)N(C(C)C)C(C)C)O[N](=O)O3)N(C(C)C)C(C)C,metal,reduction,,"[Ag+2]"
