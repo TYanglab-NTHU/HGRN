@@ -5,7 +5,6 @@ import torch.optim.lr_scheduler as lr_scheduler
 from torch_geometric.loader   import DataLoader 
 from torch.optim.lr_scheduler import ReduceLROnPlateau
 from optparse import OptionParser
-from torch.optim.lr_scheduler import ReduceLROnPlateau
 
 from models.model import *
 from models.pretrain_models import *

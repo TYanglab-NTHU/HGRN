@@ -634,7 +634,7 @@ class complex_HGRN(nn.Module):
  
         delocalized_potential_indices_t_1 = list(set(reaction_sites))
 
-
+        count = 0
         total_loss = 0 
         while reaction_sites:
             count +=1 
@@ -646,7 +646,6 @@ class complex_HGRN(nn.Module):
             all_preds = self.regressor(batch1_subgraph3_result)
             preds     = all_preds[unique_reaction_sites]
             pred, idx = preds.min(dim=0)
-
 
             reaction_sites_idx = unique_reaction_sites[idx]
             energy = preds[delocalized_potential_indices_t_1]

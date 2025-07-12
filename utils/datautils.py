@@ -139,7 +139,86 @@ class dataloader_v2:
         return (DataLoader(train_dataset, batch_size=1, shuffle=True),
                 DataLoader(test_dataset, batch_size=1, shuffle=False))
     
+    @classmethod
+    def load_TMCs_data(cls, file_path, test_size=0.2, is_metal=False, features=153, k_fold=False, unlabeled=False, label_columns=None, default_reactions=None):
+        df = pd.read_csv(file_path)
+        
+        # 處理數值列表
+        for col in label_columns:
+            if col in df.columns:
+                df[col] = df[col].apply(cls.process_numeric_lists)
+
+        def create_data_object(row, is_metal=False):
+            try:
+                smiles = row.get("smiles")
+                metal = row.get("Metal")
+                if pd.isna(smiles):
+                    return None
+                
+                # 動態獲取標籤值（使用 label_columns 中的第一個標籤）
+                label_col = label_columns[0] if label_columns else "E12"
+                label_value = row.get(label_col)
+                
+                # 檢查標籤值是否有效
+                if label_value is None or label_value == "":
+                    return None
+                
+                # 處理數組的 NaN 檢查
+                if isinstance(label_value, (list, np.ndarray)):
+                    if len(label_value) == 0 or all(pd.isna(val) for val in label_value):
+                        return None
+                elif pd.isna(label_value):
+                    return None
+                
+                # 處理標籤值
+                if isinstance(label_value, str):
+                    if label_value.strip() == "":
+                        return None
+                    try:
+                        label_parsed = literal_eval(label_value)
+                    except (ValueError, SyntaxError):
+                        return None
+                else:
+                    label_parsed = label_value
+                
+                # 確保 label_parsed 是列表
+                if not isinstance(label_parsed, list):
+                    label_parsed = [label_parsed]
+                
+                # 轉換為張量
+                label_tensor = torch.tensor(label_parsed, dtype=torch.float32)
+                
+                [fatoms, graphs, edge_features, midx, ninds_to_rmove] = tensorize_with_subgraphs([smiles], metal, features)
+
+                data_item = Data(
+                    x=fatoms if is_metal else fatoms[0],
+                    edge_index=graphs,
+                    edge_attr=edge_features,
+                    midx=midx,
+                    ys=label_tensor
+                )
+                
+                # 新增 redox_idxs
+                if 'site' in row:
+                    redox_idxs = redox_each_num([row["smiles"]], row["Metal"], row["site"])
+                    data_item.redox = redox_idxs
+
+                return data_item
+            except Exception as e:
+                print(f"Error processing row: {e}")
+                return None
+
+        def create_dataset(data):
+            return [item for item in (create_data_object(row, is_metal) for _, row in data.iterrows()) if item is not None]
+
+        train_data, test_data = train_test_split(df, test_size=test_size, random_state=8)
+        train_dataset = create_dataset(train_data)
+        test_dataset = create_dataset(test_data)
+        
+        return (DataLoader(train_dataset, batch_size=1, shuffle=True),
+                DataLoader(test_dataset, batch_size=1, shuffle=False))
     
+
 class dataloader:
     @staticmethod
     def process_numeric_lists(x):
