@@ -23,9 +23,7 @@ if __name__ == '__main__':
 
     # use config value as default, if not in config, use hardcoded value as backup
     parser.add_option("-i", "--input", dest="input",
-                      default=config.get('input', '/work/u7069586/E-hGNN/data/old_organo_rp_site_raw1.csv'))
-    parser.add_option("--pretrain_path", dest="pretrain_path",
-                      default=config.get('pretrain_path', '/work/u7069586/OMGNN-OROP/scripts/'))
+                      default=config.get('input', '../../data/1st_TMCs_E12.csv'))
     parser.add_option("--reaction", dest="reaction",
                       default=config.get('reaction', 'reduction'))
     parser.add_option("--type", dest="type",

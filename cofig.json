@@ -1,5 +1,5 @@
 {
-    "input": "data/cv_dataset/dataset_random_93.csv",
+    "input": "data/imbalance/dataset_random_93.csv",
     "num_features": 153,
     "output_size": 1,
     "dropout": 0.2,

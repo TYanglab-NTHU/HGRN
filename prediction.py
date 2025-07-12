@@ -9,8 +9,7 @@ from utils.datautils import *
 from utils.trainutils_v2 import *
 from utils.chemutils  import *
 
-# from models.model import *
-from models.model_softmax import *
+from models.model import *
 
 # load config.json
 try:
@@ -25,7 +24,7 @@ if __name__ == '__main__':
 
     # use config value as default, if not, use the hardcoded value as backup
     parser.add_option("-i", "--input", dest="input",
-                      default=config.get('input', './data/organo_rp_site_raw1.csv'))
+                      default=config.get('input', './data/1st_TMCs_E12.csv'))
     parser.add_option("-t", "--test_size", dest="test_size", type=float,
                       default=float(config.get('test_size', 0.2))) 
     parser.add_option("--num_features", dest="num_features", type=int, 
@@ -67,6 +66,7 @@ else:
 
 
 if opts.with_reaction:
+    print(opts.input)
     all_data = alldata_loader(file_path=opts.input, tensorize_fn=tensorize_with_subgraphs)
     loader   = DataLoader(all_data, batch_size=opts.batch_size, shuffle=False)
     count = 0
@@ -77,11 +77,11 @@ if opts.with_reaction:
         result = model.sample(data, device)
         print(result)
 
-# if not opts.with_reaction:
-#     count = 0
-#     for data in loader:
-#         count += 1
-#         data = data.to(device)
-#         print(data.name[0][0])
-#         result = model.sample_no_reaction(data, device)
-#         print(result)
+if not opts.with_reaction:
+    count = 0
+    for data in loader:
+        count += 1
+        data = data.to(device)
+        print(data.name[0][0])
+        result = model.sample_no_reaction(data, device)
+        print(result)

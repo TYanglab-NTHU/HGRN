@@ -98,7 +98,6 @@ python complex_train_self.py  -i <TMCs_data.csv> --label_column <target_column>
 python complex_train_self.py  -i <TMCs_data.csv> --label_column <target_column> --global_graph True
 ```
 
-
 ## License
 License details can be found in the LICENSE file.
 # Requirements
