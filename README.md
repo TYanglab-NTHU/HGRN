@@ -14,7 +14,7 @@ cd EGNN
 ```
 
 ```sh
-conda env create -f environment.yml
+conda env create -f environment.yaml
 conda activate EGNN
 ```
 
