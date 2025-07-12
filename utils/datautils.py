@@ -205,7 +205,6 @@ class dataloader_v2:
 
                 return data_item
             except Exception as e:
-                print(f"Error processing row: {e}")
                 return None
 
         def create_dataset(data):
@@ -269,7 +268,6 @@ class dataloader:
                     try:
                         value = [float(v) for v in value]
                     except (ValueError, TypeError):
-                        print(f"Warning: Could not convert value {value} to float for {key}")
                         labels[key] = None
                         reaction_info[key] = None
                         continue

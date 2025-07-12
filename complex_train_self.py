@@ -5,10 +5,6 @@ from torch_geometric.loader import DataLoader
 from optparse import OptionParser
 import os, sys
 
-import sys
-
-
-sys.path.append('../')
 from models.model import *
 from models.pretrain_models import *
 from utils.trainutils_v2 import *
@@ -36,6 +32,7 @@ if __name__ == '__main__':
     parser.add_option("--anneal_rate", dest="anneal_rate", type=float, default=0.9)
     parser.add_option("--model_type", dest="model_type", type=str, default='DMPNN')
     parser.add_option("--pretrain", dest="pretrain", default=True)
+    parser.add_option("--global_graph", dest="global_graph", default=False)
     parser.add_option("--device", dest="device", type=str, default='cuda', help='使用的設備：cuda 或 cpu')
     parser.add_option("--label_column", dest="label_column", type=str, default='E12', help='標籤欄位名稱')
     opts, args = parser.parse_args()
@@ -83,12 +80,13 @@ if __name__ == '__main__':
         for i,batch in enumerate(train_loader):
             optimizer.zero_grad()
             batch = batch.to(device)
-            loss  = model(batch, device)
+            loss  = model(batch, device, global_graph=opts.global_graph)
             loss.backward()
             
             total_loss += loss.item()
             count += 1
             optimizer.step()
+
 
         if count > 0:
             avg_loss = total_loss / count
@@ -97,6 +95,10 @@ if __name__ == '__main__':
             print(f"Epoch {epoch+1}/{opts.num_epochs}, No valid batches")
         
         scheduler.step()
+
+        for data in test_loader:
+            data = data.to(device)
+            model.sample(data, device, global_graph=opts.global_graph)
 
     print("Training completed!")
 

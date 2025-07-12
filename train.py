@@ -77,8 +77,8 @@ if __name__ == '__main__':
         train_loss = (total_loss / count)
         print(f"Epoch {epoch}, Train RMSE Loss: {train_loss:.4f}")
 
-        train_loss , train_reg_loss, train_cla_loss, train_accuracy = OM.evaluate_model(model, train_loader, device, output_file="")
-        test_loss  , test_reg_loss , test_cla_loss , test_accuracy  = OM.evaluate_model(model, test_loader, device,  output_file="")
+        train_loss , train_reg_loss, train_cla_loss, train_accuracy = OM.evaluate_model(model, train_loader, device)
+        test_loss  , test_reg_loss , test_cla_loss , test_accuracy  = OM.evaluate_model(model, test_loader, device)
         train_loss_history.append(train_loss)
         train_reg_history.append(train_reg_loss)
         train_cla_history.append(train_cla_loss)

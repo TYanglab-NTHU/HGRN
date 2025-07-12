@@ -515,7 +515,7 @@ class OM():
             "SMILES"     : names,
             "Reaction"   : [data.reaction for data in loader.dataset]
         })
-        if pd.isnull(output_file):
+        if output_file == "":
             pass
         else:
             df_reg.to_csv(os.path.join(os.getcwd(), f"reg-{output_file}"), index=False)

@@ -609,274 +609,366 @@ class complex_HGRN(nn.Module):
         result_pooled = self.pool(result, batch)
         return result, result_pooled
 
-    def forward(self, batch, device):
-        for graph in batch.to_data_list():
-            x, edge_index, edge_attr, midx, true_vals, sites = graph.x, graph.edge_index, graph.edge_attr, graph.midx, graph.ys, graph.redox
-        
-        subgraph1, batch1_2, subgraph2, subgraph3 = edge_index
-        subgraph1_edge_index, batch1 = subgraph1
-        subgraph2_edge_index, batch2, filtered_mask = subgraph2
-        subgraph3_edge_index, batch3 = subgraph3
+    def forward(self, batch, device, global_graph=False):
+        if global_graph:
+            # no site in dataset
+            for graph in batch.to_data_list():
+                x, edge_index, edge_attr, midx, true_vals = graph.x, graph.edge_index, graph.edge_attr, graph.midx, graph.ys
 
-        #"results after GCN and result_ after global pooling"
-        subgraph1_result, subgraph1_pooled = self.forward_subgraph(x=x, edge_index=subgraph1_edge_index, batch=batch1, edge_attr=edge_attr[0], gcn=self.GCN1)
-        subgraph2_result, subgraph2_pooled = self.forward_subgraph(x=subgraph1_result, edge_index=subgraph2_edge_index, batch=batch2, edge_attr=edge_attr[1], gcn=self.GCN2,pre_proc=lambda x: global_mean_pool(x, batch1_2))
-        subgraph3_result, subgraph3_pooled = self.forward_subgraph(x=subgraph2_pooled, edge_index=subgraph3_edge_index, batch=batch3, edge_attr=edge_attr[2], gcn=self.GCN3)
+            subgraph1, batch1_2, subgraph2, subgraph3 = edge_index
+            subgraph1_edge_index, batch1 = subgraph1
+            subgraph2_edge_index, batch2, filtered_mask = subgraph2
+            subgraph3_edge_index, batch3 = subgraph3
 
-        m_batch1  = batch1[midx[0]]
-        new_batch = batch2[batch1_2.long()]
-
-        mapping_dict    = {val.item(): new_batch[batch1 == val].unique().item() for val in batch1.unique()}
-        ordered_indices = torch.tensor([mapping_dict[k] for k in sorted(mapping_dict)], device=device)
-        real_num_peaks  = torch.tensor([sites[i][1] for i in range(len(sites))]).cuda()
-
-        reaction_sites = [i for i, value in enumerate(real_num_peaks) for _ in range(int(value))]
- 
-        delocalized_potential_indices_t_1 = list(set(reaction_sites))
-
-        count = 0
-        total_loss = 0 
-        while reaction_sites:
-            count +=1 
-            batch1_subgraph3_result = subgraph3_result[ordered_indices]
-
-            each_nums = self.classifier(batch1_subgraph3_result)
-            
-            unique_reaction_sites = list(set(reaction_sites))
-            all_preds = self.regressor(batch1_subgraph3_result)
-            preds     = all_preds[unique_reaction_sites]
-            pred, idx = preds.min(dim=0)
-
-            reaction_sites_idx = unique_reaction_sites[idx]
-            energy = preds[delocalized_potential_indices_t_1]
-            energy_p = torch.softmax(-energy, dim=0)
-            energy_P = energy_p * len(energy)
-            delocalized_potential_indices = torch.where(energy_P > 0.96)[0]
-            if delocalized_potential_indices.numel() == 1:
-                delocalized_potential_indices = torch.tensor([], device=device)
-
-            all_reaction_x_idx = []
-            same_idx_tensor = torch.tensor(delocalized_potential_indices, device=device)
-            if same_idx_tensor.numel() != 0:
-                mapped_indices = [delocalized_potential_indices_t_1[i] for i in delocalized_potential_indices.tolist()]
-                delocalized_potential_indices = list(set(mapped_indices + delocalized_potential_indices_t_1))
-                for site_idx in delocalized_potential_indices:
-                    site_indices = [i for i, idx in enumerate(batch1) if idx == site_idx]
-                    all_reaction_x_idx.extend(site_indices)
-                
-                real_num_peaks_ = real_num_peaks.clone()
-            else:
-                site_indices = [i for i, idx in enumerate(batch1) if idx == reaction_sites_idx]
-                all_reaction_x_idx.extend(site_indices)
-                real_num_peaks_ = real_num_peaks.clone()
-
-            loss_mask = torch.ones_like(real_num_peaks_, dtype=torch.bool)
-            if len(delocalized_potential_indices_t_1) > 1:
-                delocalized_peaks = real_num_peaks_[delocalized_potential_indices_t_1]
-
-                if delocalized_peaks.max() != delocalized_peaks.min():
-                    min_peaks = delocalized_peaks.min()
-                    min_indices = [delocalized_potential_indices_t_1[i] for i, peaks in enumerate(delocalized_peaks) if peaks == min_peaks]
-
-                    for idx in min_indices:
-                        loss_mask[idx] = False
-                    
-            loss_per_sample = nn.CrossEntropyLoss(reduction='none')(each_nums, real_num_peaks_)
-            loss_cla = (loss_per_sample * loss_mask.float()).sum() / (loss_mask.sum().float() + 1e-8)
-            loss_reg = nn.MSELoss()(pred, true_vals[0].unsqueeze(0).to(device))
-            total_loss += loss_cla + loss_reg
-
-            true_vals = true_vals[1:]
-
-            if count == 1:
-                x_t_1 = x.clone()
-
-            redox_x_    = x_t_1[all_reaction_x_idx]
-            redox_subgraph1_result_ = subgraph1_result[all_reaction_x_idx]
-            redox_x_change = redox_subgraph1_result_ * self.gate_GCN1(redox_subgraph1_result_) + redox_x_
-
-            x_t_1[all_reaction_x_idx] = redox_x_change
-
-            subgraph1_result, subgraph1_pooled = self.forward_subgraph(x=x_, edge_index=subgraph1_edge_index, batch=batch1, edge_attr=edge_attr[0], gcn=self.GCN1)
+            #"results after GCN and result_ after global pooling"
+            subgraph1_result, subgraph1_pooled = self.forward_subgraph(x=x, edge_index=subgraph1_edge_index, batch=batch1, edge_attr=edge_attr[0], gcn=self.GCN1)
             subgraph2_result, subgraph2_pooled = self.forward_subgraph(x=subgraph1_result, edge_index=subgraph2_edge_index, batch=batch2, edge_attr=edge_attr[1], gcn=self.GCN2,pre_proc=lambda x: global_mean_pool(x, batch1_2))
+            subgraph3_result, subgraph3_pooled = self.forward_subgraph(x=subgraph2_pooled, edge_index=subgraph3_edge_index, batch=batch3, edge_attr=edge_attr[2], gcn=self.GCN3)
 
-            all_reaction_site_idx = reaction_sites_idx + [idx for idx in delocalized_potential_indices if idx not in reaction_sites_idx]
-            batch2_reaction_idx = [mapping_dict.get(site) for site in all_reaction_site_idx]
-            updated_subgraph2_pooled  = subgraph2_pooled.clone()
+            m_batch1  = batch1[midx[0]]
+            new_batch = batch2[batch1_2.long()]
 
-            all_reaction_site_idx_tensor = torch.tensor(all_reaction_site_idx, device=device)
-            same_energy = preds[all_reaction_site_idx_tensor]
+            mapping_dict    = {val.item(): new_batch[batch1 == val].unique().item() for val in batch1.unique()}
+            ordered_indices = torch.tensor([mapping_dict[k] for k in sorted(mapping_dict)], device=device)
+            real_num_peaks  = torch.tensor([len(true_vals)]).cuda()
 
+            count = 0
+            total_loss = 0 
 
-            potentials_mapping = {}
-            for site_idx, potential in enumerate(same_energy):
-                if isinstance(batch2_reaction_idx[site_idx], list):
-                    for sub_idx in batch2_reaction_idx[site_idx]:
-                        potentials_mapping[sub_idx] = potential
-                else:
-                    potentials_mapping[batch2_reaction_idx[site_idx]] = potential
+            while real_num_peaks[0].item() > 0:
+                count +=1 
 
-            reaction_sites_ = []
-            for idx in batch2_reaction_idx:
-                if isinstance(idx, list):
-                    reaction_sites_.extend(idx)
-                else:
-                    reaction_sites_.append(idx)
+                nums = self.classifier(subgraph3_pooled)
+                pred = self.regressor(subgraph3_pooled)
+
+                loss_cla = nn.CrossEntropyLoss()(nums, real_num_peaks)
+                loss_reg = nn.MSELoss()(pred, true_vals[0].unsqueeze(0).to(device))
+                total_loss += loss_cla + loss_reg
+
+                true_vals = true_vals[1:]
+
+                reaction_x_    = x[:]
+                reaction_subgraph1_result_ = subgraph1_result[:]
+                reaction_x_change = reaction_subgraph1_result_ * self.gate_GCN1(reaction_subgraph1_result_) + reaction_x_
+
+                x_   = x.clone()
+                x_[:] = reaction_x_change
+
+                subgraph1_result, subgraph1_pooled = self.forward_subgraph(x=x_, edge_index=subgraph1_edge_index, batch=batch1, edge_attr=edge_attr[0], gcn=self.GCN1)
+                subgraph2_result, subgraph2_pooled = self.forward_subgraph(x=subgraph1_result, edge_index=subgraph2_edge_index, batch=batch2, edge_attr=edge_attr[1], gcn=self.GCN2,pre_proc=lambda x: global_mean_pool(x, batch1_2))
+                subgraph3_result, subgraph3_pooled = self.forward_subgraph(x=subgraph2_pooled, edge_index=subgraph3_edge_index, batch=batch3, edge_attr=edge_attr[2], gcn=self.GCN3)
+
+                real_num_peaks = real_num_peaks.clone()  # ensure a separate copy
+                real_num_peaks[0] = real_num_peaks[0] - 1
+
+        else:
+            for graph in batch.to_data_list():
+                x, edge_index, edge_attr, midx, true_vals, sites = graph.x, graph.edge_index, graph.edge_attr, graph.midx, graph.ys, graph.redox
             
-            reaction_subgraph2_pooled  = subgraph2_pooled[reaction_sites_]
-            reaction_subgraph3_result_ = subgraph3_result[reaction_sites_]
+            subgraph1, batch1_2, subgraph2, subgraph3 = edge_index
+            subgraph1_edge_index, batch1 = subgraph1
+            subgraph2_edge_index, batch2, filtered_mask = subgraph2
+            subgraph3_edge_index, batch3 = subgraph3
 
-            def boltzmann_distribution(energies):
-                energy_p = torch.softmax(-energies, dim=0)
-                energy_P = energy_p * len(energies)
-                energy_p = torch.where(energy_P > 0.96, energy_p, torch.tensor(0.0, device=energy_p.device))
-                energy_p = F.normalize(energy_p, p=1, dim=0)
-                return energy_p
+            #"results after GCN and result_ after global pooling"
+            subgraph1_result, subgraph1_pooled = self.forward_subgraph(x=x, edge_index=subgraph1_edge_index, batch=batch1, edge_attr=edge_attr[0], gcn=self.GCN1)
+            subgraph2_result, subgraph2_pooled = self.forward_subgraph(x=subgraph1_result, edge_index=subgraph2_edge_index, batch=batch2, edge_attr=edge_attr[1], gcn=self.GCN2,pre_proc=lambda x: global_mean_pool(x, batch1_2))
+            subgraph3_result, subgraph3_pooled = self.forward_subgraph(x=subgraph2_pooled, edge_index=subgraph3_edge_index, batch=batch3, edge_attr=edge_attr[2], gcn=self.GCN3)
 
-            site_potentials   = torch.stack([potentials_mapping[site] for site in reaction_sites_])
-            gate_weights      = boltzmann_distribution(site_potentials)
-            reaction_site_change = reaction_subgraph3_result_ * (1 - gate_weights) + reaction_subgraph2_pooled  * gate_weights 
+            new_batch = batch2[batch1_2.long()]
 
-            updated_subgraph2_pooled[reaction_sites_] = reaction_site_change
-            subgraph2_result_ = updated_subgraph2_pooled.clone()
+            mapping_dict    = {val.item(): new_batch[batch1 == val].unique().item() for val in batch1.unique()}
+            ordered_indices = torch.tensor([mapping_dict[k] for k in sorted(mapping_dict)], device=device)
+            real_num_peaks  = torch.tensor([sites[i][1] for i in range(len(sites))]).to(device)
 
-            subgraph3_result, subgraph3_pooled = self.forward_subgraph(x=subgraph2_result_, edge_index=subgraph3_edge_index, batch=batch3, edge_attr=edge_attr[2], gcn=self.GCN3)
+            reaction_sites = [i for i, value in enumerate(real_num_peaks) for _ in range(int(value))]
+    
+            delocalized_potential_indices_t_1 = list(set(reaction_sites))
 
-            delocalized_potential_indices_t_1 = delocalized_potential_indices
+            count = 0
+            total_loss = 0 
+            while reaction_sites:
+                count +=1 
+                batch1_subgraph3_result = subgraph3_result[ordered_indices]
 
-            reaction_sites.remove(reaction_sites_idx)
+                each_nums = self.classifier(batch1_subgraph3_result)
+                
+                unique_reaction_sites = list(set(reaction_sites))
+                all_preds = self.regressor(batch1_subgraph3_result)
+                preds     = all_preds[unique_reaction_sites]
+                pred, idx = preds.min(dim=0)
 
-            real_num_peaks = real_num_peaks.clone()  # ensure a separate copy
-            real_num_peaks[reaction_sites_idx] = real_num_peaks[reaction_sites_idx] - 1
+                reaction_sites_idx = unique_reaction_sites[idx]
+                energy = all_preds[delocalized_potential_indices_t_1]
+                energy_p = torch.softmax(-energy, dim=0)
+                energy_P = energy_p * len(energy)
+                delocalized_potential_indices = torch.where(energy_P > 0.96)[0]
+                if delocalized_potential_indices.numel() == 1:
+                    delocalized_potential_indices = torch.tensor([reaction_sites_idx], device=device)
+
+                all_reaction_x_idx = []
+                same_idx_tensor = torch.tensor(delocalized_potential_indices, device=device)
+                if same_idx_tensor.numel() != 1:
+                    mapped_indices = [delocalized_potential_indices_t_1[i] for i in delocalized_potential_indices.tolist()]
+                    delocalized_potential_indices = list(set(mapped_indices + delocalized_potential_indices_t_1))
+                    for site_idx in delocalized_potential_indices:
+                        site_indices = [i for i, idx in enumerate(batch1) if idx == site_idx]
+                        all_reaction_x_idx.extend(site_indices)
+                    
+                    real_num_peaks_ = real_num_peaks.clone()
+                else:
+                    site_indices = [i for i, idx in enumerate(batch1) if idx == reaction_sites_idx]
+                    all_reaction_x_idx.extend(site_indices)
+                    real_num_peaks_ = real_num_peaks.clone()
+
+                loss_mask = torch.ones_like(real_num_peaks_, dtype=torch.bool)
+                if len(delocalized_potential_indices_t_1) > 1:
+                    delocalized_peaks = real_num_peaks_[delocalized_potential_indices_t_1]
+
+                    if delocalized_peaks.max() != delocalized_peaks.min():
+                        min_peaks = delocalized_peaks.min()
+                        min_indices = [delocalized_potential_indices_t_1[i] for i, peaks in enumerate(delocalized_peaks) if peaks == min_peaks]
+
+                        for idx in min_indices:
+                            loss_mask[idx] = False
+                        
+                loss_per_sample = nn.CrossEntropyLoss(reduction='none')(each_nums, real_num_peaks_)
+                loss_cla = (loss_per_sample * loss_mask.float()).sum() / (loss_mask.sum().float() + 1e-8)
+                loss_reg = nn.MSELoss()(pred, true_vals[0].unsqueeze(0).to(device))
+                total_loss += loss_cla + loss_reg
+
+                true_vals = true_vals[1:]
+
+                if count == 1:
+                    x_t_1 = x.clone()
+
+                redox_x_    = x_t_1[all_reaction_x_idx]
+                redox_subgraph1_result_ = subgraph1_result[all_reaction_x_idx]
+                redox_x_change = redox_subgraph1_result_ * self.gate_GCN1(redox_subgraph1_result_) + redox_x_
+
+                x_t_1[all_reaction_x_idx] = redox_x_change
+
+                subgraph1_result, subgraph1_pooled = self.forward_subgraph(x=x_t_1, edge_index=subgraph1_edge_index, batch=batch1, edge_attr=edge_attr[0], gcn=self.GCN1)
+                subgraph2_result, subgraph2_pooled = self.forward_subgraph(x=subgraph1_result, edge_index=subgraph2_edge_index, batch=batch2, edge_attr=edge_attr[1], gcn=self.GCN2,pre_proc=lambda x: global_mean_pool(x, batch1_2))
+
+                all_reaction_site_idx = unique_reaction_sites + [idx for idx in delocalized_potential_indices if idx not in unique_reaction_sites]
+                batch2_reaction_idx = [mapping_dict.get(site) for site in all_reaction_site_idx]
+                updated_subgraph2_pooled  = subgraph2_pooled.clone()
+
+                all_reaction_site_idx_tensor = torch.tensor(all_reaction_site_idx, device=device)
+                same_energy = all_preds[all_reaction_site_idx_tensor]
+
+                potentials_mapping = {}
+                for site_idx, potential in enumerate(same_energy):
+                    if isinstance(batch2_reaction_idx[site_idx], list):
+                        for sub_idx in batch2_reaction_idx[site_idx]:
+                            potentials_mapping[sub_idx] = potential
+                    else:
+                        potentials_mapping[batch2_reaction_idx[site_idx]] = potential
+
+                reaction_sites_ = []
+                for idx in batch2_reaction_idx:
+                    if isinstance(idx, list):
+                        reaction_sites_.extend(idx)
+                    else:
+                        reaction_sites_.append(idx)
+                
+                reaction_subgraph2_pooled  = subgraph2_pooled[reaction_sites_]
+                reaction_subgraph3_result_ = subgraph3_result[reaction_sites_]
+
+                def boltzmann_distribution(energies):
+                    energy_p = torch.softmax(-energies, dim=0)
+                    energy_P = energy_p * len(energies)
+                    energy_p = torch.where(energy_P > 0.96, energy_p, torch.tensor(0.0, device=energy_p.device))
+                    energy_p = F.normalize(energy_p, p=1, dim=0)
+                    return energy_p
+
+                site_potentials   = torch.stack([potentials_mapping[site] for site in reaction_sites_])
+                gate_weights      = boltzmann_distribution(site_potentials)
+                reaction_site_change = reaction_subgraph3_result_ * (1 - gate_weights) + reaction_subgraph2_pooled  * gate_weights 
+
+                updated_subgraph2_pooled[reaction_sites_] = reaction_site_change
+                subgraph2_result_ = updated_subgraph2_pooled.clone()
+
+                subgraph3_result, subgraph3_pooled = self.forward_subgraph(x=subgraph2_result_, edge_index=subgraph3_edge_index, batch=batch3, edge_attr=edge_attr[2], gcn=self.GCN3)
+
+                delocalized_potential_indices_t_1 = delocalized_potential_indices
+
+                reaction_sites.remove(reaction_sites_idx)
+
+                real_num_peaks = real_num_peaks.clone()  # ensure a separate copy
+                real_num_peaks[reaction_sites_idx] = real_num_peaks[reaction_sites_idx] - 1
 
         return total_loss
 
-
-    def sample(self, batch, device):
-        for graph in batch.to_data_list():
-            x, edge_index, edge_attr, midx, true_vals, sites = graph.x, graph.edge_index, graph.edge_attr, graph.midx, graph.ys, graph.redox
+    def sample(self, batch, device, global_graph=False):
+        if global_graph:
+            for graph in batch.to_data_list():
+                x, edge_index, edge_attr, midx, true_vals = graph.x, graph.edge_index, graph.edge_attr, graph.midx, graph.ys
         
-        subgraph1, batch1_2, subgraph2, subgraph3 = edge_index
-        subgraph1_edge_index, batch1 = subgraph1
-        subgraph2_edge_index, batch2, filtered_mask = subgraph2
-        subgraph3_edge_index, batch3 = subgraph3
+            subgraph1, batch1_2, subgraph2, subgraph3 = edge_index
+            subgraph1_edge_index, batch1 = subgraph1
+            subgraph2_edge_index, batch2, filtered_mask = subgraph2
+            subgraph3_edge_index, batch3 = subgraph3
 
-        #"results after GCN and result_ after global pooling"
-        subgraph1_result, subgraph1_pooled = self.forward_subgraph(x=x, edge_index=subgraph1_edge_index, batch=batch1, edge_attr=edge_attr[0], gcn=self.GCN1)
-        subgraph2_result, subgraph2_pooled = self.forward_subgraph(x=subgraph1_result, edge_index=subgraph2_edge_index, batch=batch2, edge_attr=edge_attr[1], gcn=self.GCN2,pre_proc=lambda x: global_mean_pool(x, batch1_2))
-        subgraph3_result, subgraph3_pooled = self.forward_subgraph(x=subgraph2_pooled, edge_index=subgraph3_edge_index, batch=batch3, edge_attr=edge_attr[2], gcn=self.GCN3)
+            #"results after GCN and result_ after global pooling"
+            subgraph1_result, subgraph1_pooled = self.forward_subgraph(x=x, edge_index=subgraph1_edge_index, batch=batch1, edge_attr=edge_attr[0], gcn=self.GCN1)
+            subgraph2_result, subgraph2_pooled = self.forward_subgraph(x=subgraph1_result, edge_index=subgraph2_edge_index, batch=batch2, edge_attr=edge_attr[1], gcn=self.GCN2,pre_proc=lambda x: global_mean_pool(x, batch1_2))
+            subgraph3_result, subgraph3_pooled = self.forward_subgraph(x=subgraph2_pooled, edge_index=subgraph3_edge_index, batch=batch3, edge_attr=edge_attr[2], gcn=self.GCN3)
 
-        m_batch1  = batch1[midx[0]]
-        new_batch = batch2[batch1_2.long()]
+            m_batch1  = batch1[midx[0]]
+            new_batch = batch2[batch1_2.long()]
 
-        mapping_dict    = {val.item(): new_batch[batch1 == val].unique().item() for val in batch1.unique()}
-        ordered_indices = torch.tensor([mapping_dict[k] for k in sorted(mapping_dict)], device=device)
+            num_peaks = self.classifier(subgraph3_pooled)
+
+            num_peaks_pred = torch.argmax(num_peaks, dim=1)
+
+            preds_output = torch.tensor([], device=device)
+
+            count = 0
+            while num_peaks_pred.sum() != 0:
+                count +=1 
+                pred = self.regressor(subgraph3_result) 
+
+                reaction_x_    = x[:]
+                reaction_subgraph1_result_ = subgraph1_result[:]
+                reaction_x_change = reaction_subgraph1_result_ * self.gate_GCN1(reaction_subgraph1_result_) + reaction_x_
+
+                x_ = x.clone()
+                x_[:] = reaction_x_change
+
+                subgraph1_result, subgraph1_pooled = self.forward_subgraph(x=x_, edge_index=subgraph1_edge_index, batch=batch1, edge_attr=edge_attr[0], gcn=self.GCN1)
+                subgraph2_result, subgraph2_pooled = self.forward_subgraph(x=subgraph1_result, edge_index=subgraph2_edge_index, batch=batch2, edge_attr=edge_attr[1], gcn=self.GCN2,pre_proc=lambda x: global_mean_pool(x, batch1_2))
+                subgraph3_result, subgraph3_pooled = self.forward_subgraph(x=subgraph2_pooled, edge_index=subgraph3_edge_index, batch=batch3, edge_attr=edge_attr[2], gcn=self.GCN3)
+
+                preds_output = torch.cat((preds_output, pred.unsqueeze(0)), 0)
+
+                num_peaks_pred[0] = num_peaks_pred[0] - 1
+
+        else:
+            for graph in batch.to_data_list():
+                x, edge_index, edge_attr, midx, true_vals, sites = graph.x, graph.edge_index, graph.edge_attr, graph.midx, graph.ys, graph.redox
+            
+            subgraph1, batch1_2, subgraph2, subgraph3 = edge_index
+            subgraph1_edge_index, batch1 = subgraph1
+            subgraph2_edge_index, batch2, filtered_mask = subgraph2
+            subgraph3_edge_index, batch3 = subgraph3
+
+            #"results after GCN and result_ after global pooling"
+            subgraph1_result, subgraph1_pooled = self.forward_subgraph(x=x, edge_index=subgraph1_edge_index, batch=batch1, edge_attr=edge_attr[0], gcn=self.GCN1)
+            subgraph2_result, subgraph2_pooled = self.forward_subgraph(x=subgraph1_result, edge_index=subgraph2_edge_index, batch=batch2, edge_attr=edge_attr[1], gcn=self.GCN2,pre_proc=lambda x: global_mean_pool(x, batch1_2))
+            subgraph3_result, subgraph3_pooled = self.forward_subgraph(x=subgraph2_pooled, edge_index=subgraph3_edge_index, batch=batch3, edge_attr=edge_attr[2], gcn=self.GCN3)
+
+            m_batch1  = batch1[midx[0]]
+            new_batch = batch2[batch1_2.long()]
+
+            mapping_dict    = {val.item(): new_batch[batch1 == val].unique().item() for val in batch1.unique()}
+            ordered_indices = torch.tensor([mapping_dict[k] for k in sorted(mapping_dict)], device=device)
 
 
-        batch1_subgraph3_result = subgraph3_result[ordered_indices]
-        num_peaks = self.classifier(batch1_subgraph3_result)
-        num_peaks_pred = torch.argmax(num_peaks, dim=1)
-
-        preds_output = torch.tensor([], device=device)
-
-        num_mask = num_peaks_pred > 0
-        reaction_indices = torch.nonzero(num_mask, as_tuple=False).flatten()
-        delocalized_potential_indices_t_1 = list(set([i.item() for i in reaction_indices]))
-
-
-        count = 0
-        while num_peaks_pred.sum() != 0:
-            count +=1 
             batch1_subgraph3_result = subgraph3_result[ordered_indices]
-            all_preds = self.regressor(batch1_subgraph3_result) 
-            all_preds = all_preds.squeeze()
+            num_peaks = self.classifier(batch1_subgraph3_result)
+            num_peaks_pred = torch.argmax(num_peaks, dim=1)
+
+            preds_output = torch.tensor([], device=device)
+
             num_mask = num_peaks_pred > 0
             reaction_indices = torch.nonzero(num_mask, as_tuple=False).flatten()
-            preds = all_preds[num_mask]
-            pred, idx = preds.min(dim=0)
+            delocalized_potential_indices_t_1 = list(set([i.item() for i in reaction_indices]))
 
-            reaction_site_idx = reaction_indices[idx].item()
-            
-            energy = preds[delocalized_potential_indices_t_1]
-            energy_p = torch.softmax(-energy, dim=0)
-            energy_P = energy_p * len(energy)
-            delocalized_potential_indices = torch.where(energy_P > 0.96)[0]
-            if delocalized_potential_indices.numel() == 1:
-                delocalized_potential_indices = torch.tensor([], device=device)
 
-            all_reaction_x_idx = []
-            same_idx_tensor = torch.tensor(delocalized_potential_indices, device=device)
-            if same_idx_tensor.numel() != 0:
-                mapped_indices = [delocalized_potential_indices_t_1[i] for i in delocalized_potential_indices.tolist()]
-                delocalized_potential_indices = list(set(mapped_indices + delocalized_potential_indices_t_1))
-                for site_idx in delocalized_potential_indices:
-                    site_indices = [i for i, idx in enumerate(batch1) if idx == site_idx]
+            count = 0
+            while num_peaks_pred.sum() != 0:
+                count +=1 
+                batch1_subgraph3_result = subgraph3_result[ordered_indices]
+                all_preds = self.regressor(batch1_subgraph3_result) 
+                all_preds = all_preds.squeeze()
+                num_mask = num_peaks_pred > 0
+                reaction_indices = torch.nonzero(num_mask, as_tuple=False).flatten()
+                preds = all_preds[num_mask]
+                pred, idx = preds.min(dim=0)
+
+                reaction_site_idx = reaction_indices[idx].item()
+                
+                energy = all_preds[delocalized_potential_indices_t_1]
+                energy_p = torch.softmax(-energy, dim=0)
+                energy_P = energy_p * len(energy)
+                delocalized_potential_indices = torch.where(energy_P > 0.96)[0]
+                if delocalized_potential_indices.numel() == 1:
+                    delocalized_potential_indices = torch.tensor([], device=device)
+
+                all_reaction_x_idx = []
+                same_idx_tensor = torch.tensor(delocalized_potential_indices, device=device)
+                if same_idx_tensor.numel() != 0:
+                    mapped_indices = [delocalized_potential_indices_t_1[i] for i in delocalized_potential_indices.tolist()]
+                    delocalized_potential_indices = list(set(mapped_indices + delocalized_potential_indices_t_1))
+                    for site_idx in delocalized_potential_indices:
+                        site_indices = [i for i, idx in enumerate(batch1) if idx == site_idx]
+                        all_reaction_x_idx.extend(site_indices)
+
+                else:
+                    site_indices = [i for i, idx in enumerate(batch1) if idx == reaction_site_idx]
                     all_reaction_x_idx.extend(site_indices)
 
-            else:
-                site_indices = [i for i, idx in enumerate(batch1) if idx == reaction_site_idx]
-                all_reaction_x_idx.extend(site_indices)
+                
+                if count == 1:
+                    x_t_1 = x.clone()
 
-            
-            if count == 1:
-                x_t_1 = x.clone()
+                redox_x_    = x_t_1[all_reaction_x_idx]
+                redox_subgraph1_result_ = subgraph1_result[all_reaction_x_idx]
+                redox_x_change = redox_subgraph1_result_ * self.gate_GCN1(redox_subgraph1_result_) + redox_x_
 
-            redox_x_    = x_t_1[all_reaction_x_idx]
-            redox_subgraph1_result_ = subgraph1_result[all_reaction_x_idx]
-            redox_x_change = redox_subgraph1_result_ * self.gate_GCN1(redox_subgraph1_result_) + redox_x_
+                x_t_1[all_reaction_x_idx] = redox_x_change
 
-            x_t_1[all_reaction_x_idx] = redox_x_change
-
-            subgraph1_result, subgraph1_pooled = self.forward_subgraph(x=x_t_1, edge_index=subgraph1_edge_index, batch=batch1, edge_attr=edge_attr[0], gcn=self.GCN1)
-            subgraph2_result, subgraph2_pooled = self.forward_subgraph(x=subgraph1_result, edge_index=subgraph2_edge_index, batch=batch2, edge_attr=edge_attr[1], gcn=self.GCN2,pre_proc=lambda x: global_mean_pool(x, batch1_2))
+                subgraph1_result, subgraph1_pooled = self.forward_subgraph(x=x_t_1, edge_index=subgraph1_edge_index, batch=batch1, edge_attr=edge_attr[0], gcn=self.GCN1)
+                subgraph2_result, subgraph2_pooled = self.forward_subgraph(x=subgraph1_result, edge_index=subgraph2_edge_index, batch=batch2, edge_attr=edge_attr[1], gcn=self.GCN2,pre_proc=lambda x: global_mean_pool(x, batch1_2))
 
 
-            all_reaction_site_idx = reaction_indices.tolist() + [idx for idx in delocalized_potential_indices if idx not in reaction_indices.tolist()]
-            batch2_reaction_idx = [mapping_dict.get(site) for site in all_reaction_site_idx]
-            updated_subgraph2_pooled  = subgraph2_pooled.clone()
+                all_reaction_site_idx = reaction_indices.tolist() + [idx for idx in delocalized_potential_indices if idx not in reaction_indices.tolist()]
+                batch2_reaction_idx = [mapping_dict.get(site) for site in all_reaction_site_idx]
+                updated_subgraph2_pooled  = subgraph2_pooled.clone()
 
-            all_reaction_site_idx_tensor = torch.tensor(all_reaction_site_idx, device=device)
-            same_energy = preds[all_reaction_site_idx_tensor]
+                all_reaction_site_idx_tensor = torch.tensor(all_reaction_site_idx, device=device)
+                same_energy = all_preds[all_reaction_site_idx_tensor]
 
+                potentials_mapping = {}
+                for site_idx, potential in enumerate(same_energy):
+                    if isinstance(batch2_reaction_idx[site_idx], list):
+                        for sub_idx in batch2_reaction_idx[site_idx]:
+                            potentials_mapping[sub_idx] = potential
+                    else:
+                        potentials_mapping[batch2_reaction_idx[site_idx]] = potential
 
-            potentials_mapping = {}
-            for site_idx, potential in enumerate(same_energy):
-                if isinstance(batch2_reaction_idx[site_idx], list):
-                    for sub_idx in batch2_reaction_idx[site_idx]:
-                        potentials_mapping[sub_idx] = potential
-                else:
-                    potentials_mapping[batch2_reaction_idx[site_idx]] = potential
+                reaction_sites_ = []
+                for idx in batch2_reaction_idx:
+                    if isinstance(idx, list):
+                        reaction_sites_.extend(idx)
+                    else:
+                        reaction_sites_.append(idx)
+                
+                reaction_subgraph2_pooled  = subgraph2_pooled[reaction_sites_]
+                reaction_subgraph3_result_ = subgraph3_result[reaction_sites_]
 
-            reaction_sites_ = []
-            for idx in batch2_reaction_idx:
-                if isinstance(idx, list):
-                    reaction_sites_.extend(idx)
-                else:
-                    reaction_sites_.append(idx)
-            
-            reaction_subgraph2_pooled  = subgraph2_pooled[reaction_sites_]
-            reaction_subgraph3_result_ = subgraph3_result[reaction_sites_]
+                def boltzmann_distribution(energies):
+                    energy_p = torch.softmax(-energies, dim=0)
+                    energy_P = energy_p * len(energies)
+                    energy_p = torch.where(energy_P > 0.96, energy_p, torch.tensor(0.0, device=energy_p.device))
+                    energy_p = F.normalize(energy_p, p=1, dim=0)
+                    return energy_p
 
-            def boltzmann_distribution(energies):
-                energy_p = torch.softmax(-energies, dim=0)
-                energy_P = energy_p * len(energies)
-                energy_p = torch.where(energy_P > 0.96, energy_p, torch.tensor(0.0, device=energy_p.device))
-                energy_p = F.normalize(energy_p, p=1, dim=0)
-                return energy_p
+                site_potentials   = torch.stack([potentials_mapping[site] for site in reaction_sites_])
+                gate_weights      = boltzmann_distribution(site_potentials)
+                gate_weights = gate_weights.unsqueeze(-1) 
+                reaction_site_change = reaction_subgraph3_result_ * (1 - gate_weights) + reaction_subgraph2_pooled  * gate_weights 
 
-            site_potentials   = torch.stack([potentials_mapping[site] for site in reaction_sites_])
-            gate_weights      = boltzmann_distribution(site_potentials)
-            reaction_site_change = reaction_subgraph3_result_ * (1 - gate_weights) + reaction_subgraph2_pooled  * gate_weights 
+                updated_subgraph2_pooled[reaction_sites_] = reaction_site_change
+                subgraph2_result_ = updated_subgraph2_pooled.clone()
+                subgraph3_result, subgraph3_pooled = self.forward_subgraph(x=subgraph2_result_, edge_index=subgraph3_edge_index, batch=batch3, edge_attr=edge_attr[2], gcn=self.GCN3)
 
-            updated_subgraph2_pooled[reaction_sites_] = reaction_site_change
-            subgraph2_result_ = updated_subgraph2_pooled.clone()
-            subgraph3_result, subgraph3_pooled = self.forward_subgraph(x=subgraph2_result_, edge_index=subgraph3_edge_index, batch=batch3, edge_attr=edge_attr[2], gcn=self.GCN3)
+                delocalized_potential_indices_t_1 = list(delocalized_potential_indices)
 
-            delocalized_potential_indices_t_1 = list(delocalized_potential_indices)
+                preds_output = torch.cat((preds_output, pred.unsqueeze(0)), 0)
 
-            preds_output = torch.cat((preds_output, pred.unsqueeze(0)), 0)
-
-            num_peaks_pred[reaction_site_idx] = num_peaks_pred[reaction_site_idx] - 1
-
+                num_peaks_pred[reaction_site_idx] = num_peaks_pred[reaction_site_idx] - 1
 
         return num_peaks, num_peaks_pred, preds_output

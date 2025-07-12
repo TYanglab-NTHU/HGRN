@@ -10,7 +10,6 @@ from utils.trainutils_v2 import *
 from utils.chemutils import *
 from utils.datautils import *
 
-
 # ============================== #
 #      Parsing input options     #
 # ============================== # 
