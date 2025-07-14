@@ -1,21 +1,21 @@
-# EGNN
+# HGRN
 ![Figure abstract]
 
 ## About
-**EGNN** 
+**HGRN** 
 
 
-This repository contains the code we used in training of EGNN as described in the manuscript. 
+This repository contains the code we used in training of HGRN as described in the manuscript. 
 
 ## Installation
 ```sh
-git clone https://github.com/TYanglab-NTHU/EGNN
+git clone https://github.com/TYanglab-NTHU/HGRN
 cd EGNN
 ```
 
 ```sh
 conda env create -f environment.yaml
-conda activate EGNN
+conda activate HGRN
 ```
 
 EGNN has been tested on PyTorch version 1.13.0 and CUDA version 11.7.
@@ -69,7 +69,7 @@ Dataset should be a two-column file (CSV, TSV, etc.) with:
   "val1,val2,val3,..."
 
 ```
-cd EGNN-main/
+cd HGRN-main/
 python organic_train_self.py  --i_organic <organic_data.csv> --label_column <target_column>
 ```
 ## Train Sequential values prediction for TMCs compounds 
