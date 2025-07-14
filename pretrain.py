@@ -29,7 +29,7 @@ if __name__ == '__main__':
     parser.add_option("--depth", dest="depth", type=int, default='3')
     parser.add_option("--anneal_rate", dest="anneal_rate", type=float, default=0.9)
     parser.add_option("--model_type", dest="model_type", type=str, default='DMPNN')
-    parser.add_option("--device", dest="device", type=str, default='cuda', help='使用的設備：cuda 或 cpu')
+    parser.add_option("--device", dest="device", type=str, default='cpu', help='使用的設備：cuda 或 cpu')
     opts, args = parser.parse_args()
 
     train_dataset_metal   = dataloader.load_data(opts.input_metal, opts.test_size, is_metal=True, features=opts.num_features,label_columns=['IE', 'EA', 'E12'])[0].dataset
