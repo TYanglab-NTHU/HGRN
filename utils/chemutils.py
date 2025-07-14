@@ -70,9 +70,9 @@ def metal_features(metal, features=153):
     metal_symbol = metal.split(str(oxidation_state))[0]
     mol = Chem.MolFromSmiles("[{}]".format(metal_symbol))
     atom = mol.GetAtomWithIdx(0) 
-    edge_index = torch.tensor([[0],[0]], dtype=torch.long).cuda()
-    batch1 = torch.tensor([0], dtype=torch.long).cuda()
-    edge_attr = torch.tensor([[0,0,0,0,0,0,0,0,0,0,0]], dtype=torch.float).cuda()
+    edge_index = torch.tensor([[0],[0]], dtype=torch.long).to(device)
+    batch1 = torch.tensor([0], dtype=torch.long).to(device)
+    edge_attr = torch.tensor([[0,0,0,0,0,0,0,0,0,0,0]], dtype=torch.float).to(device)
 
     return (atom_features(atom, oxidation_state, features)), (edge_index, batch1), edge_attr
 
