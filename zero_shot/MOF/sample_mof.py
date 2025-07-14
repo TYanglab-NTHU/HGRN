@@ -7,7 +7,7 @@ import torch.nn.functional as F
 
 from model import *
 
-from datautils_mof          import *
+from datautils_mof       import *
 from periodic_chemutils  import *
 
 import warnings
@@ -63,7 +63,7 @@ loader = DataLoader(dataset, batch_size=1, shuffle=False)
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 model = OMGNN_RNN(node_dim=opts.num_features, bond_dim=11, hidden_dim=opts.num_features, output_dim=opts.output_size, depth1=opts.depth1, depth2=opts.depth2, depth3=opts.depth3, dropout=opts.dropout).to(device)
 
-model_path_ = './model.pkl' # 或者從 opts 或 config 獲取
+model_path_ = './model_2.pkl' # 或者從 opts 或 config 獲取
 if os.path.exists(model_path_):
     checkpoint = torch.load(model_path_, map_location=device) # 直接加載到目標 device
     model.load_state_dict(checkpoint)
