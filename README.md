@@ -100,8 +100,3 @@ python complex_train_self.py  -i <TMCs_data.csv> --label_column <target_column> 
 
 ## License
 License details can be found in the LICENSE file.
-# Requirements
-* RDKit (version >= 2022.09.5)
-* Python (version >= 3.7.13)
-* PyTorch (version >= 1.13.0)
-* Openbabel (version >= 3.1.0)
