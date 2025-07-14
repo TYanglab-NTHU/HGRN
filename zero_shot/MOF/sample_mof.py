@@ -10,6 +10,8 @@ from model import *
 from datautils_mof          import *
 from periodic_chemutils  import *
 
+import warnings
+warnings.filterwarnings("ignore")
 
 # load config.json
 try:

@@ -13,6 +13,9 @@ from model import *
 from trainutils import *
 from chemutils  import *
 
+import warnings
+warnings.filterwarnings("ignore")
+
 try:
     with open('/config.json', 'r') as f:
         config = json.load(f)

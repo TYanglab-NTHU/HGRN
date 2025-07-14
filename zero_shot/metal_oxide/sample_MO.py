@@ -14,6 +14,8 @@ from model import *
 from datautils_MO          import *
 from metal_oxide_chemutils import *
 
+import warnings
+warnings.filterwarnings("ignore")
 
 try:
     with open('/config.json', 'r') as f:
