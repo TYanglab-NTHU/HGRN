@@ -10,7 +10,7 @@ This repository contains the code we used in training of HGRN as described in th
 ## Installation
 ```sh
 git clone https://github.com/TYanglab-NTHU/HGRN
-cd EGNN
+cd HGRN
 ```
 
 ```sh
