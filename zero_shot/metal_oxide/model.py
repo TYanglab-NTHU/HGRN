@@ -414,7 +414,11 @@ class OMGNN_RNN(nn.Module):
 
             # # 找到所有 delocalized_potential_indices 在 batch1 中對應的索引
             all_redox_x_idx = []
-            same_idx_tensor = torch.tensor(delocalized_potential_indices, device=device)
+            # same_idx_tensor = torch.tensor(delocalized_potential_indices, device=device)
+            if torch.is_tensor(delocalized_potential_indices):
+                same_idx_tensor = delocalized_potential_indices.to(device)
+            else:
+                same_idx_tensor = torch.tensor(delocalized_potential_indices, device=device)
             if same_idx_tensor.numel() != 0:
                 mapped_indices = [delocalized_potential_indices_t_1[i] for i in delocalized_potential_indices.tolist()]
                 delocalized_potential_indices = list(set(mapped_indices + delocalized_potential_indices_t_1))
@@ -424,8 +428,7 @@ class OMGNN_RNN(nn.Module):
 
             else:
                 site_indices = [i for i, idx in enumerate(batch1) if idx == redox_site_idx]
-                all_redox_x_idx.extend(site_indices)
-            
+                all_redox_x_idx.extend(site_indices)            
 
             if count == 1:
                 x_t_1 = x.clone()

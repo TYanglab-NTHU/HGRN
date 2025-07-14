@@ -1,7 +1,8 @@
 import json
 import torch
 import torch.optim.lr_scheduler as lr_scheduler
-from torch_geometric.loader import DataLoader
+from torch_geometric.data     import Data
+from torch_geometric.loader   import DataLoader
 from optparse   import OptionParser
 import torch.nn.functional as F
 import numpy as np 
@@ -18,7 +19,6 @@ try:
     with open('/config.json', 'r') as f:
         config = json.load(f)
 except FileNotFoundError:
-    print("Error: config.json file not found. Using default values.")
     config = {}
 
 if __name__ == '__main__':
@@ -76,7 +76,9 @@ else:
     print(f"Warning: Model weights file {model_path_} not found. Model will use randomly initialized weights.")
 
 
-for batch in loader:
+for i ,batch in enumerate(loader):
     batch = batch.to(device)
+    print(f"{i+1}")
     output = model.sample_no_reaction(batch, device)
-    print(output)
+    print(f"reduction E12: {output[2]}")
+    print(f"oxidation E12: {output[5]}")

@@ -100,7 +100,8 @@ def MOF_tensorize_with_subgraphs(cif_file, metal):
 
     structure = Structure.from_file(cif_file) #pymatgen
     nn_strategy = CrystalNN() 
-    sg = StructureGraph.with_local_env_strategy(structure, nn_strategy, weights=False)
+    # sg = StructureGraph.with_local_env_strategy(structure, nn_strategy, weights=False)
+    sg = StructureGraph.from_local_env_strategy(structure, nn_strategy, weights=False)    
     
     metal_symbol = ''.join(c for c in metal if c.isalpha())
     structure_metal_idx = [i for i, site in enumerate(structure) if site.specie.symbol == metal_symbol]

@@ -1,7 +1,8 @@
 import json
 import torch
 import torch.optim.lr_scheduler as lr_scheduler
-from torch_geometric.loader import DataLoader
+from torch_geometric.data     import Data
+from torch_geometric.loader   import DataLoader
 from optparse   import OptionParser
 import torch.nn.functional as F 
 import numpy as np 
@@ -16,7 +17,6 @@ try:
     with open('/config.json', 'r') as f:
         config = json.load(f)
 except FileNotFoundError:
-    print("error: config.json not found")
     config = {} 
 
 if __name__ == '__main__':

@@ -329,11 +329,11 @@ class OGNN_RNN_allmask(nn.Module):
 
                 if solvent != 'None':
                     solvent_features  = solvent_dict[solvent]
-                    solvent_features  = torch.Tensor(solvent_features).cuda().unsqueeze(0)
+                    solvent_features  = torch.Tensor(solvent_features).to(device).unsqueeze(0)
                     subgraph1_pooled_ = torch.cat([subgraph1_pooled, solvent_features], dim=1)
                 else:
                     solvent_features  = solvent_dict['ACN']
-                    solvent_features  = torch.Tensor(solvent_features).cuda().unsqueeze(0)
+                    solvent_features  = torch.Tensor(solvent_features).to(device)().unsqueeze(0)
                     subgraph1_pooled_ = torch.cat([subgraph1_pooled, solvent_features], dim=1)
                 if reaction  == 'reduction':
                     if x.shape[0] == 1:
@@ -442,10 +442,10 @@ class OGNN_RNN_allmask(nn.Module):
             if reaction.get('E12') is not None:
                 if solvent != 'None':
                     solvent_features  = solvent_dict[solvent]
-                    solvent_features  = torch.Tensor(solvent_features).cuda().unsqueeze(0)
+                    solvent_features  = torch.Tensor(solvent_features).to(device)().unsqueeze(0)
                 else:
                     solvent_features  = solvent_dict['ACN']
-                    solvent_features  = torch.Tensor(solvent_features).cuda().unsqueeze(0)
+                    solvent_features  = torch.Tensor(solvent_features).to(device)().unsqueeze(0)
                 subgraph1_result_e12  = subgraph1_result_orig.clone()
                 subgraph1_pooled_e12  = torch.cat([subgraph1_pooled_orig.clone(), solvent_features], dim=1)
                 

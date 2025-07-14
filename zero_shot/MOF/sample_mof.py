@@ -1,6 +1,7 @@
 import json
 import torch
-from torch_geometric.loader import DataLoader
+from torch_geometric.data     import Data
+from torch_geometric.loader   import DataLoader
 from optparse   import OptionParser
 import torch.nn.functional as F 
 
@@ -15,7 +16,6 @@ try:
     with open( '/config.json', 'r') as f:
         config = json.load(f)
 except FileNotFoundError:
-    print("錯誤：找不到 config.json 文件。將使用程式碼中的預設值。")
     config = {}
 
 if __name__ == '__main__':
@@ -70,7 +70,9 @@ if os.path.exists(model_path_):
 else:
     print(f"Warning: model weights file {model_path_} not found. Model will use randomly initialized weights.")
 
-for batch in loader:
+for i ,batch in enumerate(loader):
     batch = batch.to(device)
+    print(f"{i+1}")
     output = model.sample_no_reaction(batch, device)
-    print(output)
+    print(f"reduction E12: {output[2]}")
+    print(f"oxidation E12: {output[5]}")
