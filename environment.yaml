@@ -1,4 +1,4 @@
-name: EGNN
+name: HGRN
 channels:
   - pytorch
   - conda-forge
