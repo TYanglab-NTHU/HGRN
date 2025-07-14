@@ -62,25 +62,25 @@ if __name__ == '__main__':
 
     opts, args = parser.parse_args()
 
-dataset = data_loader('test_MO.csv', 1)
-loader = DataLoader(dataset, batch_size=1, shuffle=False)
+    dataset = data_loader('test_MO.csv', 1)
+    loader = DataLoader(dataset, batch_size=1, shuffle=False)
 
-device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-model = OMGNN_RNN(node_dim=opts.num_features, bond_dim=11, hidden_dim=opts.num_features, output_dim=opts.output_size, depth1=opts.depth1, depth2=opts.depth2, depth3=opts.depth3, dropout=opts.dropout).to(device)
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    model = OMGNN_RNN(node_dim=opts.num_features, bond_dim=11, hidden_dim=opts.num_features, output_dim=opts.output_size, depth1=opts.depth1, depth2=opts.depth2, depth3=opts.depth3, dropout=opts.dropout).to(device)
 
-model_path_ = './model.pkl'
-if os.path.exists(model_path_):
-    checkpoint = torch.load(model_path_, map_location=device) 
-    model.load_state_dict(checkpoint)
-    model.eval()
-    print(f"Model weights loaded from {model_path_}.")
-else:
-    print(f"Warning: Model weights file {model_path_} not found. Model will use randomly initialized weights.")
+    model_path_ = './model.pkl'
+    if os.path.exists(model_path_):
+        checkpoint = torch.load(model_path_, map_location=device) 
+        model.load_state_dict(checkpoint)
+        model.eval()
+        print(f"Model weights loaded from {model_path_}.")
+    else:
+        print(f"Warning: Model weights file {model_path_} not found. Model will use randomly initialized weights.")
 
 
-for i ,batch in enumerate(loader):
-    batch = batch.to(device)
-    print(f"{i+1}")
-    output = model.sample_no_reaction(batch, device)
-    print(f"reduction E12: {output[2]}")
-    print(f"oxidation E12: {output[5]}")
+    for i ,batch in enumerate(loader):
+        batch = batch.to(device)
+        print(f"{i+1}")
+        output = model.sample_no_reaction(batch, device)
+        print(f"reduction E12: {output[2]}")
+        print(f"oxidation E12: {output[5]}")
