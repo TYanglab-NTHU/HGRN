@@ -69,13 +69,10 @@ else:
 
 dataset, loader = OM.unlabeled_sample_loader(file_path="dimetal.csv", batch_size=opts.batch_size)
 
-count = 0
-for data in loader:
-    count += 1
-    data = data.to(device)
-    try:
-        result = model.sample_no_reaction(data, device)
-        print(result)
-    except Exception as e:
-        print(f"error: {e}")
-        continue
+for i ,batch in enumerate(loader):
+    batch = batch.to(device)
+    print(f"{i+1}")
+    output = model.sample_no_reaction(batch, device)
+    print(f"reduction E12: {output[2]}")
+    print(f"oxidation E12: {output[5]}")
+
