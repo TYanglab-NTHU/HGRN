@@ -675,21 +675,17 @@ def analysis(model, test_loader, device):
                             print(f"類別 {cls} AUC計算失敗: {e}")
             
             if aucs:
-                # 計算macro和weighted平均
                 macro_auc = np.mean(aucs)
                 if len(class_counts) == len(aucs):
                     weighted_auc = np.average(aucs, weights=class_counts)
                 else:
                     weighted_auc = macro_auc
                 
-                # print(f"AUC計算成功 (手動方法): macro={macro_auc:.3f}, weighted={weighted_auc:.3f}")
                 return macro_auc, weighted_auc
             else:
-                # print("無法計算任何類別的AUC")
                 return np.nan, np.nan
                         
         except Exception as e:
-            # print(f"ROC計算整體失敗: {e}")
             return np.nan, np.nan
     #cla 
     o_y_proba = torch.cat(o_y_proba, dim=0)
@@ -705,5 +701,7 @@ def analysis(model, test_loader, device):
     o_macro_auc, o_weighted_auc = safe_calculate_roc_auc(o_y_true, o_y_proba, np.unique(o_y_true))
     print("reduction:")
     r_macro_auc, r_weighted_auc = safe_calculate_roc_auc(r_y_true, r_y_proba, np.unique(r_y_true))
+
+    
     # print(o_macro_auc, o_weighted_auc)
     # print(r_macro_auc, r_weighted_auc)

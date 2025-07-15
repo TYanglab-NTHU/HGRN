@@ -104,7 +104,7 @@ if __name__ == '__main__':
         print(f"Loaded best model with test loss: {best_test_loss:.4f}")
 
 
-    test_rmse,test_roc = analysis(model,test_loader,device)
+    analysis(model,test_loader,device)
 
     # Save model
     torch.save(model.state_dict(), os.path.join(f"checkpoint/model_{random_state}.pkl"))
