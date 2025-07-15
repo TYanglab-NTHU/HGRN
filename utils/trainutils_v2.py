@@ -13,6 +13,8 @@ from torch_geometric.nn       import global_mean_pool
 from sklearn.metrics         import confusion_matrix, ConfusionMatrixDisplay
 from sklearn.model_selection import KFold
 from sklearn.model_selection import train_test_split
+from sklearn.metrics         import roc_auc_score
+
 
 from utils.chemutils import *
 from optparse  import OptionParser
@@ -521,3 +523,187 @@ class OM():
             df_reg.to_csv(os.path.join(os.getcwd(), f"reg-{output_file}"), index=False)
             df_cla.to_csv(os.path.join(os.getcwd(), f"cla-{output_file}"), index=False)
         return total_loss / count, total_reg_loss / count, total_cla_loss / count, correct_batches / total_batches if total_batches > 0 else 0.0
+
+
+
+def analysis(model, test_loader, device):
+    model.eval()
+    eval_actuals_reg, eval_predictions_reg = [], []
+    o_y_proba, o_y_true, r_y_proba, r_y_true = [], [], [], []
+    eval_actuals_cla, eval_predictions_cla,  = [], []
+    with torch.no_grad():
+        for data in test_loader:
+            try:
+                actuals, predictions = "" , ""
+                data = data.to(device)
+                num_logit, num_peak, E12_regs = model.sample(data, device)
+
+                for i, real in enumerate(data.ys):
+                    if pd.isna(real.item()):
+                        break
+                    actuals     += str(real.cpu().numpy()) + ","
+                    if i < len(E12_regs):
+                        predictions += str(E12_regs[i].squeeze().cpu().detach().numpy()) + ","
+                    else:
+                        break
+
+                y_proba = torch.softmax(num_logit, dim=1)
+                y_true = torch.tensor([data.redox[i][0][1] for i in range(len(data.redox))])
+                if data.reaction == ['reduction']:
+                    r_y_proba.append(y_proba)
+                    r_y_true.append(y_true)
+                else:
+                    o_y_proba.append(y_proba)
+                    o_y_true.append(y_true)
+
+                real_num_redox  = [data.redox[i][0][1] for i in range(len(data.redox))]
+                actuals_cla     = ",".join(map(str, real_num_redox))
+                predictions_cla = ",".join(map(str, num_peak.cpu().tolist()))
+                    
+                eval_actuals_reg.append(actuals.strip(','))
+                eval_predictions_reg.append(predictions.strip(','))
+
+                eval_actuals_cla.append(actuals_cla)
+                eval_predictions_cla.append(predictions_cla)
+            except Exception as e:
+                return None
+                # print(f"Error evaluating model: {e}")
+
+        reg_df = pd.DataFrame({
+        "Actuals"    : eval_actuals_reg,
+        "Predictions": eval_predictions_reg,
+        "Reaction"   : [data.reaction for data in test_loader.dataset]
+        })
+
+    ox_mask = reg_df['Reaction'] == 'oxidation'
+    red_mask = reg_df['Reaction'] == 'reduction'
+    results = {
+        'oxidation': {'rmse_by_position': []},
+        'reduction': {'rmse_by_position': []}
+    }
+    ox_data = reg_df[ox_mask]
+    for idx, row in ox_data.iterrows():
+        actuals = [float(x) for x in str(row['Actuals']).split(',') if str(x).strip()]
+        predictions = [float(x) for x in str(row['Predictions']).split(',') if str(x).strip()]
+        if not actuals or not predictions:
+            continue
+        for pos, (actual, pred) in enumerate(zip(actuals, predictions)):
+            if np.isnan(actual) or np.isnan(pred):
+                continue
+            if len(results['oxidation']['rmse_by_position']) <= pos:
+                results['oxidation']['rmse_by_position'].append([])
+            results['oxidation']['rmse_by_position'][pos].append((actual - pred) ** 2)
+    red_data = reg_df[red_mask]
+    for idx, row in red_data.iterrows():
+        actuals = [float(x) for x in str(row['Actuals']).split(',') if str(x).strip()]
+        predictions = [float(x) for x in str(row['Predictions']).split(',') if str(x).strip()]
+        if not actuals or not predictions:
+            continue
+        for pos, (actual, pred) in enumerate(zip(actuals, predictions)):
+            if np.isnan(actual) or np.isnan(pred):
+                continue
+            if len(results['reduction']['rmse_by_position']) <= pos:
+                results['reduction']['rmse_by_position'].append([])
+            results['reduction']['rmse_by_position'][pos].append((actual - pred) ** 2)
+    for reaction_type in ['oxidation', 'reduction']:
+        for pos in range(len(results[reaction_type]['rmse_by_position'])):
+            if results[reaction_type]['rmse_by_position'][pos]:
+                mse = np.mean(results[reaction_type]['rmse_by_position'][pos])
+                rmse = np.sqrt(mse)
+                results[reaction_type]['rmse_by_position'][pos] = rmse
+            else:
+                results[reaction_type]['rmse_by_position'][pos] = np.nan      
+
+    for reaction_type in results:
+        print(f"  {reaction_type.upper()}:")
+        for pos, rmse in enumerate(results[reaction_type]['rmse_by_position']):
+            print(f"    Position {pos+1} RMSE: {rmse:.4f}")
+            if pos == 1:
+                break
+
+    def safe_calculate_roc_auc(y_true, y_proba, classes):
+        """安全地計算ROC和AUC，處理各種邊界情況"""
+        try:
+            # print(f"ROC計算輸入檢查: y_true={len(y_true)}, y_proba={y_proba.shape}, classes={classes}")
+            
+            # 基本輸入驗證
+            if len(y_true) != y_proba.shape[0]:
+                # print(f"錯誤：樣本數量不匹配 {len(y_true)} vs {y_proba.shape[0]}")
+                return np.nan, np.nan
+            
+            unique_classes = np.unique(y_true)
+            # print(f"測試集中的類別: {unique_classes}")
+            
+            # 如果只有一個類別，無法計算AUC
+            if len(unique_classes) <= 1:
+                # print("警告：測試集中只有一個類別，無法計算AUC")
+                return np.nan, np.nan
+            
+            # 創建類別到索引的映射
+            class_to_idx = {cls: idx for idx, cls in enumerate(classes)}
+            
+            # 檢查測試集中的類別是否都在訓練類別中
+            valid_classes = [cls for cls in unique_classes if cls in class_to_idx]
+            # if len(valid_classes) != len(unique_classes):
+                # print(f"警告：測試集中有未知類別，有效類別: {valid_classes}")
+            
+            if len(valid_classes) <= 1:
+                # print("警告：有效類別少於2個，無法計算AUC")
+                return np.nan, np.nan
+            
+            # 使用手動方法計算每個類別的AUC
+            # print("使用手動方法計算AUC...")
+            aucs = []
+            class_counts = []
+            
+            for cls in valid_classes:
+                if cls in class_to_idx:
+                    cls_idx = class_to_idx[cls]
+                    # 創建二值標籤 (當前類別 vs 其他)
+                    y_binary = (y_true == cls).astype(int)
+                    # 使用對應類別的概率
+                    y_prob_cls = y_proba[:, cls_idx]
+                    
+                    # 檢查是否有足夠的正例和負例
+                    if len(np.unique(y_binary)) > 1:
+                        try:
+                            auc_cls = roc_auc_score(y_binary, y_prob_cls)
+                            aucs.append(auc_cls)
+                            class_counts.append(np.sum(y_true == cls))
+                            print(f"類別 {cls} AUC: {auc_cls:.3f}")
+                        except Exception as e:
+                            print(f"類別 {cls} AUC計算失敗: {e}")
+            
+            if aucs:
+                # 計算macro和weighted平均
+                macro_auc = np.mean(aucs)
+                if len(class_counts) == len(aucs):
+                    weighted_auc = np.average(aucs, weights=class_counts)
+                else:
+                    weighted_auc = macro_auc
+                
+                # print(f"AUC計算成功 (手動方法): macro={macro_auc:.3f}, weighted={weighted_auc:.3f}")
+                return macro_auc, weighted_auc
+            else:
+                # print("無法計算任何類別的AUC")
+                return np.nan, np.nan
+                        
+        except Exception as e:
+            # print(f"ROC計算整體失敗: {e}")
+            return np.nan, np.nan
+    #cla 
+    o_y_proba = torch.cat(o_y_proba, dim=0)
+    o_y_true = torch.cat(o_y_true, dim=0)
+    o_y_true = o_y_true.detach().cpu().numpy()
+    o_y_proba = o_y_proba.detach().cpu().numpy()
+    r_y_proba = torch.cat(r_y_proba, dim=0)
+    r_y_true = torch.cat(r_y_true, dim=0)
+    r_y_true = r_y_true.detach().cpu().numpy()
+    r_y_proba = r_y_proba.detach().cpu().numpy()
+
+    print("oxidation:")
+    o_macro_auc, o_weighted_auc = safe_calculate_roc_auc(o_y_true, o_y_proba, np.unique(o_y_true))
+    print("reduction:")
+    r_macro_auc, r_weighted_auc = safe_calculate_roc_auc(r_y_true, r_y_proba, np.unique(r_y_true))
+    # print(o_macro_auc, o_weighted_auc)
+    # print(r_macro_auc, r_weighted_auc)

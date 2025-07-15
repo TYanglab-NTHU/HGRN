@@ -25,7 +25,7 @@ if __name__ == '__main__':
     parser.add_option("--dropout", dest="dropout", type=float, default=0.2)
     parser.add_option("--batch_size", dest="batch_size", type=int, default=1)
     parser.add_option("--num_epochs", dest="num_epochs", type=int, default=200)
-    parser.add_option("--lr", dest="lr", type=float, default=0.001)
+    parser.add_option("--lr", dest="lr", type=float, default=0.0001)
     parser.add_option("--depth1", dest="depth1", type=int, default='3')
     parser.add_option("--depth2", dest="depth2", type=int, default='2')
     parser.add_option("--depth3", dest="depth3", type=int, default='2')
@@ -103,6 +103,8 @@ if __name__ == '__main__':
         model.load_state_dict(best_model_state)
         print(f"Loaded best model with test loss: {best_test_loss:.4f}")
 
+
+    test_rmse,test_roc = analysis(model,test_loader,device)
 
     # Save model
     torch.save(model.state_dict(), os.path.join(f"checkpoint/model_{random_state}.pkl"))
