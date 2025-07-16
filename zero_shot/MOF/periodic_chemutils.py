@@ -31,13 +31,7 @@ VE_DICT.update({'Rf': 4, 'Db': 5, 'Sg': 6, 'Bh': 21, 'Hs': 22, 'Mt': 23, 'Ds': 2
     
 
 def get_metal_oxidation_state(metal):
-    # 處理特殊情況
-    if metal == 'Co1':
-        return 2  # Co(II)
-    elif metal == 'Co2':
-        return 3  # Co(III)
-    
-    # 一般情況處理
+
     match = re.search(r'([+-]?)(\d+)', metal)
     if match:
         sign, number = match.groups()
@@ -49,18 +43,6 @@ def get_metal_oxidation_state(metal):
         elif sign == '-':
             return -1
     
-    # 如果沒有明確指定，根據金屬類型返回最常見的氧化態
-    metal_common_states = {
-        'Co': 2,  # Co(II)是最常見的
-        'Fe': 3,  # Fe(III)
-        'Cu': 2,  # Cu(II)
-        'Zn': 2,  # Zn(II)
-        'Ni': 2,  # Ni(II)
-    }
-    
-    # 提取金屬符號（去除數字和符號）
-    metal_symbol = ''.join(c for c in metal if c.isalpha())
-    return metal_common_states.get(metal_symbol, 0)
 
 def onek_encoding_unk(value, allowable_set):
     if value in allowable_set:
